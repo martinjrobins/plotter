@@ -1,0 +1,9 @@
+.v-content a,
+.v-dialog .v-datatable a {
+  color: $color-primary-blue;
+  text-decoration: none;
+  font-weight: 500;
+  &:hover {
+    color: $color-secondary-blue;
+  }
+}

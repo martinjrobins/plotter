@@ -1,0 +1,11 @@
+.v-content {
+  .v-breadcrumbs {
+    a {
+      font-weight: 400;
+    }
+    .disabled {
+      color: $color-grey;
+      pointer-events: none;
+    } 
+  }
+}

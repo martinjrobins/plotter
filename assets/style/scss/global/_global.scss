@@ -1,0 +1,120 @@
+.metadata {
+  dt,
+  dd {
+    display: inline-block;
+    margin: 0 0 10px;
+  }
+  dt {
+    width: 20%;
+  }
+  dd {
+    width: 79%;
+  }
+}
+
+.rounded {
+  border-radius: $radius-small;
+}
+
+.no-border {
+  border: 0 !important;
+}
+
+.status {
+  display: inline-block;
+  content: ' ';
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 5px;
+  &.bg-unknown {
+    background-color: $color-primary-orange;
+  }
+}
+
+.delete-confirm {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba($color-white, 0.7)
+}
+
+.search.theme--light.v-text-field {
+  > .v-input__control > .v-input__slot {
+    &:before {
+      border-color: #e0e0e0 !important;
+    }
+  }
+}
+
+.news {
+  list-style: none;
+}
+
+code {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.primary-button {
+  color: $color-white !important;
+  background-color: $color-primary-purple !important;
+}
+
+.secondary-button {
+  color: $color-white !important;
+  background-color: $color-primary-blue !important;
+}
+
+.catalogue-title {
+  background-color: #f4f4f4;
+  border-bottom-color: rgb(224, 224, 224) !important;
+  border-bottom-style: solid !important;
+  border-bottom-width: 1px !important;
+}
+
+.theme--light .group {
+  &--reviewer {
+    border-top: 3px solid $color-primary-green !important;
+  }
+  &--admin {
+    border-top: 3px solid $color-primary-orange !important;    
+  }
+}
+
+.pill {
+  display: inline-flex;
+  padding: 2px 10px;
+  border-radius: 20px;
+  border: 1px solid $color-primary-orange;
+  background-color: $color-white;
+  &--full-access {
+    border: 1px solid $color-primary-green;
+  }
+}
+
+.catalogue-permissions {
+  border-bottom: 1px solid #e0e0e0;
+  &.v-input--selection-controls {
+    .v-input__control {
+      flex-grow: 1;
+    }
+    .v-input__slot {
+      margin: 0;
+    }
+  }
+  .v-radio--is-disabled.theme--light {
+    background-color: lighten($color-primary-green, 47%) !important;
+    label {
+      color: $color-grey !important;
+    }
+    .v-icon {
+      color: $color-primary-green !important;
+    }
+  }
+}
