@@ -1,25 +1,47 @@
 <template>
-  <draggable v-model="map">
-    <div v-for="column in map" :key="column">
-      {{ column }}
-    </div>
-  </draggable>
+  <div>
+    <h2>{{ name }}</h2>
+    <v-divider></v-divider>
+    <draggable
+      v-model="aesMap"
+      :group="{ name: 'aesthetics', put: true }"
+      :sort="false"
+    >
+      <div v-for="column in aesMap" :key="column" class="list-group-item">
+        {{ column }}
+      </div>
+      <div
+        v-if="aesMap.length == 0"
+        slot="footer"
+        class="list-group-item footer-item"
+      >
+        Add
+      </div>
+    </draggable>
+  </div>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
+
 export default {
   name: 'Aesthetic',
-  props: ['name'],
+  components: {
+    draggable,
+  },
+  props: {
+    name: String,
+  },
   data() {
     return {}
   },
   computed: {
-    map: {
+    aesMap: {
       get() {
         return this.$store.state.dataset.aestheticsMap[this.name]
       },
       set(value) {
-        this.$store.commit('dataset/setAestheticMap', {this.name, value})
+        this.$store.commit('dataset/setAestheticMap', [this.name, value])
       },
     },
   },

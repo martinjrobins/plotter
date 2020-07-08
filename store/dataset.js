@@ -7,7 +7,7 @@ export const state = () => ({
   array: null,
   unassignedColumns: [],
   aestheticsMap: aestheticsNames.reduce((map, aes) => {
-    map[aes] = ['test', 'test2']
+    map[aes] = []
     return map
   }, {}),
 })
@@ -16,17 +16,18 @@ export const mutations = {
   setArray(state, value) {
     state.array = value
   },
-  setAestheticMap(state, { name, value }) {
-    state.aestheticsMap[name] = value
+  setAestheticMap(state, [name, value]) {
+    const noDuplicates = new Set(value)
+    state.aestheticsMap[name] = [...noDuplicates]
   },
   setUnassignedColumns(state, value) {
-    state.unassignedColumnNamescolumnNames = value
+    const noDuplicates = new Set(value)
+    state.unassignedColumns = [...noDuplicates]
   },
 }
 
 export const actions = {
   loadData(context) {
-    console.log(context.state.url)
     return axios
       .get(context.state.url)
       .then(function (response) {

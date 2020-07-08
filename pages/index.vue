@@ -1,21 +1,26 @@
 <template>
   <v-container fluid>
-    <v-row class="ml-0" justify="center">
-      <v-col cols="6" class="pt-0 pb-0">
-        <v-row class="ml-0" justify="left">
-          <v-card class="pa-2" outlined tile>
-            <Dataset></Dataset>
-          </v-card>
+    <v-row>
+      <v-col cols="6">
+        <v-row>
+          <v-col cols="12">
+            <v-card class="pa-2">
+              <Dataset></Dataset>
+            </v-card>
+          </v-col>
         </v-row>
-        <v-row class="ml-0" justify="left">
-          <v-card class="pa-2" outlined tile>
-            <Geometry></Geometry>
-            bottom left
-          </v-card>
+        <v-row>
+          <v-col cols="12">
+            <v-card class="pa-2">
+              <Geometry></Geometry>
+              bottom left
+            </v-card>
+          </v-col>
         </v-row>
       </v-col>
-      <v-col cols="6" class="pt-0 pb-0">
-        <v-card class="pa-2" outlined tile>
+      <v-col cols="6">
+        <v-card class="pa-2">
+          <h2>Plot</h2>
           <PlotView></PlotView>
         </v-card>
       </v-col>
