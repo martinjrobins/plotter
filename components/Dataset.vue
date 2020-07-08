@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="6" class="pt-0 pb-0">
-      <h2>Unassigned</h2>
+      <h2>Columns</h2>
       <v-divider></v-divider>
       <draggable
         class="list-group"
