@@ -1,25 +1,21 @@
 <template>
-  <pre>
+  <div>
+    <VegaEmbed :spec="vegaSpec" />
+    <pre>
     {{ vegaSpecString }}
-  </pre>
+  </pre
+    >
+  </div>
 </template>
 
 <script>
-import { aestheticsToScalesMapping } from '~/constants/aesthetics'
-
 const dataName = 'table'
 
 export default {
   name: 'PlotView',
   data() {
     return {
-      vegaPreamble: {
-        $schema: 'https://vega.github.io/schema/vega/v5.json',
-        description: 'description goes here...',
-        width: 400,
-        height: 200,
-        padding: 5,
-      },
+      vegaPreamble: {},
     }
   },
   computed: {
@@ -29,9 +25,14 @@ export default {
     aesMap() {
       return this.$store.state.dataset.aestheticsMap
     },
+    vegaMark() {
+      return 'line'
+    },
     vegaData() {
       return {
-        data: { name: dataName, type: 'csv', url: this.dataUrl },
+        name: dataName,
+        type: 'csv',
+        url: this.dataUrl,
       }
     },
     vegaSpecString() {
@@ -41,32 +42,26 @@ export default {
       return Object.assign(
         {},
         this.vegaPreamble,
-        this.vegaData,
-        this.vegaScales,
-        this.vegaAxis
+        { data: this.vegaData },
+        { mark: this.vegaMark },
+        { encoding: this.vegaEncoding }
       )
     },
-    vegaScales() {
-      return {
-        scales: Object.keys(this.aesMap)
-          .filter((key) => {
-            return this.aesMap[key].length > 0
-          })
-          .map((key) => {
-            return {
-              name: aestheticsToScalesMapping[key],
-              domain: { data: dataName, field: this.aesMap[key][0] },
-            }
-          }),
-      }
+    vegaEncoding() {
+      return Object.keys(this.aesMap)
+        .filter((key) => {
+          return this.aesMap[key].length > 0
+        })
+        .reduce((map, key) => {
+          map[key] = {
+            field: this.aesMap[key][0].name,
+            type: this.aesMap[key][0].type,
+          }
+          return map
+        }, {})
     },
-    vegaAxis() {
-      return {
-        axes: [
-          { orient: 'bottom', scale: 'xscale' },
-          { orient: 'left', scale: 'yscale' },
-        ],
-      }
+    validPlot() {
+      return this.aesMap.x.length > 0 && this.aesMap.y.length > 0
     },
   },
 }

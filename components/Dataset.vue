@@ -4,19 +4,20 @@
       <h2>Columns</h2>
       <v-divider></v-divider>
       <draggable
+        v-model="columns"
         class="list-group"
-        v-model="unassignedColumns"
         :group="{ name: 'aesthetics', pull: 'clone', put: true }"
         :sort="false"
       >
         <transition-group type="transition">
-          <div
+          <Column
+            v-for="(column, i) in columns"
+            :name="column.name"
+            :index="i"
+            :key="column.name"
             class="list-group-item"
-            v-for="column in unassignedColumns"
-            :key="column"
           >
-            {{ column }}
-          </div>
+          </Column>
         </transition-group>
       </draggable>
     </v-col>
@@ -32,12 +33,16 @@
 
 <script>
 import draggable from 'vuedraggable'
+import Aesthetic from '~/components/Dataset'
+import Column from '~/components/Column'
 import { aestheticsNames } from '~/constants/aesthetics'
 
 export default {
   name: 'Dataset',
   components: {
     draggable,
+    Column,
+    Aesthetic,
   },
   data() {
     return {}
@@ -46,13 +51,13 @@ export default {
     aestheticsNames() {
       return aestheticsNames
     },
-    unassignedColumns: {
+    columns: {
       get() {
-        return this.$store.state.dataset.unassignedColumns
+        return this.$store.state.dataset.columns
       },
       set(value) {
-        console.log('changing unassigned', value)
-        this.$store.commit('dataset/setUnassignedColumns', value)
+        console.log('changing columns', value)
+        this.$store.commit('dataset/setColumns', value)
       },
     },
     aestheticsMap: {

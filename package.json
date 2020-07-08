@@ -16,6 +16,9 @@
     "@nuxtjs/axios": "^5.11.0",
     "csv-string": "^4.0.1",
     "nuxt": "^2.13.0",
+    "vega": "^5.13.0",
+    "vega-embed": "^6.9.0",
+    "vega-lite": "^4.13.1",
     "vuedraggable": "^2.24.0"
   },
   "devDependencies": {

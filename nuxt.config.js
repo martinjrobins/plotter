@@ -70,13 +70,14 @@ export default {
   vuetify: {
     customVariables: [
       '~/assets/style/scss/variables/_colours.scss',
-      '~/assets/style/scss/variables/_radius.scss'
+      '~/assets/style/scss/variables/_radius.scss',
     ],
-    optionsPath: '~/plugins/vuetify.js'
+    optionsPath: '~/plugins/vuetify.js',
   },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+  },
 }

@@ -7,9 +7,15 @@
       :group="{ name: 'aesthetics', put: true }"
       :sort="false"
     >
-      <div v-for="column in aesMap" :key="column" class="list-group-item">
-        {{ column }}
-      </div>
+      <Column
+        v-for="(column, i) in aesMap"
+        :name="column.name"
+        :index="i"
+        :aesthetic="name"
+        :key="column.name"
+        class="list-group-item"
+      >
+      </Column>
       <div
         v-if="aesMap.length == 0"
         slot="footer"
