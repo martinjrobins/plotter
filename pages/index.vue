@@ -1,47 +1,62 @@
 <template>
   <v-container fluid>
     <v-row>
+      <v-text-field
+        v-model="url"
+        label="URL"
+        hint="enter a url to a csv file"
+      ></v-text-field>
+    </v-row>
+    <v-row>
       <v-col cols="6">
         <v-row>
-          <v-col cols="12">
-            <v-card class="pa-2">
-              <Dataset></Dataset>
-            </v-card>
+          <v-col cols="6">
+            <Columns></Columns>
+          </v-col>
+          <v-col cols="6">
+            <Aesthetics></Aesthetics>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-card class="pa-2">
-              <Geometry></Geometry>
-              bottom left
-            </v-card>
+            <Geometries></Geometries>
           </v-col>
         </v-row>
       </v-col>
       <v-col cols="6">
-        <v-card class="pa-2">
-          <h2>Plot</h2>
-          <PlotView></PlotView>
-        </v-card>
+        <PlotView></PlotView>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import Dataset from '~/components/Dataset'
-import Geometry from '~/components/Geometry'
+import Columns from '~/components/Columns'
+import Aesthetics from '~/components/Aesthetics'
+import Geometries from '~/components/Geometries'
 import PlotView from '~/components/PlotView'
 
 export default {
   name: 'Homepage',
   components: {
-    Dataset,
-    Geometry,
+    Aesthetics,
+    Columns,
+    Geometries,
     PlotView,
   },
   created() {
     this.$store.dispatch('dataset/loadData')
+  },
+  computed: {
+    url: {
+      get() {
+        return this.$store.state.dataset.url
+      },
+      set(value) {
+        this.$store.commit('dataset/setUrl', value)
+        this.$store.dispatch('dataset/loadData')
+      },
+    },
   },
 }
 </script>

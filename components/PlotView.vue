@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <v-card class="pa-2">
+    <v-card-title>Plot</v-card-title>
+    <v-card-subtitle
+      >The generated plot and Vega-Lite specification</v-card-subtitle
+    >
     <VegaEmbed :spec="vegaSpec" />
     <pre>
     {{ vegaSpecString }}
   </pre
     >
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -25,27 +29,8 @@ export default {
     aesMap() {
       return this.$store.state.dataset.aestheticsMap
     },
-    vegaMark() {
-      return 'line'
-    },
-    vegaData() {
-      return {
-        name: dataName,
-        type: 'csv',
-        url: this.dataUrl,
-      }
-    },
-    vegaSpecString() {
-      return JSON.stringify(this.vegaSpec, null, 2)
-    },
-    vegaSpec() {
-      return Object.assign(
-        {},
-        this.vegaPreamble,
-        { data: this.vegaData },
-        { mark: this.vegaMark },
-        { encoding: this.vegaEncoding }
-      )
+    geometries() {
+      return this.$store.state.geometries.geometries
     },
     vegaEncoding() {
       return Object.keys(this.aesMap)
@@ -59,6 +44,34 @@ export default {
           }
           return map
         }, {})
+    },
+    vegaLayers() {
+      return this.geometries.map((geom) => {
+        return {
+          mark: geom.type,
+          encoding: this.vegaEncoding,
+        }
+      })
+    },
+    vegaData() {
+      return {
+        url: this.dataUrl,
+        name: dataName,
+        format: {
+          type: 'csv',
+        },
+      }
+    },
+    vegaSpecString() {
+      return JSON.stringify(this.vegaSpec, null, 2)
+    },
+    vegaSpec() {
+      return Object.assign(
+        {},
+        this.vegaPreamble,
+        { data: this.vegaData },
+        { layer: this.vegaLayers }
+      )
     },
     validPlot() {
       return this.aesMap.x.length > 0 && this.aesMap.y.length > 0

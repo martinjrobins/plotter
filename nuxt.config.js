@@ -1,5 +1,15 @@
 import colors from 'vuetify/es5/util/colors'
 
+// only add `router.base = '/<repository-name>/'` if `DEPLOY_ENV` is `GH_PAGES`
+const routerBase =
+  process.env.DEPLOY_ENV === 'GH_PAGES'
+    ? {
+        router: {
+          base: '/plotter/',
+        },
+      }
+    : {}
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -78,6 +88,7 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {
-  },
+  build: {},
+
+  ...routerBase,
 }

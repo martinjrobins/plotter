@@ -1,12 +1,12 @@
 <template>
-  <v-row>
-    <v-col>
-      {{ name }}
-    </v-col>
-    <v-col>
-      <v-select v-model="type" :items="columnTypes" :dense="true"> </v-select>
-    </v-col>
-  </v-row>
+  <div>
+    <v-list-item>
+      <v-list-item-title>{{ name }}</v-list-item-title>
+      <v-list-item-action>
+        <v-select hide-details v-model="type" :items="columnTypes"> </v-select>
+      </v-list-item-action>
+    </v-list-item>
+  </div>
 </template>
 
 <script>

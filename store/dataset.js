@@ -27,6 +27,9 @@ function removeDuplicateColumns(columns) {
 }
 
 export const mutations = {
+  setUrl(state, value) {
+    state.url = value
+  },
   setArray(state, value) {
     state.array = value
   },

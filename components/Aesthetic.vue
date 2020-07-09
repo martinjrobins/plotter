@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h2>{{ name }}</h2>
-    <v-divider></v-divider>
+    <v-subheader>{{ name }}</v-subheader>
     <draggable
       v-model="aesMap"
       :group="{ name: 'aesthetics', put: true }"
@@ -16,14 +15,15 @@
         class="list-group-item"
       >
       </Column>
-      <div
+      <v-card-text
         v-if="aesMap.length == 0"
         slot="footer"
         class="list-group-item footer-item"
       >
         Add
-      </div>
+      </v-card-text>
     </draggable>
+    <v-divider :inset="inset"></v-divider>
   </div>
 </template>
 
