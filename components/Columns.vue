@@ -5,20 +5,18 @@
     <v-list>
       <draggable
         v-model="columns"
-        class="list-group"
         :group="{ name: 'aesthetics', pull: 'clone', put: true }"
         :sort="false"
+        tag="v-expansion-panels"
+        :component-data="getComponentData()"
       >
-        <transition-group type="transition">
-          <Column
-            v-for="(column, i) in columns"
-            :name="column.name"
-            :index="i"
-            :key="column.name"
-            class="list-group-item"
-          >
-          </Column>
-        </transition-group>
+        <Column
+          v-for="(column, i) in columns"
+          :name="column.name"
+          :index="i"
+          :key="column.name"
+        >
+        </Column>
       </draggable>
     </v-list>
   </v-card>
@@ -45,6 +43,16 @@ export default {
       set(value) {
         this.$store.commit('dataset/setColumns', value)
       },
+    },
+  },
+  methods: {
+    getComponentData() {
+      return {
+        attrs: {
+          flat: true,
+          hover: true,
+        },
+      }
     },
   },
 }

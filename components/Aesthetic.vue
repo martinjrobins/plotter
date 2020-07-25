@@ -1,30 +1,34 @@
 <template>
-  <div>
-    <v-subheader>{{ name }}</v-subheader>
-    <draggable
-      v-model="aesMap"
-      :group="{ name: 'aesthetics', put: true }"
-      :sort="false"
-    >
-      <Column
-        v-for="(column, i) in aesMap"
-        :name="column.name"
-        :index="i"
-        :aesthetic="name"
-        :key="column.name"
-        class="list-group-item"
+  <v-row no-gutters>
+    <v-col cols="4">
+      <v-subheader>{{ name }}</v-subheader>
+    </v-col>
+    <v-col cols="8">
+      <draggable
+        v-model="aesMap"
+        :group="{ name: 'aesthetics', put: true }"
+        :sort="false"
+        tag="v-expansion-panels"
+        :component-data="getComponentData()"
       >
-      </Column>
-      <v-card-text
-        v-if="aesMap.length == 0"
-        slot="footer"
-        class="list-group-item footer-item"
-      >
-        Add
-      </v-card-text>
-    </draggable>
-    <v-divider :inset="inset"></v-divider>
-  </div>
+        <Column
+          v-for="(column, i) in aesMap"
+          :name="column.name"
+          :index="i"
+          :aesthetic="name"
+          :key="column.name"
+        >
+        </Column>
+        <v-card-text
+          v-if="aesMap.length == 0"
+          slot="footer"
+          class="footer-item"
+        >
+          Add
+        </v-card-text>
+      </draggable>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -49,6 +53,16 @@ export default {
       set(value) {
         this.$store.commit('dataset/setAestheticMap', [this.name, value])
       },
+    },
+  },
+  methods: {
+    getComponentData() {
+      return {
+        attrs: {
+          flat: true,
+          hover: true,
+        },
+      }
     },
   },
 }

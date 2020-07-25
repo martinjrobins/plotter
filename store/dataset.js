@@ -14,13 +14,14 @@ export const state = () => ({
 
 function removeDuplicateColumns(columns) {
   const noDuplicates = columns.reduce((map, v) => {
-    map[v.name] = v.type
+    map[v.name] = {
+      ...v,
+    }
     return map
   }, {})
   const noDuplicatesArray = Object.keys(noDuplicates).map((key) => {
     return {
-      name: key,
-      type: noDuplicates[key],
+      ...noDuplicates[key],
     }
   })
   return noDuplicatesArray
@@ -45,6 +46,18 @@ export const mutations = {
   setAestheticColumnType(state, [aesthetic, index, value]) {
     state.aestheticsMap[aesthetic][index].type = value
   },
+  setColumnAggregate(state, [index, value]) {
+    state.columns[index].aggregate = value
+  },
+  setAestheticColumnAggregate(state, [aesthetic, index, value]) {
+    state.aestheticsMap[aesthetic][index].aggregate = value
+  },
+  setColumnBin(state, [index, value]) {
+    state.columns[index].bin = value
+  },
+  setAestheticColumnBin(state, [aesthetic, index, value]) {
+    state.aestheticsMap[aesthetic][index].bin = value
+  },
 }
 
 function guessColumnType(data) {
@@ -68,6 +81,8 @@ export const actions = {
           return {
             name: columnName,
             type: guessColumnType(data[1][i]),
+            bin: false,
+            aggregate: false,
           }
         })
         context.commit('setColumns', columns)

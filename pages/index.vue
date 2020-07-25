@@ -8,13 +8,16 @@
       ></v-text-field>
     </v-row>
     <v-row>
-      <v-col cols="6">
+      <v-col cols="2">
+        <Columns></Columns>
+      </v-col>
+      <v-col cols="2">
+        <Aesthetics></Aesthetics>
+      </v-col>
+      <v-col cols="3">
         <v-row>
-          <v-col cols="6">
-            <Columns></Columns>
-          </v-col>
-          <v-col cols="6">
-            <Aesthetics></Aesthetics>
+          <v-col cols="12">
+            <Geometries></Geometries>
           </v-col>
         </v-row>
         <v-row>
@@ -23,7 +26,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="5">
         <PlotView></PlotView>
       </v-col>
     </v-row>

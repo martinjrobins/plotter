@@ -41,6 +41,8 @@ export default {
           map[key] = {
             field: this.aesMap[key][0].name,
             type: this.aesMap[key][0].type,
+            bin: this.aesMap[key][0].bin,
+            aggregate: this.aesMap[key][0].aggregate,
           }
           return map
         }, {})
