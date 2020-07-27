@@ -35,7 +35,9 @@ export const mutations = {
     state.array = value
   },
   setAestheticMap(state, [name, value]) {
-    state.aestheticsMap[name] = removeDuplicateColumns(value)
+    const oldValue = state.aestheticsMap[name]
+    const diff = value.filter((x) => !oldValue.includes(x))
+    state.aestheticsMap[name] = diff
   },
   setColumns(state, value) {
     state.columns = removeDuplicateColumns(value)
@@ -82,7 +84,7 @@ export const actions = {
             name: columnName,
             type: guessColumnType(data[1][i]),
             bin: false,
-            aggregate: false,
+            aggregate: null,
           }
         })
         context.commit('setColumns', columns)

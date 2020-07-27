@@ -1,16 +1,28 @@
 <template>
-  <v-expansion-panel>
-    <v-expansion-panel-header>{{ name }}</v-expansion-panel-header>
+  <v-expansion-panel label="test">
+    <v-expansion-panel-header>
+      {{ name }}
+    </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-select hide-details v-model="type" :items="columnTypes"> </v-select>
-      <v-checkbox v-model="aggregate" label="Aggregatee" dense></v-checkbox>
-      <v-checkbox v-model="bin" label="Binn" dense></v-checkbox>
+      <v-select hide-details v-model="type" :items="columnTypes" label="type">
+      </v-select>
+      <v-select
+        hide-details
+        v-if="aesthetic"
+        v-model="aggregate"
+        :items="aggregateOps"
+        label="aggregate"
+        clearable
+      >
+      </v-select>
+      <v-checkbox v-if="aesthetic" v-model="bin" label="bin" dense></v-checkbox>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 
 <script>
 import { columnTypes } from '~/constants/aesthetics'
+import { aggregateOps } from '~/constants/aggregate'
 
 export default {
   name: 'Column',
@@ -34,6 +46,9 @@ export default {
   computed: {
     columnTypes() {
       return columnTypes
+    },
+    aggregateOps() {
+      return Object.keys(aggregateOps)
     },
     column() {
       if (this.aesthetic === '') {

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2">
+  <v-card class="pa-1">
     <v-card-title>Plot</v-card-title>
     <v-card-subtitle
       >The generated plot and Vega-Lite specification</v-card-subtitle
@@ -41,8 +41,14 @@ export default {
           map[key] = {
             field: this.aesMap[key][0].name,
             type: this.aesMap[key][0].type,
-            bin: this.aesMap[key][0].bin,
-            aggregate: this.aesMap[key][0].aggregate,
+          }
+          const isBin = this.aesMap[key][0].bin
+          if (isBin) {
+            map[key].bin = isBin
+          }
+          const aggregateOp = this.aesMap[key][0].aggregate
+          if (aggregateOp) {
+            map[key].aggregate = aggregateOp
           }
           return map
         }, {})

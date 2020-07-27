@@ -1,24 +1,22 @@
 <template>
-  <v-card class="pa-2">
+  <v-card class="pa-1">
     <v-card-title>Columns</v-card-title>
     <v-card-subtitle>Drag columns to an aesthetic</v-card-subtitle>
-    <v-list>
-      <draggable
-        v-model="columns"
-        :group="{ name: 'aesthetics', pull: 'clone', put: true }"
-        :sort="false"
-        tag="v-expansion-panels"
-        :component-data="getComponentData()"
+    <draggable
+      v-model="columns"
+      :group="{ name: 'aesthetics', pull: 'clone', put: true }"
+      :sort="false"
+      tag="v-expansion-panels"
+      :component-data="getComponentData()"
+    >
+      <Column
+        v-for="(column, i) in columns"
+        :name="column.name"
+        :index="i"
+        :key="column.name"
       >
-        <Column
-          v-for="(column, i) in columns"
-          :name="column.name"
-          :index="i"
-          :key="column.name"
-        >
-        </Column>
-      </draggable>
-    </v-list>
+      </Column>
+    </draggable>
   </v-card>
 </template>
 

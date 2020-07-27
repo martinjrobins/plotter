@@ -11,7 +11,7 @@
       <v-col cols="2">
         <Columns></Columns>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="3">
         <Aesthetics></Aesthetics>
       </v-col>
       <v-col cols="3">
@@ -26,7 +26,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="5">
+      <v-col cols="4">
         <PlotView></PlotView>
       </v-col>
     </v-row>

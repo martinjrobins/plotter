@@ -1,13 +1,13 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="4">
+    <v-col cols="3">
       <v-subheader>{{ name }}</v-subheader>
     </v-col>
-    <v-col cols="8">
+    <v-col cols="9">
       <draggable
         v-model="aesMap"
         :group="{ name: 'aesthetics', put: true }"
-        :sort="false"
+        :sort="true"
         tag="v-expansion-panels"
         :component-data="getComponentData()"
       >

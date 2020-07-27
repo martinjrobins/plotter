@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2">
+  <v-card class="pa-1">
     <v-card-title>Geometries</v-card-title>
     <v-card-subtitle>Add layers to plot</v-card-subtitle>
     <draggable

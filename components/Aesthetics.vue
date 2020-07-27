@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2">
+  <v-card class="pa-1">
     <v-card-title>Aesthetics</v-card-title>
     <v-card-subtitle>Map columns to visual properies</v-card-subtitle>
     <v-list>
