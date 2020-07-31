@@ -1,6 +1,15 @@
 <template>
   <v-card class="pa-1">
-    <v-card-title>Plot</v-card-title>
+    <v-card-title>
+      <v-row no-gutters>
+        <v-col cols="10">
+          Plot
+        </v-col>
+        <v-col cols="2">
+          <v-icon color="primary">mdi-chart-line</v-icon>
+        </v-col>
+      </v-row>
+    </v-card-title>
     <v-card-subtitle
       >The generated plot and Vega-Lite specification</v-card-subtitle
     >

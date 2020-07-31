@@ -48,10 +48,11 @@ export default {
   computed: {
     aesMap: {
       get() {
-        return this.$store.state.dataset.aestheticsMap[this.name]
+        const geometry = this.$store.getters['geometries/geometry']
+        return geometry.aesthetics[this.name]
       },
       set(value) {
-        this.$store.commit('dataset/setAestheticMap', [this.name, value])
+        this.$store.commit('geometries/updateAesthetics', [this.name, value])
       },
     },
   },

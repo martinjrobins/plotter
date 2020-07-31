@@ -1,6 +1,15 @@
 <template>
   <v-card class="pa-1">
-    <v-card-title>Columns</v-card-title>
+    <v-card-title>
+      <v-row no-gutters>
+        <v-col cols="10">
+          Columns
+        </v-col>
+        <v-col cols="2">
+          <v-icon color="primary">mdi-table</v-icon>
+        </v-col>
+      </v-row>
+    </v-card-title>
     <v-card-subtitle>Drag columns to an aesthetic</v-card-subtitle>
     <draggable
       v-model="columns"

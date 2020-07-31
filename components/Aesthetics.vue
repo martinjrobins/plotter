@@ -1,6 +1,15 @@
 <template>
   <v-card class="pa-1">
-    <v-card-title>Aesthetics</v-card-title>
+    <v-card-title>
+      <v-row no-gutters>
+        <v-col cols="10">
+          Aesthetics
+        </v-col>
+        <v-col cols="2">
+          <v-icon color="primary">mdi-image-filter-vintage</v-icon>
+        </v-col>
+      </v-row>
+    </v-card-title>
     <v-card-subtitle>Map columns to visual properies</v-card-subtitle>
     <v-list>
       <Aesthetic

@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel label="test">
+  <v-expansion-panel>
     <v-expansion-panel-header>
       {{ name }}
     </v-expansion-panel-header>
@@ -60,13 +60,14 @@ export default {
     aggregateOps() {
       return Object.keys(aggregateOps)
     },
+    geometry() {
+      return this.$store.getters['geometries/geometry']
+    },
     column() {
       if (this.aesthetic === '') {
         return this.$store.state.dataset.columns[this.index]
       } else {
-        return this.$store.state.dataset.aestheticsMap[this.aesthetic][
-          this.index
-        ]
+        return this.geometry.aesthetics[this.aesthetic][this.index]
       }
     },
     ...columnProperties.reduce((map, prop) => {
@@ -88,7 +89,7 @@ export default {
         this.$store.commit('dataset/setColumn', args)
       } else {
         this.$store.commit(
-          'dataset/setAestheticColumn',
+          'geometries/setAestheticColumn',
           [this.aesthetic].concat(args)
         )
       }

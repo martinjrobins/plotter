@@ -1,15 +1,11 @@
 import axios from 'axios'
 import * as CSV from 'csv-string'
-import { aestheticsNames, columnProperties } from '~/constants/aesthetics'
+import { columnProperties } from '~/constants/aesthetics'
 
 export const state = () => ({
   url: 'https://vega.github.io/vega-lite/data/seattle-weather.csv',
   array: null,
   columns: [],
-  aestheticsMap: aestheticsNames.reduce((map, aes) => {
-    map[aes] = []
-    return map
-  }, {}),
 })
 
 function removeDuplicateColumns(columns) {
@@ -34,19 +30,13 @@ export const mutations = {
   setArray(state, value) {
     state.array = value
   },
-  setAestheticMap(state, [name, value]) {
-    const oldValue = state.aestheticsMap[name]
-    const diff = value.filter((x) => !oldValue.includes(x))
-    state.aestheticsMap[name] = diff
-  },
+
   setColumns(state, value) {
     state.columns = removeDuplicateColumns(value)
   },
+
   setColumnProperty(state, [index, prop, value]) {
     state.columns[index][prop] = value
-  },
-  setAestheticColumnProperty(state, [aesthetic, index, prop, value]) {
-    state.aestheticsMap[aesthetic][index][prop] = value
   },
 }
 

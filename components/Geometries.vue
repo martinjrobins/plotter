@@ -1,18 +1,27 @@
 <template>
   <v-card class="pa-1">
-    <v-card-title>Geometries</v-card-title>
+    <v-card-title>
+      <v-row no-gutters>
+        <v-col cols="10">
+          Geometries
+        </v-col>
+        <v-col cols="2">
+          <v-icon color="primary">mdi-shape-plus</v-icon>
+        </v-col>
+      </v-row>
+    </v-card-title>
     <v-card-subtitle>Add layers to plot</v-card-subtitle>
     <draggable
       v-model="geometries"
-      class="list-group"
       :group="{ name: 'geometries' }"
+      tag="v-expansion-panels"
+      :component-data="getComponentData()"
     >
       <Geometry
         v-for="(geometry, i) in geometries"
         :name="geometry.name"
         :index="i"
         :key="i"
-        class="list-group-item"
       >
       </Geometry>
       <v-card-actions slot="footer" key="footer">
@@ -49,6 +58,14 @@ export default {
   methods: {
     add() {
       this.$store.commit('geometries/addGeometry')
+    },
+    getComponentData() {
+      return {
+        attrs: {
+          flat: true,
+          hover: true,
+        },
+      }
     },
   },
 }
