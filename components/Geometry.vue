@@ -9,7 +9,7 @@
         <v-icon v-if="index == selectedIndex" color="accent"
           >mdi-image-filter-vintage</v-icon
         >
-        <v-icon v-if="index != selectedIndex">$expand</v-icon>
+        <v-icon>$expand</v-icon>
       </template>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
