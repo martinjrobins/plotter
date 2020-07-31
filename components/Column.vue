@@ -15,13 +15,23 @@
         clearable
       >
       </v-select>
+      <v-text-field
+        v-if="aesthetic"
+        v-model="label"
+        label="Label"
+      ></v-text-field>
+      <v-text-field
+        v-if="aesthetic"
+        v-model="tickFormat"
+        label="Tick Format"
+      ></v-text-field>
       <v-checkbox v-if="aesthetic" v-model="bin" label="bin" dense></v-checkbox>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 
 <script>
-import { columnTypes } from '~/constants/aesthetics'
+import { columnTypes, columnProperties } from '~/constants/aesthetics'
 import { aggregateOps } from '~/constants/aggregate'
 
 export default {
@@ -59,39 +69,26 @@ export default {
         ]
       }
     },
-    aggregate: {
-      get() {
-        return this.column.aggregate
-      },
-      set(value) {
-        this.setColumnData('Aggregate', [this.index, value])
-      },
-    },
-    bin: {
-      get() {
-        return this.column.bin
-      },
-      set(value) {
-        this.setColumnData('Bin', [this.index, value])
-      },
-    },
-    type: {
-      get() {
-        return this.column.type
-      },
-      set(value) {
-        this.setColumnData('Type', [this.index, value])
-      },
-    },
+    ...columnProperties.reduce((map, prop) => {
+      map[prop.name] = {
+        get() {
+          return this.column[prop.name]
+        },
+        set(value) {
+          this.setColumnData([this.index, prop, value])
+        },
+      }
+      return map
+    }, {}),
   },
   methods: {
-    setColumnData(name, args) {
+    setColumnData(args) {
       console.log('set column', name, args)
       if (this.aesthetic === '') {
-        this.$store.commit(`dataset/setColumn${name}`, args)
+        this.$store.commit('dataset/setColumn', args)
       } else {
         this.$store.commit(
-          `dataset/setAestheticColumn${name}`,
+          'dataset/setAestheticColumn',
           [this.aesthetic].concat(args)
         )
       }

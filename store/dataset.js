@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as CSV from 'csv-string'
-import { aestheticsNames } from '~/constants/aesthetics'
+import { aestheticsNames, columnProperties } from '~/constants/aesthetics'
 
 export const state = () => ({
   url: 'https://vega.github.io/vega-lite/data/seattle-weather.csv',
@@ -42,23 +42,11 @@ export const mutations = {
   setColumns(state, value) {
     state.columns = removeDuplicateColumns(value)
   },
-  setColumnType(state, [index, value]) {
-    state.columns[index].type = value
+  setColumnProperty(state, [index, prop, value]) {
+    state.columns[index][prop] = value
   },
-  setAestheticColumnType(state, [aesthetic, index, value]) {
-    state.aestheticsMap[aesthetic][index].type = value
-  },
-  setColumnAggregate(state, [index, value]) {
-    state.columns[index].aggregate = value
-  },
-  setAestheticColumnAggregate(state, [aesthetic, index, value]) {
-    state.aestheticsMap[aesthetic][index].aggregate = value
-  },
-  setColumnBin(state, [index, value]) {
-    state.columns[index].bin = value
-  },
-  setAestheticColumnBin(state, [aesthetic, index, value]) {
-    state.aestheticsMap[aesthetic][index].bin = value
+  setAestheticColumnProperty(state, [aesthetic, index, prop, value]) {
+    state.aestheticsMap[aesthetic][index][prop] = value
   },
 }
 
@@ -80,11 +68,14 @@ export const actions = {
         const data = CSV.parse(response.data)
         const columnNames = data[0]
         const columns = columnNames.map((columnName, i) => {
+          const defaultProps = columnProperties.reduce((map, prop) => {
+            map[prop.name] = prop.default
+            return map
+          }, {})
+          defaultProps.type = guessColumnType(data[1][i])
           return {
             name: columnName,
-            type: guessColumnType(data[1][i]),
-            bin: false,
-            aggregate: null,
+            ...defaultProps,
           }
         })
         context.commit('setColumns', columns)

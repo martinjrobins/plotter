@@ -15,16 +15,7 @@
         <Aesthetics></Aesthetics>
       </v-col>
       <v-col cols="3">
-        <v-row>
-          <v-col cols="12">
-            <Geometries></Geometries>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <Geometries></Geometries>
-          </v-col>
-        </v-row>
+        <Geometries></Geometries>
       </v-col>
       <v-col cols="4">
         <PlotView></PlotView>

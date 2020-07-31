@@ -16,6 +16,9 @@
         :key="column.name"
       >
       </Column>
+      <v-card-actions slot="footer" key="footer">
+        <v-btn @click="calculate">calculate</v-btn>
+      </v-card-actions>
     </draggable>
   </v-card>
 </template>
@@ -44,6 +47,9 @@ export default {
     },
   },
   methods: {
+    calculate() {
+      this.$store.commit('dateset/calculate')
+    },
     getComponentData() {
       return {
         attrs: {
