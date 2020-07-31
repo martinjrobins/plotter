@@ -1,3 +1,5 @@
+import { columnProperties } from '~/constants/aesthetics'
+
 export const state = () => ({})
 
 function vegaEncoding(geometry) {
@@ -11,14 +13,20 @@ function vegaEncoding(geometry) {
         field: aesMap[key][0].name,
         type: aesMap[key][0].type,
       }
-      const isBin = aesMap[key][0].bin
-      if (isBin) {
-        map[key].bin = isBin
-      }
-      const aggregateOp = aesMap[key][0].aggregate
-      if (aggregateOp) {
-        map[key].aggregate = aggregateOp
-      }
+      map = columnProperties.reduce((map, prop) => {
+        const value = aesMap[key][0][prop.name]
+        if (value) {
+          if (prop.name === 'maxbins') {
+            if (map[key].bin)
+              map[key].bin = {
+                maxbins: value,
+              }
+          } else {
+            map[key][prop.name] = value
+          }
+        }
+        return map
+      }, map)
       return map
     }, {})
 }

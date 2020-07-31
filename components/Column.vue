@@ -17,15 +17,17 @@
       </v-select>
       <v-text-field
         v-if="aesthetic"
-        v-model="label"
-        label="Label"
-      ></v-text-field>
-      <v-text-field
-        v-if="aesthetic"
-        v-model="tickFormat"
-        label="Tick Format"
+        v-model="title"
+        label="Title"
       ></v-text-field>
       <v-checkbox v-if="aesthetic" v-model="bin" label="bin" dense></v-checkbox>
+      <v-text-field
+        v-if="aesthetic && bin"
+        v-model="maxbins"
+        type="number"
+        label="maxbins"
+        style="width: 60px;"
+      ></v-text-field>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -76,7 +78,7 @@ export default {
           return this.column[prop.name]
         },
         set(value) {
-          this.setColumnData([this.index, prop, value])
+          this.setColumnData([this.index, prop.name, value])
         },
       }
       return map
@@ -89,7 +91,7 @@ export default {
         this.$store.commit('dataset/setColumn', args)
       } else {
         this.$store.commit(
-          'geometries/setAestheticColumn',
+          'geometries/setAestheticColumnProperty',
           [this.aesthetic].concat(args)
         )
       }

@@ -39,6 +39,7 @@ export const mutations = {
   },
   setAestheticColumnProperty(state, [aesthetic, index, prop, value]) {
     const aes = state.geometries[state.selectedGeometry].aesthetics
+    console.log('set asdfasd', aesthetic, index, prop, value)
     aes[aesthetic][index][prop] = value
   },
   setSelectedGeometry(state, index) {

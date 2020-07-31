@@ -65,7 +65,7 @@ export const columnTypes = ['quantitative', 'temporal', 'ordinal', 'nominal']
 export const columnProperties = [
   { name: 'type', default: 'qualitative' },
   { name: 'aggregate', default: null },
-  { name: 'bin', default: false },
-  { name: 'label', default: '' },
-  { name: 'tickFormat', default: '' },
+  { name: 'bin', default: null },
+  { name: 'maxbins', default: null },
+  { name: 'title', default: '' },
 ]
