@@ -11,12 +11,7 @@
       </v-row>
     </v-card-title>
     <v-card-subtitle>Add layers to plot</v-card-subtitle>
-    <draggable
-      v-model="geometries"
-      :group="{ name: 'geometries' }"
-      tag="v-expansion-panels"
-      :component-data="getComponentData()"
-    >
+    <v-expansion-panels flat hover>
       <Geometry
         v-for="(geometry, i) in geometries"
         :name="geometry.name"
@@ -24,25 +19,33 @@
         :key="i"
       >
       </Geometry>
-      <v-card-actions slot="footer" key="footer">
-        <v-btn @click="add">Add</v-btn>
-      </v-card-actions>
-    </draggable>
+    </v-expansion-panels>
+    <v-overflow-btn
+      v-model="addGeometrySelected"
+      :items="supportedGeometries"
+      label="Add new geometry"
+      flat
+      filled
+      prepend-icon="mdi-plus"
+      v-on:input="addGeometry"
+    >
+    </v-overflow-btn>
   </v-card>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import { geometries } from '~/constants/geometries'
 
 export default {
   name: 'Geometries',
-  components: {
-    draggable,
-  },
+  components: {},
   data() {
-    return {}
+    return { addGeometrySelected: null }
   },
   computed: {
+    supportedGeometries() {
+      return Object.keys(geometries)
+    },
     data() {
       return this.$store.state.geometries.geometries[this.index]
     },
@@ -56,8 +59,11 @@ export default {
     },
   },
   methods: {
-    add() {
-      this.$store.commit('geometries/addGeometry')
+    addGeometry(name) {
+      this.$store.commit('geometries/addGeometry', name)
+      this.$nextTick(() => {
+        this.addGeometrySelected = null
+      })
     },
     getComponentData() {
       return {

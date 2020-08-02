@@ -1,10 +1,9 @@
-import { geometryNames } from '~/constants/geometries'
-import { aestheticsNames } from '~/constants/aesthetics'
+import { geometries } from '~/constants/geometries'
 
-function defaultGeometry() {
+function defaultGeometry(name = 'line') {
   return {
-    type: geometryNames[0],
-    aesthetics: aestheticsNames.reduce((map, aes) => {
+    type: name,
+    aesthetics: geometries[name].defaultAesthetics.reduce((map, aes) => {
       map[aes] = []
       return map
     }, {}),
@@ -17,8 +16,8 @@ export const state = () => ({
 })
 
 export const mutations = {
-  addGeometry(state) {
-    const newGeometry = defaultGeometry()
+  addGeometry(state, name) {
+    const newGeometry = defaultGeometry(name)
     state.geometries.push(newGeometry)
     state.selectedGeometry = state.geometries.length - 1
   },
@@ -35,15 +34,18 @@ export const mutations = {
     aes[name] = diff
   },
   setAesthetics(state, value) {
-    state.aestheticsMap = value
+    state.aesthetics = value
+  },
+  addAesthetic(state, value) {
+    const geometry = state.geometries[state.selectedGeometry]
+    geometry.aesthetics[value] = []
+    geometry.aesthetics = { ...geometry.aesthetics }
   },
   setAestheticColumnProperty(state, [aesthetic, index, prop, value]) {
     const aes = state.geometries[state.selectedGeometry].aesthetics
-    console.log('set asdfasd', aesthetic, index, prop, value)
     aes[aesthetic][index][prop] = value
   },
   setSelectedGeometry(state, index) {
-    console.log('set selected geometry', index)
     state.selectedGeometry = index
   },
 }
