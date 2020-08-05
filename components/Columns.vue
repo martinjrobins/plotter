@@ -31,6 +31,7 @@
       label="Add new field"
       prepend-icon="mdi-plus"
       v-on:click:prepend="addCalculateField"
+      hint='for example: "2*datum.fieldName"'
       filled
     ></v-text-field>
   </v-card>

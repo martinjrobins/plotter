@@ -56,13 +56,11 @@ export const getters = {
     const geometries = state.geometries.geometries
     const allCalculateExpressions = geometries.reduce((outerSet, geom) => {
       const aesMap = geom.aesthetics
-      console.log('outer', outerSet)
       return Object.keys(aesMap)
         .filter((key) => {
           return aesMap[key].length > 0
         })
         .reduce((innerSet, key) => {
-          console.log('inner', innerSet)
           const calculateExpression = aesMap[key][0].calculate
           if (calculateExpression) {
             innerSet.add(calculateExpression)
@@ -80,11 +78,28 @@ export const getters = {
     }
   },
   vegaSpec(state, getters) {
-    return Object.assign(
-      {},
-      { data: getters.vegaData },
-      { transform: getters.vegaTransform },
-      { layer: getters.vegaLayers }
-    )
+    let spec = {
+      data: getters.vegaData,
+    }
+    const layers = getters.vegaLayers
+    if (layers.length === 1) {
+      spec = {
+        ...spec,
+        ...layers[0],
+      }
+    } else {
+      spec = {
+        ...spec,
+        layers: layers[0],
+      }
+    }
+    const vTransform = getters.vegaTransform
+    if (vTransform.length > 0) {
+      spec = {
+        ...spec,
+        transform: vTransform,
+      }
+    }
+    return spec
   },
 }
