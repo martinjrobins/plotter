@@ -16,11 +16,13 @@ function vegaEncoding(geometry) {
       map = columnProperties.reduce((map, prop) => {
         const value = aesMap[key][0][prop.name]
         if (value) {
-          if (prop.name === 'maxbins') {
-            if (map[key].bin)
-              map[key].bin = {
-                maxbins: value,
-              }
+          if (prop.parent) {
+            if (map[key][prop.parent]) {
+              map[key][prop.parent] = {}
+              map[key][prop.parent][prop.name] = value
+            }
+          } else if (prop.transform) {
+            // do nothing
           } else {
             map[key][prop.name] = value
           }
@@ -50,10 +52,35 @@ export const getters = {
       },
     }
   },
+  vegaTransform(state) {
+    const geometries = state.geometries.geometries
+    const allCalculateExpressions = geometries.reduce((set, geom) => {
+      const aesMap = geom.aesthetics
+      return Object.keys(aesMap)
+        .filter((key) => {
+          return aesMap[key].length > 0
+        })
+        .reduce((set, key) => {
+          const calculateExpression = aesMap[key][0].calculate
+          if (calculateExpression) {
+            set.add(calculateExpression)
+          }
+        }, set)
+    }, new Set())
+    if (allCalculateExpressions) {
+      return Array.from(allCalculateExpressions).map((expr) => {
+        return {
+          calculate: expr,
+          as: expr,
+        }
+      })
+    }
+  },
   vegaSpec(state, getters) {
     return Object.assign(
       {},
       { data: getters.vegaData },
+      { transform: getters.vegaTransform },
       { layer: getters.vegaLayers }
     )
   },

@@ -13,13 +13,14 @@
       </template>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-select v-model="type" :items="geometryNames" :dense="true"> </v-select>
+      <v-select v-model="type" :items="supportedGeometries" :dense="true">
+      </v-select>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 
 <script>
-import { geometryNames } from '~/constants/geometries'
+import { geometries } from '~/constants/geometries'
 
 export default {
   name: 'Geometry',
@@ -30,15 +31,15 @@ export default {
     return {}
   },
   computed: {
+    supportedGeometries() {
+      return Object.keys(geometries)
+    },
     headerColor() {
       if (this.index === this.selectedIndex) {
         return 'secondary'
       } else {
         return null
       }
-    },
-    geometryNames() {
-      return geometryNames
     },
     selectedIndex() {
       return this.$store.state.geometries.selectedGeometry

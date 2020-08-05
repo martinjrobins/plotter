@@ -25,10 +25,14 @@
         :key="column.name"
       >
       </Column>
-      <v-card-actions slot="footer" key="footer">
-        <v-btn @click="calculate">calculate</v-btn>
-      </v-card-actions>
     </draggable>
+    <v-text-field
+      v-model="calculateExpression"
+      label="Add new field"
+      prepend-icon="mdi-plus"
+      v-on:click:prepend="addCalculateField"
+      filled
+    ></v-text-field>
   </v-card>
 </template>
 
@@ -43,7 +47,7 @@ export default {
     Column,
   },
   data() {
-    return {}
+    return { calculateExpression: null }
   },
   computed: {
     columns: {
@@ -66,6 +70,12 @@ export default {
           hover: true,
         },
       }
+    },
+    addCalculateField(mouseEvent) {
+      this.$store.commit('dataset/addCalculateField', this.calculateExpression)
+      this.$nextTick(() => {
+        this.calculateExpression = null
+      })
     },
   },
 }

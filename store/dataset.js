@@ -4,9 +4,15 @@ import { columnProperties } from '~/constants/aesthetics'
 
 export const state = () => ({
   url: 'https://vega.github.io/vega-lite/data/seattle-weather.csv',
-  array: null,
   columns: [],
 })
+
+function defaultColumn() {
+  return columnProperties.reduce((map, prop) => {
+    map[prop.name] = prop.default
+    return map
+  }, {})
+}
 
 function removeDuplicateColumns(columns) {
   const noDuplicates = columns.reduce((map, v) => {
@@ -27,16 +33,17 @@ export const mutations = {
   setUrl(state, value) {
     state.url = value
   },
-  setArray(state, value) {
-    state.array = value
-  },
-
   setColumns(state, value) {
     state.columns = removeDuplicateColumns(value)
   },
-
   setColumnProperty(state, [index, prop, value]) {
     state.columns[index][prop] = value
+  },
+  addCalculateField(state, expression) {
+    const newField = defaultColumn()
+    newField.name = expression
+    newField.calculate = expression
+    state.columns.push(newField)
   },
 }
 
@@ -58,10 +65,7 @@ export const actions = {
         const data = CSV.parse(response.data)
         const columnNames = data[0]
         const columns = columnNames.map((columnName, i) => {
-          const defaultProps = columnProperties.reduce((map, prop) => {
-            map[prop.name] = prop.default
-            return map
-          }, {})
+          const defaultProps = defaultColumn()
           defaultProps.type = guessColumnType(data[1][i])
           return {
             name: columnName,
@@ -69,7 +73,6 @@ export const actions = {
           }
         })
         context.commit('setColumns', columns)
-        context.commit('setArray', data.slice(1))
       })
       .catch(function (error) {
         console.log(error)

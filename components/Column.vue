@@ -28,6 +28,11 @@
         label="maxbins"
         style="width: 60px;"
       ></v-text-field>
+      <v-text-field
+        v-if="calculate"
+        v-model="calculate"
+        label="Calculate"
+      ></v-text-field>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
