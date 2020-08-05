@@ -54,18 +54,21 @@ export const getters = {
   },
   vegaTransform(state) {
     const geometries = state.geometries.geometries
-    const allCalculateExpressions = geometries.reduce((set, geom) => {
+    const allCalculateExpressions = geometries.reduce((outerSet, geom) => {
       const aesMap = geom.aesthetics
+      console.log('outer', outerSet)
       return Object.keys(aesMap)
         .filter((key) => {
           return aesMap[key].length > 0
         })
-        .reduce((set, key) => {
+        .reduce((innerSet, key) => {
+          console.log('inner', innerSet)
           const calculateExpression = aesMap[key][0].calculate
           if (calculateExpression) {
-            set.add(calculateExpression)
+            innerSet.add(calculateExpression)
           }
-        }, set)
+          return innerSet
+        }, outerSet)
     }, new Set())
     if (allCalculateExpressions) {
       return Array.from(allCalculateExpressions).map((expr) => {
