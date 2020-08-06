@@ -31,7 +31,10 @@ export const mutations = {
     const aes = state.geometries[state.selectedGeometry].aesthetics
     const oldValue = aes[name]
     const diff = value.filter((x) => !oldValue.includes(x))
-    aes[name] = diff
+    // should just be one column in aesthetic now
+    const column = diff[0]
+    // make sure this is copied
+    aes[name] = [{ ...column }]
   },
   setAesthetics(state, value) {
     state.aesthetics = value

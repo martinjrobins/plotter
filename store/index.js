@@ -13,18 +13,37 @@ function vegaEncoding(geometry) {
         field: aesMap[key][0].name,
         type: aesMap[key][0].type,
       }
-      map = columnProperties.reduce((map, prop) => {
-        const value = aesMap[key][0][prop.name]
-        if (value) {
-          if (prop.parent) {
-            if (map[key][prop.parent]) {
-              map[key][prop.parent] = {}
-              map[key][prop.parent][prop.name] = value
+      map = Object.keys(columnProperties).reduce((map, propName) => {
+        const prop = columnProperties[propName]
+        if ('default' in prop) {
+          const value = aesMap[key][0][propName]
+          console.log('doing ', key, ' and value for ', propName, 'is ', value)
+          if (value) {
+            if (prop.transform) {
+              // do nothing
+            } else {
+              map[key][propName] = value
             }
-          } else if (prop.transform) {
-            // do nothing
-          } else {
-            map[key][prop.name] = value
+          }
+        } else {
+          map = Object.keys(prop).reduce((innerMap, innerPropName) => {
+            const fullPropName = `${propName}_${innerPropName}`
+            const value = aesMap[key][0][fullPropName]
+            if (value && innerPropName !== 'value') {
+              if (!(propName in innerMap[key])) {
+                innerMap[key][propName] = {}
+              }
+              innerMap[key][propName][innerPropName] = value
+            }
+            return innerMap
+          }, map)
+          // handle value separately
+          if ('value' in prop && !(propName in map[key])) {
+            const fullPropName = `${propName}_value`
+            const value = aesMap[key][0][fullPropName]
+            if (value) {
+              map[key][propName] = value
+            }
           }
         }
         return map

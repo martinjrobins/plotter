@@ -62,11 +62,21 @@ export const aestheticsToScalesMapping = {
 }
 export const columnTypes = ['quantitative', 'temporal', 'ordinal', 'nominal']
 
-export const columnProperties = [
-  { name: 'type', default: 'quantitative' },
-  { name: 'aggregate', default: null },
-  { name: 'bin', default: null },
-  { name: 'maxbins', default: null, parent: 'bin' },
-  { name: 'title', default: '' },
-  { name: 'calculate', default: '', transform: 'calculate' },
-]
+export const columnProperties = {
+  type: {
+    default: 'quantitative',
+  },
+  aggregate: {
+    default: null,
+  },
+  bin: {
+    value: { default: false },
+    maxbins: { default: null },
+  },
+  title: { default: '' },
+  scale: {
+    domain: { default: null },
+    type: { default: null },
+  },
+  calculate: { default: '', transform: 'calculate' },
+}

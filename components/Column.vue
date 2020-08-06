@@ -20,10 +20,15 @@
         v-model="title"
         label="Title"
       ></v-text-field>
-      <v-checkbox v-if="aesthetic" v-model="bin" label="bin" dense></v-checkbox>
+      <v-checkbox
+        v-if="aesthetic"
+        v-model="bin_value"
+        label="bin"
+        dense
+      ></v-checkbox>
       <v-text-field
-        v-if="aesthetic && bin"
-        v-model="maxbins"
+        v-if="aesthetic && bin_value"
+        v-model="bin_maxbins"
         type="number"
         label="maxbins"
         style="width: 60px;"
@@ -77,16 +82,33 @@ export default {
         return this.geometry.aesthetics[this.aesthetic][this.index]
       }
     },
-    ...columnProperties.reduce((map, prop) => {
-      map[prop.name] = {
-        get() {
-          return this.column[prop.name]
-        },
-        set(value) {
-          this.setColumnData([this.index, prop.name, value])
-        },
+    ...Object.keys(columnProperties).reduce((map, propName) => {
+      const prop = columnProperties[propName]
+      console.log('map', map)
+      if ('default' in prop) {
+        map[propName] = {
+          get() {
+            return this.column[propName]
+          },
+          set(value) {
+            this.setColumnData([this.index, propName, value])
+          },
+        }
+        return map
+      } else {
+        return Object.keys(prop).reduce((innerMap, innerPropName) => {
+          const fullPropName = `${propName}_${innerPropName}`
+          innerMap[fullPropName] = {
+            get() {
+              return this.column[fullPropName]
+            },
+            set(value) {
+              this.setColumnData([this.index, fullPropName, value])
+            },
+          }
+          return innerMap
+        }, map)
       }
-      return map
     }, {}),
   },
   methods: {
