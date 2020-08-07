@@ -44,7 +44,9 @@ export default {
   },
   computed: {
     supportedGeometries() {
-      return Object.keys(geometries)
+      return geometries.map((geo) => {
+        return geo.name
+      })
     },
     data() {
       return this.$store.state.geometries.geometries[this.index]

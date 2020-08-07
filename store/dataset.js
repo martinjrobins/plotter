@@ -8,19 +8,9 @@ export const state = () => ({
 })
 
 function defaultColumn() {
-  return Object.keys(columnProperties).reduce((map, propName) => {
-    const prop = columnProperties[propName]
-    if ('default' in prop) {
-      map[propName] = prop.default
-      return map
-    } else {
-      return Object.keys(prop).reduce((innerMap, innerPropName) => {
-        const prop = columnProperties[propName][innerPropName]
-        const fullPropName = `${propName}_${innerPropName}`
-        innerMap[fullPropName] = prop.default
-        return innerMap
-      }, map)
-    }
+  return columnProperties.reduce((map, prop) => {
+    map[prop.name] = prop.default
+    return map
   }, {})
 }
 

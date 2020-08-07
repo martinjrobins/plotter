@@ -13,37 +13,25 @@ function vegaEncoding(geometry) {
         field: aesMap[key][0].name,
         type: aesMap[key][0].type,
       }
-      map = Object.keys(columnProperties).reduce((map, propName) => {
-        const prop = columnProperties[propName]
-        if ('default' in prop) {
-          const value = aesMap[key][0][propName]
-          console.log('doing ', key, ' and value for ', propName, 'is ', value)
-          if (value) {
-            if (prop.transform) {
-              // do nothing
-            } else {
-              map[key][propName] = value
-            }
-          }
-        } else {
-          map = Object.keys(prop).reduce((innerMap, innerPropName) => {
-            const fullPropName = `${propName}_${innerPropName}`
-            const value = aesMap[key][0][fullPropName]
-            if (value && innerPropName !== 'value') {
-              if (!(propName in innerMap[key])) {
-                innerMap[key][propName] = {}
+      map = columnProperties.reduce((map, prop) => {
+        const value = aesMap[key][0][prop.name]
+        if (value) {
+          if (prop.transform) {
+            // do nothing
+          } else {
+            let baseObject = map[key]
+            const numberOfKeys = prop.vegaKey.length
+            // make sure that all the parent keys are defined
+            for (let i = 0; i < numberOfKeys - 1; i++) {
+              if (
+                !(prop.vegaKey[i] in baseObject) ||
+                typeof baseObject[prop.vegaKey[i]] !== 'object'
+              ) {
+                baseObject[prop.vegaKey[i]] = {}
               }
-              innerMap[key][propName][innerPropName] = value
+              baseObject = baseObject[prop.vegaKey[i]]
             }
-            return innerMap
-          }, map)
-          // handle value separately
-          if ('value' in prop && !(propName in map[key])) {
-            const fullPropName = `${propName}_value`
-            const value = aesMap[key][0][fullPropName]
-            if (value) {
-              map[key][propName] = value
-            }
+            baseObject[prop.vegaKey[numberOfKeys - 1]] = value
           }
         }
         return map
@@ -100,16 +88,16 @@ export const getters = {
     let spec = {
       data: getters.vegaData,
     }
-    const layers = getters.vegaLayers
-    if (layers.length === 1) {
+    const vegaLayers = getters.vegaLayers
+    if (vegaLayers.length === 1) {
       spec = {
         ...spec,
-        ...layers[0],
+        ...vegaLayers[0],
       }
     } else {
       spec = {
         ...spec,
-        layers: layers[0],
+        layer: vegaLayers,
       }
     }
     const vTransform = getters.vegaTransform

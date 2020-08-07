@@ -1,9 +1,12 @@
 import { geometries } from '~/constants/geometries'
 
 function defaultGeometry(name = 'line') {
+  const geo = geometries.filter((geo) => {
+    return geo.name === name
+  })[0]
   return {
     type: name,
-    aesthetics: geometries[name].defaultAesthetics.reduce((map, aes) => {
+    aesthetics: geo.defaultAesthetics.reduce((map, aes) => {
       map[aes] = []
       return map
     }, {}),
