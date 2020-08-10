@@ -10,6 +10,10 @@ function defaultGeometry(name = 'line') {
       map[aes] = []
       return map
     }, {}),
+    options: geo.options.reduce((map, option) => {
+      map[option.name] = option.default
+      return map
+    }, {}),
   }
 }
 
@@ -18,26 +22,45 @@ export const state = () => ({
   geometries: [defaultGeometry()],
 })
 
+export const actions = {
+  removeGeometry({ commit, state }, index) {
+    console.log('remove geometry', index)
+    if (state.selectedGeometry === index) {
+      console.log('removing selected', state.selectedGeometry)
+      if (index >= state.geometries.length - 1) {
+        commit('setSelectedGeometry', index - 1)
+      } else {
+        commit('setSelectedGeometry', index)
+      }
+    }
+    commit('removeGeometry', index)
+  },
+}
+
 export const mutations = {
   addGeometry(state, name) {
     const newGeometry = defaultGeometry(name)
     state.geometries.push(newGeometry)
     state.selectedGeometry = state.geometries.length - 1
   },
+  removeGeometry(state, index) {
+    state.geometries.splice(index, 1)
+  },
   setGeometries(state, value) {
     state.geometries = value
-  },
-  setGeometryType(state, [index, value]) {
-    state.geometries[index].type = value
   },
   updateAesthetics(state, [name, value]) {
     const aes = state.geometries[state.selectedGeometry].aesthetics
     const oldValue = aes[name]
     const diff = value.filter((x) => !oldValue.includes(x))
-    // should just be one column in aesthetic now
-    const column = diff[0]
-    // make sure this is copied
-    aes[name] = [{ ...column }]
+    // should just be zero or one column in aesthetic now
+    if (diff.length === 0) {
+      aes[name] = []
+    } else {
+      const column = diff[0]
+      // make sure this is copied
+      aes[name] = [{ ...column }]
+    }
   },
   setAesthetics(state, value) {
     state.aesthetics = value
@@ -51,13 +74,28 @@ export const mutations = {
     const aes = state.geometries[state.selectedGeometry].aesthetics
     aes[aesthetic][index][prop] = value
   },
+  removeAestheticColumn(state, [aesthetic, index]) {
+    const aes = state.geometries[state.selectedGeometry].aesthetics
+    aes[aesthetic].splice(index, 1)
+  },
   setSelectedGeometry(state, index) {
+    console.log('select index', index)
     state.selectedGeometry = index
   },
 }
 
 export const getters = {
   geometry(state) {
+    if (
+      state.selectedGeometry >= state.geometries.length ||
+      state.selectedGeometry < 0
+    ) {
+      return {
+        type: 'None',
+        aesthetics: {},
+        options: {},
+      }
+    }
     return state.geometries[state.selectedGeometry]
   },
 }

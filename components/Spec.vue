@@ -3,20 +3,23 @@
     <v-card-title>
       <v-row no-gutters>
         <v-col cols="10">
-          Plot
+          Vega-Lite Specification
         </v-col>
         <v-col cols="2">
-          <v-icon color="primary">mdi-chart-line</v-icon>
+          <v-icon color="primary">mdi-code-json</v-icon>
         </v-col>
       </v-row>
     </v-card-title>
-    <VegaEmbed :spec="vegaSpec" />
+    <pre>
+    {{ vegaSpecString }}
+  </pre
+    >
   </v-card>
 </template>
 
 <script>
 export default {
-  name: 'PlotView',
+  name: 'Spec',
   data() {
     return {}
   },

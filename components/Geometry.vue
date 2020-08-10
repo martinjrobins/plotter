@@ -3,18 +3,25 @@
     v-on:click="selectGeometry"
     prepend-icon="mdi-chart-scatter-plot"
   >
-    <v-expansion-panel-header color="headerColor">
-      Geo {{ index }}: {{ type }}
+    <v-expansion-panel-header color="headerColor" disable-icon-rotate>
+      {{ index }}: {{ type }}
       <template v-slot:actions>
         <v-icon v-if="index == selectedIndex" color="accent"
           >mdi-image-filter-vintage</v-icon
         >
+        <v-btn @click="removeGeometry" icon> <v-icon>mdi-minus</v-icon> </v-btn>
         <v-icon>$expand</v-icon>
       </template>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-select v-model="type" :items="supportedGeometries" :dense="true">
-      </v-select>
+      <Option
+        v-for="option in geometry.options"
+        :option="option"
+        :index="index"
+        type="geometry"
+        :key="option.name"
+      >
+      </Option>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -31,6 +38,11 @@ export default {
     return {}
   },
   computed: {
+    geometry() {
+      return geometries.filter((geo) => {
+        return geo.name === this.data.type
+      })[0]
+    },
     supportedGeometries() {
       return geometries.map((geo) => {
         return geo.name
@@ -49,18 +61,16 @@ export default {
     data() {
       return this.$store.state.geometries.geometries[this.index]
     },
-    type: {
-      get() {
-        return this.data.type
-      },
-      set(value) {
-        this.$store.commit('geometries/setGeometryType', [this.index, value])
-      },
+    type() {
+      return this.data.type
     },
   },
   methods: {
     selectGeometry() {
       this.$store.commit('geometries/setSelectedGeometry', this.index)
+    },
+    removeGeometry() {
+      this.$store.dispatch('geometries/removeGeometry', this.index)
     },
   },
 }

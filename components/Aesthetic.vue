@@ -17,6 +17,7 @@
           :index="i"
           :aesthetic="name"
           :key="column.name"
+          type="aesthetic"
         >
         </Column>
         <v-card-text

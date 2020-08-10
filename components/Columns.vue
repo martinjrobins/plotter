@@ -22,6 +22,7 @@
         v-for="(column, i) in columns"
         :name="column.name"
         :index="i"
+        type="column"
         :key="column.name"
       >
       </Column>
@@ -32,6 +33,12 @@
       prepend-icon="mdi-plus"
       v-on:click:prepend="addCalculateField"
       hint='for example: "2*datum.fieldName"'
+      filled
+    ></v-text-field>
+    <v-text-field
+      v-model="filterExpression"
+      label="Filter data"
+      hint='for example: "datum.fieldName > 60"'
       filled
     ></v-text-field>
   </v-card>
@@ -57,6 +64,14 @@ export default {
       },
       set(value) {
         this.$store.commit('dataset/setColumns', value)
+      },
+    },
+    filterExpression: {
+      get() {
+        return this.$store.state.dataset.filter
+      },
+      set(value) {
+        this.$store.commit('dataset/setFilter', value)
       },
     },
   },

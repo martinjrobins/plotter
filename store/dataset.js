@@ -5,6 +5,7 @@ import { columnProperties } from '~/constants/aesthetics'
 export const state = () => ({
   url: 'https://vega.github.io/vega-lite/data/seattle-weather.csv',
   columns: [],
+  filter: null,
 })
 
 function defaultColumn() {
@@ -33,6 +34,9 @@ export const mutations = {
   setUrl(state, value) {
     state.url = value
   },
+  setFilter(state, value) {
+    state.filter = value
+  },
   setColumns(state, value) {
     state.columns = removeDuplicateColumns(value)
   },
@@ -44,6 +48,9 @@ export const mutations = {
     newField.name = expression
     newField.calculate = expression
     state.columns.push(newField)
+  },
+  removeColumn(state, index) {
+    state.columns.splice(index, 1)
   },
 }
 

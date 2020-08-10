@@ -40,7 +40,51 @@ function vegaEncoding(geometry) {
     }, {})
 }
 
+export const actions = {
+  setOption({ commit }, [type, name, args, value]) {
+    if (type === 'column') {
+      commit('dataset/setColumn', [args.index, name, value])
+    } else if (type === 'aesthetic') {
+      const aesthetic = args.aesthetic
+      commit('geometries/setAestheticColumnProperty', [
+        aesthetic,
+        0,
+        name,
+        value,
+      ])
+    } else if (type === 'geometry') {
+      commit('geometries/setGeometryProperty', [args.index, name, value])
+    } else {
+      throw new Error(`unknown option type ${type}`)
+    }
+  },
+  removeColumn({ commit }, [type, index, aesthetic]) {
+    if (type === 'column') {
+      commit('dataset/removeColumn', [index])
+    } else if (type === 'aesthetic') {
+      commit('geometries/removeAestheticColumn', [aesthetic, 0])
+    }
+  },
+}
+
 export const getters = {
+  option(state, getters) {
+    return (type, name, args) => {
+      if (type === 'column') {
+        const column = state.dataset.columns[args.index]
+        return column[name]
+      } else if (type === 'aesthetic') {
+        const aesthetic = args.aesthetic
+        const selectedGeometry = getters['geometries/geometry']
+        return selectedGeometry.aesthetics[aesthetic][0][name]
+      } else if (type === 'geometry') {
+        const geometry = state.geometries.geometries[args.index]
+        return geometry.options[name]
+      } else {
+        throw new Error(`unknown option type ${type}`)
+      }
+    }
+  },
   vegaLayers(state) {
     const geometries = state.geometries.geometries
     return geometries.map((geom) => {
@@ -75,14 +119,24 @@ export const getters = {
           return innerSet
         }, outerSet)
     }, new Set())
+    const transformArray = []
     if (allCalculateExpressions) {
-      return Array.from(allCalculateExpressions).map((expr) => {
-        return {
-          calculate: expr,
-          as: expr,
-        }
+      transformArray.concat(
+        Array.from(allCalculateExpressions).map((expr) => {
+          return {
+            calculate: expr,
+            as: expr,
+          }
+        })
+      )
+    }
+    const filterExpression = state.dataset.filter
+    if (filterExpression) {
+      transformArray.push({
+        filter: filterExpression,
       })
     }
+    return transformArray
   },
   vegaSpec(state, getters) {
     let spec = {

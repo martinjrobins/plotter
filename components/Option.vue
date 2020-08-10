@@ -43,11 +43,15 @@ export default {
         return columnProperties[0]
       },
     },
-    columnIndex: {
+    type: {
+      type: String,
+      default: 'column',
+    },
+    index: {
       type: Number,
       default: 0,
     },
-    aestheticName: {
+    aesthetic: {
       type: String,
       default: '',
     },
@@ -57,42 +61,32 @@ export default {
   },
   computed: {
     show() {
-      if (this.aestheticName === '') {
+      if (this.type === 'column') {
         return this.option.showInColumns
       } else {
         return true
       }
     },
-    geometry() {
-      return this.$store.getters['geometries/geometry']
-    },
-    column() {
-      if (this.aestheticName === '') {
-        return this.$store.state.dataset.columns[this.columnIndex]
-      } else {
-        return this.geometry.aesthetics[this.aestheticName][this.columnIndex]
-      }
-    },
     optionValue: {
       get() {
-        return this.column[this.option.name]
+        const args = {
+          index: this.index,
+          aesthetic: this.aesthetic,
+        }
+        return this.$store.getters.option(this.type, this.option.name, args)
       },
       set(value) {
-        this.setColumnData([this.columnIndex, this.option.name, value])
+        const args = {
+          index: this.columnIndex,
+          aesthetic: this.aesthetic,
+        }
+        this.$store.dispatch('setOption', [
+          this.type,
+          this.option.name,
+          args,
+          value,
+        ])
       },
-    },
-  },
-  methods: {
-    setColumnData(args) {
-      console.log('set column', name, args)
-      if (this.aestheticName === '') {
-        this.$store.commit('dataset/setColumn', args)
-      } else {
-        this.$store.commit(
-          'geometries/setAestheticColumnProperty',
-          [this.aestheticName].concat(args)
-        )
-      }
     },
   },
 }
