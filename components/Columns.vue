@@ -11,12 +11,12 @@
       </v-row>
     </v-card-title>
     <v-card-subtitle>Drag columns to an aesthetic</v-card-subtitle>
-    <VExpansionPanels />
+    <v-expansion-panels />
     <draggable
       v-model="columns"
       :group="{ name: 'aesthetics', pull: 'clone', put: true }"
       :sort="false"
-      tag="VExpansionPanels"
+      tag="v-expansion-panels"
       :component-data="getComponentData()"
     >
       <Column
