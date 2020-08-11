@@ -1,9 +1,7 @@
-const defaultAes = ['x', 'y', 'color']
-
 export const geometries = [
   {
     name: 'arc',
-    defaultAesthetics: defaultAes,
+    defaultAesthetics: ['theta', 'color'],
     options: [
       {
         name: 'innerRadius',
@@ -21,21 +19,49 @@ export const geometries = [
   },
   {
     name: 'area',
-    defaultAesthetics: defaultAes,
+    defaultAesthetics: ['x', 'y', 'color'],
     options: [],
   },
-  { name: 'bar', defaultAesthetics: defaultAes, options: [] },
-  { name: 'boxPlot', defaultAesthetics: defaultAes, options: [] },
-  { name: 'circle', defaultAesthetics: defaultAes, options: [] },
-  { name: 'errorband', defaultAesthetics: defaultAes, options: [] },
-  { name: 'errorbar', defaultAesthetics: defaultAes, options: [] },
-  { name: 'geoshape', defaultAesthetics: defaultAes, options: [] },
-  { name: 'line', defaultAesthetics: defaultAes, options: [] },
-  { name: 'point', defaultAesthetics: defaultAes, options: [] },
-  { name: 'rect', defaultAesthetics: defaultAes, options: [] },
-  { name: 'rule', defaultAesthetics: defaultAes, options: [] },
-  { name: 'square', defaultAesthetics: defaultAes, options: [] },
-  { name: 'text', defaultAesthetics: defaultAes, options: [] },
-  { name: 'tick', defaultAesthetics: defaultAes, options: [] },
-  { name: 'trail', defaultAesthetics: defaultAes, options: [] },
+  { name: 'bar', defaultAesthetics: ['x', 'y', 'color'], options: [] },
+  { name: 'boxPlot', defaultAesthetics: ['x', 'y', 'color'], options: [] },
+  {
+    name: 'circle',
+    defaultAesthetics: ['x', 'y', 'size', 'color'],
+    options: [],
+  },
+  {
+    name: 'errorband',
+    defaultAesthetics: ['x', 'y', 'color', 'x2', 'y2'],
+    options: [],
+  },
+  {
+    name: 'errorbar',
+    defaultAesthetics: ['x', 'y', 'color', 'x2', 'y2'],
+    options: [],
+  },
+  { name: 'geoshape', defaultAesthetics: ['color'], options: [] },
+  { name: 'line', defaultAesthetics: ['x', 'y', 'color'], options: [] },
+  {
+    name: 'point',
+    defaultAesthetics: ['x', 'y', 'size', 'color'],
+    options: [],
+  },
+  { name: 'rect', defaultAesthetics: ['x', 'y', 'size', 'color'], options: [] },
+  {
+    name: 'rule',
+    defaultAesthetics: ['x', 'y', 'color', 'x2', 'y2'],
+    options: [],
+  },
+  {
+    name: 'square',
+    defaultAesthetics: ['x', 'y', 'size', 'color'],
+    options: [],
+  },
+  { name: 'text', defaultAesthetics: ['text', 'x', 'y', 'color'], options: [] },
+  { name: 'tick', defaultAesthetics: ['x', 'y'], options: [] },
+  {
+    name: 'trail',
+    defaultAesthetics: ['x', 'y', 'size', 'color'],
+    options: [],
+  },
 ]

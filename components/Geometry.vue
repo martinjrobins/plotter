@@ -22,6 +22,9 @@
         :key="option.name"
       >
       </Option>
+      <v-card-text v-if="geometry.options == 0">
+        No options
+      </v-card-text>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>

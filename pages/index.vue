@@ -8,7 +8,7 @@
       ></v-text-field>
     </v-row>
     <v-row>
-      <v-col cols="3">
+      <v-col cols="2">
         <Geometries></Geometries>
       </v-col>
       <v-col cols="3">
@@ -17,7 +17,7 @@
       <v-col cols="2">
         <Columns></Columns>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="5">
         <v-row>
           <v-col>
             <PlotView></PlotView>
