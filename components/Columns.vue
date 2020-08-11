@@ -11,11 +11,12 @@
       </v-row>
     </v-card-title>
     <v-card-subtitle>Drag columns to an aesthetic</v-card-subtitle>
+    <VExpansionPanels />
     <draggable
       v-model="columns"
       :group="{ name: 'aesthetics', pull: 'clone', put: true }"
       :sort="false"
-      tag="v-expansion-panels"
+      tag="VExpansionPanels"
       :component-data="getComponentData()"
     >
       <Column
@@ -46,6 +47,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import { VExpansionPanels } from 'vuetify/lib'
 import Column from '~/components/Column'
 
 export default {
@@ -53,6 +55,7 @@ export default {
   components: {
     draggable,
     Column,
+    VExpansionPanels,
   },
   data() {
     return { calculateExpression: null }
