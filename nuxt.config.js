@@ -83,6 +83,9 @@ export default {
       '~/assets/style/scss/variables/_radius.scss',
     ],
     optionsPath: '~/plugins/vuetify.js',
+    // TODO: need to turn off tree shaking since draggable wraps v-expansion-panels
+    // see https://github.com/nuxt-community/vuetify-module/issues/128
+    treeShake: false,
   },
   /*
    ** Build configuration
