@@ -37,7 +37,7 @@
         <v-img
           :contain="true"
           position="left center"
-          src="/ui/dafni-logo-white.png"
+          src="ui/dafni-logo-white.png"
           alt="DAFNI logo"
           width="122"
           height="30"

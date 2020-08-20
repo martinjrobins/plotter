@@ -3,7 +3,7 @@
     <v-expansion-panel-header disable-icon-rotate>
       {{ name }}
       <template v-slot:actions>
-        <v-btn v-if="!dataField" @click="removeColumn" icon>
+        <v-btn @click="removeColumn" icon>
           <v-icon>mdi-minus</v-icon>
         </v-btn>
         <v-icon>$expand</v-icon>

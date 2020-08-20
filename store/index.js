@@ -95,12 +95,23 @@ export const getters = {
     })
   },
   vegaData(state) {
-    return {
-      url: state.dataset.url,
-      name: 'table',
-      format: {
-        type: 'csv',
-      },
+    if (state.dataset.topojsonProperty && state.dataset.csvProperty) {
+      return {
+        url: state.dataset.topojsonUrl,
+        name: 'map',
+        format: {
+          type: 'topojson',
+          feature: state.dataset.topojsonObject,
+        },
+      }
+    } else {
+      return {
+        url: state.dataset.csvUrl,
+        name: 'table',
+        format: {
+          type: 'csv',
+        },
+      }
     }
   },
   vegaTransform(state) {
@@ -136,6 +147,20 @@ export const getters = {
         filter: filterExpression,
       })
     }
+    if (state.dataset.topojsonProperty && state.dataset.csvProperty) {
+      transformArray.push({
+        lookup: 'properties.'.concat(state.dataset.topojsonProperty),
+        from: {
+          data: {
+            url: state.dataset.csvUrl,
+          },
+          key: state.dataset.csvProperty,
+          fields: state.dataset.columns.map((c) => {
+            return c.name
+          }),
+        },
+      })
+    }
     return transformArray
   },
   vegaSpec(state, getters) {
@@ -159,6 +184,14 @@ export const getters = {
       spec = {
         ...spec,
         transform: vTransform,
+      }
+    }
+    if (state.dataset.topojsonProperty && state.dataset.csvProperty) {
+      spec = {
+        ...spec,
+        projection: {
+          type: 'mercator',
+        },
       }
     }
     return spec

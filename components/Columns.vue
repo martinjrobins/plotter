@@ -28,9 +28,19 @@
       >
       </Column>
     </draggable>
+    <v-overflow-btn
+      v-model="addColumnSelected"
+      :items="columnsInDataFile"
+      label="Add new field"
+      flat
+      filled
+      prepend-icon="mdi-plus"
+      v-on:input="addColumn"
+    >
+    </v-overflow-btn>
     <v-text-field
       v-model="calculateExpression"
-      label="Add new field"
+      label="Calculate new field"
       prepend-icon="mdi-plus"
       v-on:click:prepend="addCalculateField"
       hint='for example: "2*datum.fieldName"'
@@ -51,16 +61,21 @@ import { VExpansionPanels } from 'vuetify/lib'
 import Column from '~/components/Column'
 
 export default {
-  name: 'Dataset',
+  name: 'Columns',
   components: {
     draggable,
     Column,
     VExpansionPanels,
   },
   data() {
-    return { calculateExpression: null }
+    return { calculateExpression: null, addColumnSelected: null }
   },
   computed: {
+    columnsInDataFile() {
+      return this.$store.state.dataset.columnsInDataFile.map((c) => {
+        return c.name
+      })
+    },
     columns: {
       get() {
         return this.$store.state.dataset.columns
@@ -89,6 +104,12 @@ export default {
           hover: true,
         },
       }
+    },
+    addColumn(name) {
+      this.$store.commit('dataset/addColumn', name)
+      this.$nextTick(() => {
+        this.addColumnSelected = null
+      })
     },
     addCalculateField(mouseEvent) {
       this.$store.commit('dataset/addCalculateField', this.calculateExpression)

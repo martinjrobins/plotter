@@ -1,25 +1,23 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-text-field
-        v-model="url"
-        label="URL"
-        hint="enter a url to a csv file"
-      ></v-text-field>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <Data> </Data>
+      </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="2">
+    <v-row class="mt-0 pt-0">
+      <v-col class="ma-0 pa-0" cols="2">
         <Geometries></Geometries>
       </v-col>
-      <v-col cols="3">
+      <v-col class="mt-0 pt-0" cols="3">
         <Aesthetics></Aesthetics>
       </v-col>
-      <v-col cols="2">
+      <v-col class="mt-0 pt-0" cols="2">
         <Columns></Columns>
       </v-col>
-      <v-col cols="5">
+      <v-col class="mt-0 pt-0" cols="5">
         <v-row>
-          <v-col>
+          <v-col class="mt-0 pt-0">
             <PlotView></PlotView>
           </v-col>
         </v-row>
@@ -50,7 +48,8 @@ export default {
     Spec,
   },
   created() {
-    this.$store.dispatch('dataset/loadData')
+    this.$store.dispatch('dataset/loadCsvData')
+    this.$store.dispatch('dataset/loadTopjsonData')
   },
   computed: {
     url: {
