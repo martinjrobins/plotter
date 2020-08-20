@@ -79,7 +79,7 @@ export default {
       return this.$store.state.dataset.topojsonProperties
     },
     csvProperties() {
-      return this.$store.state.dataset.columns.map((c) => {
+      return this.$store.state.dataset.columnsInDataFile.map((c) => {
         return c.name
       })
     },
