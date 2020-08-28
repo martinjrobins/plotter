@@ -2,15 +2,19 @@ import { columnProperties } from '~/constants/aesthetics'
 
 export const state = () => ({})
 
-function vegaEncoding(geometry) {
+function vegaEncoding(geometry, mode) {
   const aesMap = geometry.aesthetics
+  let fieldNamePrepend = ''
+  if (mode === 'topojson') {
+    fieldNamePrepend = 'properties.'
+  }
   return Object.keys(aesMap)
     .filter((key) => {
       return aesMap[key].length > 0
     })
     .reduce((map, key) => {
       map[key] = {
-        field: aesMap[key][0].name,
+        field: fieldNamePrepend.concat(aesMap[key][0].name),
         type: aesMap[key][0].type,
       }
       map = columnProperties.reduce((map, prop) => {
@@ -90,12 +94,15 @@ export const getters = {
     return geometries.map((geom) => {
       return {
         mark: geom.type,
-        encoding: vegaEncoding(geom),
+        encoding: vegaEncoding(geom, state.dataset.mode),
       }
     })
   },
   vegaData(state) {
-    if (state.dataset.topojsonProperty && state.dataset.csvProperty) {
+    if (
+      state.dataset.mode === 'topojson' ||
+      state.dataset.mode === 'csv + topojson'
+    ) {
       return {
         url: state.dataset.topojsonUrl,
         name: 'map',
@@ -147,7 +154,7 @@ export const getters = {
         filter: filterExpression,
       })
     }
-    if (state.dataset.topojsonProperty && state.dataset.csvProperty) {
+    if (state.dataset.mode === 'csv + topojson') {
       transformArray.push({
         lookup: 'properties.'.concat(state.dataset.topojsonProperty),
         from: {
@@ -186,7 +193,10 @@ export const getters = {
         transform: vTransform,
       }
     }
-    if (state.dataset.topojsonProperty && state.dataset.csvProperty) {
+    if (
+      state.dataset.mode === 'topojson' ||
+      state.dataset.mode === 'csv + topojson'
+    ) {
       spec = {
         ...spec,
         projection: {

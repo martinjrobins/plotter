@@ -1,18 +1,21 @@
 <template>
   <v-row>
-    <v-col cols="4">
-      <v-select v-model="csvUrl" :items="csvUrls" label="csv file"></v-select>
-    </v-col>
-    <v-col>
+    <v-col cols="2">
       <v-select
-        v-model="csvProperty"
-        :items="csvProperties"
-        label="csv id field"
-        clearable
+        v-model="mode"
+        :items="availableModes"
+        label="what is your input data?"
       ></v-select>
     </v-col>
-    <v-col cols="4">
+    <v-col cols="3">
       <v-select
+        v-if="mode == 'csv' || mode == 'csv + topojson'"
+        v-model="csvUrl"
+        :items="csvUrls"
+        label="csv file"
+      ></v-select>
+      <v-select
+        v-if="mode == 'topojson'"
         v-model="topojsonUrl"
         :items="topojsonUrls"
         label="topojson file"
@@ -20,9 +23,34 @@
     </v-col>
     <v-col>
       <v-select
+        v-if="mode == 'csv + topojson'"
+        v-model="csvProperty"
+        :items="csvProperties"
+        label="csv id field"
+      ></v-select>
+    </v-col>
+    <v-col cols="3">
+      <v-select
+        v-if="mode == 'csv + topojson'"
+        v-model="topojsonUrl"
+        :items="topojsonUrls"
+        label="topojson file"
+      ></v-select>
+    </v-col>
+    <v-col>
+      <v-select
+        v-if="mode == 'csv + topojson'"
         v-model="topojsonProperty"
         :items="topojsonProperties"
         label="topojson id field"
+      ></v-select>
+    </v-col>
+    <v-col>
+      <v-select
+        v-if="mode == 'csv + topojson'"
+        v-model="preLookupAgregate"
+        :items="availableAggregates"
+        label="aggregate for multiple entries"
         clearable
       ></v-select>
     </v-col>
@@ -31,6 +59,7 @@
 
 <script>
 import { csvFiles, topojsonFiles } from '~/constants/data'
+import { aggregateOps } from '~/constants/aggregate'
 
 export default {
   name: 'Data',
@@ -44,6 +73,17 @@ export default {
         return file.url
       })
     },
+    availableAggregates() {
+      return Object.keys(aggregateOps)
+    },
+    preLookupAgregate: {
+      get() {
+        return this.$store.state.dataset.preLookupAgregate
+      },
+      set(value) {
+        this.$store.commit('dataset/setPrelookupAgregate', value)
+      },
+    },
     topojsonUrls() {
       return topojsonFiles.map((file) => {
         return file.url
@@ -54,6 +94,25 @@ export default {
     },
     loadTopojsonProgress() {
       return this.$store.state.dataset.loadTopojsonProgress
+    },
+    availableModes() {
+      return ['csv', 'topojson', 'csv + topojson']
+    },
+    mode: {
+      get() {
+        return this.$store.state.dataset.mode
+      },
+      set(value) {
+        this.$store.commit('dataset/setMode', value)
+        if (value === 'csv + topojson') {
+          this.$store.dispatch('dataset/loadCsvData')
+          this.$store.dispatch('dataset/loadTopjsonData')
+        } else if (value === 'topojson') {
+          this.$store.dispatch('dataset/loadTopjsonData')
+        } else {
+          this.$store.dispatch('dataset/loadCsvData')
+        }
+      },
     },
     csvUrl: {
       get() {

@@ -4,6 +4,7 @@ import { columnProperties } from '~/constants/aesthetics'
 import { csvFiles, topojsonFiles } from '~/constants/data'
 
 export const state = () => ({
+  mode: 'csv',
   csvUrl: csvFiles[0].url,
   loadCsvProgress: 0,
   topojsonUrl: topojsonFiles[0].url,
@@ -11,6 +12,7 @@ export const state = () => ({
   topojsonProperties: [],
   topojsonProperty: '',
   topojsonObject: '',
+  preLookupAgregate: '',
   csvProperty: '',
   columns: [],
   columnsInDataFile: [],
@@ -40,6 +42,9 @@ function removeDuplicateColumns(columns) {
 }
 
 export const mutations = {
+  setMode(state, value) {
+    state.mode = value
+  },
   setLoadCsvProgress(state, value) {
     state.loadCsvProgress = value
   },
@@ -60,6 +65,9 @@ export const mutations = {
   },
   setTopjsonObject(state, value) {
     state.topojsonObject = value
+  },
+  setPrelookupAgregate(state, value) {
+    state.preLookupAgregate = value
   },
   setCsvProperty(state, value) {
     console.log('setCsvProperty', value)
@@ -134,24 +142,36 @@ export const actions = {
         console.log(error)
       })
   },
-  loadTopjsonData(context) {
+  loadTopjsonData({ commit, state }) {
     return axios({
       methods: 'get',
-      url: context.state.topojsonUrl,
+      url: state.topojsonUrl,
       onDownloadProgress(progressEvent) {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         )
-        context.commit('setLoadTopojsonProgress', percentCompleted)
+        commit('setLoadTopojsonProgress', percentCompleted)
       },
     })
       .then(function (response) {
         const object = Object.keys(response.data.objects)[0]
-        const properties = Object.keys(
+        const properties =
           response.data.objects[object].geometries[0].properties
-        )
-        context.commit('setTopjsonObject', object)
-        context.commit('setTopjsonProperties', properties)
+        const propertyNames = Object.keys(properties)
+        commit('setTopjsonObject', object)
+        commit('setTopjsonProperties', propertyNames)
+        if (state.mode === 'topojson') {
+          const columns = propertyNames.map((columnName) => {
+            const defaultProps = defaultColumn()
+            defaultProps.type = guessColumnType(properties[columnName])
+            return {
+              name: columnName,
+              ...defaultProps,
+            }
+          })
+          commit('setColumns', columns.slice(0, 5))
+          commit('setColumnsInDatafile', columns)
+        }
       })
       .catch(function (error) {
         console.log(error)
