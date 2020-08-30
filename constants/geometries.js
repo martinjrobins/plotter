@@ -39,7 +39,24 @@ export const geometries = [
     defaultAesthetics: ['x', 'y', 'color', 'x2', 'y2'],
     options: [],
   },
-  { name: 'geoshape', defaultAesthetics: ['color'], options: [] },
+  {
+    name: 'geoshape',
+    defaultAesthetics: ['color'],
+    options: [
+      {
+        name: 'filled',
+        vegaKey: ['filled'],
+        default: false,
+        type: 'checkBox',
+      },
+      {
+        name: 'strokeWidth',
+        vegaKey: ['outerRadius'],
+        default: 1,
+        type: 'textBoxNumber',
+      },
+    ],
+  },
   { name: 'line', defaultAesthetics: ['x', 'y', 'color'], options: [] },
   {
     name: 'point',

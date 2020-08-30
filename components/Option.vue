@@ -77,7 +77,7 @@ export default {
       },
       set(value) {
         const args = {
-          index: this.columnIndex,
+          index: this.index,
           aesthetic: this.aesthetic,
         }
         this.$store.dispatch('setOption', [

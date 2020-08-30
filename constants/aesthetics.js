@@ -73,6 +73,7 @@ export const columnProperties = [
       temporal: 'date/time',
       ordinal: 'ordinal',
       nominal: 'nominal',
+      geojson: 'geographical',
     },
     vegaKey: ['type'],
   },

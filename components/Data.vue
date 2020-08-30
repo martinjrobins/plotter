@@ -45,15 +45,6 @@
         label="topojson id field"
       ></v-select>
     </v-col>
-    <v-col>
-      <v-select
-        v-if="mode == 'csv + topojson'"
-        v-model="preLookupAgregate"
-        :items="availableAggregates"
-        label="aggregate for multiple entries"
-        clearable
-      ></v-select>
-    </v-col>
   </v-row>
 </template>
 

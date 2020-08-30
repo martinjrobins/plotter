@@ -2,6 +2,13 @@ import { columnProperties } from '~/constants/aesthetics'
 
 export const state = () => ({})
 
+function vegaMark(geometry) {
+  return {
+    type: geometry.type,
+    ...geometry.options,
+  }
+}
+
 function vegaEncoding(geometry, mode) {
   const aesMap = geometry.aesthetics
   let fieldNamePrepend = ''
@@ -108,7 +115,7 @@ export const getters = {
     const geometries = state.geometries.geometries
     return geometries.map((geom) => {
       return {
-        mark: geom.type,
+        mark: vegaMark(geom),
         encoding: vegaEncoding(geom, state.dataset.mode),
       }
     })
