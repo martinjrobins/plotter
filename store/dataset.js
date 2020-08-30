@@ -54,6 +54,12 @@ export const mutations = {
   setCsvUrl(state, value) {
     state.csvUrl = value
   },
+  addGeoField(state) {
+    const geoField = defaultColumn()
+    geoField.name = 'geo'
+    geoField.type = 'geojson'
+    state.columns.unshift(geoField)
+  },
   setTopjsonUrl(state, value) {
     state.topojsonUrl = value
   },

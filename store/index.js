@@ -71,6 +71,21 @@ export const actions = {
   },
 }
 
+function vegaDataTopoOrGeoJson(URL, geoFeature) {
+  const extension = URL.substring(URL.lastIndexOf('.') + 1)
+  console.log(extension)
+  if (extension === 'topojson') {
+    return {
+      url: URL,
+      name: 'map',
+      format: {
+        type: 'topojson',
+        feature: geoFeature,
+      },
+    }
+  }
+}
+
 export const getters = {
   option(state, getters) {
     return (type, name, args) => {
@@ -99,18 +114,11 @@ export const getters = {
     })
   },
   vegaData(state) {
-    if (
-      state.dataset.mode === 'topojson' ||
-      state.dataset.mode === 'csv + topojson'
-    ) {
-      return {
-        url: state.dataset.topojsonUrl,
-        name: 'map',
-        format: {
-          type: 'topojson',
-          feature: state.dataset.topojsonObject,
-        },
-      }
+    if (state.dataset.mode === 'topojson') {
+      return vegaDataTopoOrGeoJson(
+        state.dataset.topojsonUrl,
+        state.dataset.topojsonObject
+      )
     } else {
       return {
         url: state.dataset.csvUrl,
@@ -156,16 +164,15 @@ export const getters = {
     }
     if (state.dataset.mode === 'csv + topojson') {
       transformArray.push({
-        lookup: 'properties.'.concat(state.dataset.topojsonProperty),
+        lookup: state.dataset.csvProperty,
         from: {
-          data: {
-            url: state.dataset.csvUrl,
-          },
-          key: state.dataset.csvProperty,
-          fields: state.dataset.columns.map((c) => {
-            return c.name
-          }),
+          data: vegaDataTopoOrGeoJson(
+            state.dataset.topojsonUrl,
+            state.dataset.topojsonObject
+          ),
+          key: 'properties.'.concat(state.dataset.topojsonProperty),
         },
+        as: 'geo',
       })
     }
     return transformArray

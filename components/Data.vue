@@ -105,7 +105,9 @@ export default {
       set(value) {
         this.$store.commit('dataset/setMode', value)
         if (value === 'csv + topojson') {
-          this.$store.dispatch('dataset/loadCsvData')
+          this.$store.dispatch('dataset/loadCsvData').then(() => {
+            this.$store.commit('dataset/addGeoField')
+          })
           this.$store.dispatch('dataset/loadTopjsonData')
         } else if (value === 'topojson') {
           this.$store.dispatch('dataset/loadTopjsonData')
@@ -121,7 +123,11 @@ export default {
       set(value) {
         this.$store.commit('dataset/setCsvUrl', value)
         this.$store.commit('dataset/setCsvProperty', '')
-        this.$store.dispatch('dataset/loadCsvData')
+        this.$store.dispatch('dataset/loadCsvData').then(() => {
+          if (this.mode === 'csv + topojson') {
+            this.$store.commit('dataset/addGeoField')
+          }
+        })
       },
     },
     topojsonUrl: {
