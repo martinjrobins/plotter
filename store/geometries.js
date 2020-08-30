@@ -1,4 +1,5 @@
 import { geometries } from '~/constants/geometries'
+import { defaultColumn } from '~/store/dataset'
 
 function defaultGeometry(name = 'line') {
   console.log('contructing defaultGeometry', name)
@@ -45,6 +46,19 @@ export const mutations = {
     const newGeometry = defaultGeometry(name)
     state.geometries.push(newGeometry)
     state.selectedGeometry = state.geometries.length - 1
+  },
+  setDefaultGeometries(state, mode) {
+    if (mode === 'csv + topojson') {
+      state.geometries = [defaultGeometry('geoshape')]
+      const geoField = defaultColumn()
+      geoField.name = 'geo'
+      geoField.type = 'geojson'
+      state.geometries[0].aesthetics.shape = [geoField]
+    } else if (mode === 'topojson') {
+      state.geometries = [defaultGeometry('geoshape')]
+    } else {
+      state.geometries = [defaultGeometry()]
+    }
   },
   removeGeometry(state, index) {
     state.geometries.splice(index, 1)

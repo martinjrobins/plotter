@@ -105,6 +105,7 @@ export default {
         } else {
           this.$store.dispatch('dataset/loadCsvData')
         }
+        this.$store.commit('geometries/setDefaultGeometries', value)
       },
     },
     csvUrl: {

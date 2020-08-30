@@ -41,7 +41,7 @@ export const geometries = [
   },
   {
     name: 'geoshape',
-    defaultAesthetics: ['color'],
+    defaultAesthetics: ['shape', 'color'],
     options: [
       {
         name: 'filled',

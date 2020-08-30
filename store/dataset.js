@@ -19,7 +19,7 @@ export const state = () => ({
   filter: null,
 })
 
-function defaultColumn() {
+export function defaultColumn() {
   return columnProperties.reduce((map, prop) => {
     map[prop.name] = prop.default
     return map
