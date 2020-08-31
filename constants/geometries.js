@@ -36,16 +36,22 @@ export const geometries = [
   { name: 'boxPlot', defaultAesthetics: ['x', 'y', 'color'], options: [] },
   {
     name: 'circle',
+    text:
+      'circle mark is similar to point mark, except that (1) the shape value is always set to circle (2) they are filled by default.',
     defaultAesthetics: ['x', 'y', 'size', 'color'],
     options: [],
   },
   {
     name: 'errorband',
+    text:
+      'An error band summarizes an error range of quantitative values using a set of summary statistics, representing by area. Error band in Vega-Lite can either be used to aggregate raw data or directly visualize aggregated data.',
     defaultAesthetics: ['x', 'y', 'color', 'x2', 'y2'],
     options: [],
   },
   {
     name: 'errorbar',
+    text:
+      'An error bar summarizes an error range of quantitative values using a set of summary statistics, representing by rules (and optional end ticks).',
     defaultAesthetics: ['x', 'y', 'color', 'x2', 'y2'],
     options: [],
   },

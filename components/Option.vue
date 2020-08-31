@@ -7,8 +7,21 @@
       :label="option.name"
       :clearable="option.optional"
       :hint="option.hint"
-      :menu-props="{ top: true, offsetY: true }"
     >
+      <template v-slot:item="{ item, attrs, on }">
+        <v-list-item v-bind="attrs" v-on="on">
+          <v-list-item-content>
+            <v-list-item-title
+              :id="attrs['aria-labelledby']"
+              v-text="item"
+            ></v-list-item-title>
+
+            <v-list-item-subtitle
+              v-text="option.options[item]"
+            ></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
     </v-select>
     <v-text-field
       v-if="option.type === 'textBox' && show"

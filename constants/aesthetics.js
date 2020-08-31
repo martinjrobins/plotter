@@ -170,6 +170,7 @@ export const columnProperties = [
   },
   {
     name: 'title',
+    hint: 'text used for axis label, legend etc.',
     vegaKey: ['title'],
     showInColumns: false,
     default: '',
@@ -178,6 +179,7 @@ export const columnProperties = [
   },
   {
     name: 'scale',
+    hint: 'only valid for quantitative fields',
     type: 'select',
     showInColumns: false,
     vegaKey: ['scale', 'type'],
@@ -186,6 +188,7 @@ export const columnProperties = [
   },
   {
     name: 'calculate',
+    hint: '',
     default: '',
     vegaKey: ['calculate'],
     showInColumns: false,
