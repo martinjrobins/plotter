@@ -5,7 +5,9 @@
         v-model="mode"
         :items="availableModes"
         label="what is your input data?"
-      ></v-select>
+        hint="selection will reset geometry data"
+      >
+      </v-select>
     </v-col>
     <v-col cols="3">
       <v-select

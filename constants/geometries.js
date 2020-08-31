@@ -2,6 +2,9 @@ export const geometries = [
   {
     name: 'arc',
     defaultAesthetics: ['theta', 'color'],
+    text:
+      'Arc marks are circular arcs defined by a center point plus angular and radial extents. Arc marks are typically used for radial plots such as pie and donut charts.',
+    icon: 'mdi-chart-pie',
     options: [
       {
         name: 'innerRadius',
@@ -22,7 +25,14 @@ export const geometries = [
     defaultAesthetics: ['x', 'y', 'color'],
     options: [],
   },
-  { name: 'bar', defaultAesthetics: ['x', 'y', 'color'], options: [] },
+  {
+    name: 'bar',
+    text:
+      'Bar marks are useful in many visualizations, including bar charts, stacked bar charts, and timelines.',
+    icon: 'mdi-chart-histogram',
+    defaultAesthetics: ['x', 'y', 'color'],
+    options: [],
+  },
   { name: 'boxPlot', defaultAesthetics: ['x', 'y', 'color'], options: [] },
   {
     name: 'circle',
@@ -57,7 +67,14 @@ export const geometries = [
       },
     ],
   },
-  { name: 'line', defaultAesthetics: ['x', 'y', 'color'], options: [] },
+  {
+    name: 'line',
+    text:
+      'The line mark represents the data points stored in a field with a line connecting all of these points. Line marks are commonly used to depict trajectories or change over time. Unlike most other marks that represent one data element per mark, one line mark represents multiple data element as a single line, akin to area and trail.',
+    icon: 'mdi-chart-line',
+    defaultAesthetics: ['x', 'y', 'color'],
+    options: [],
+  },
   {
     name: 'point',
     defaultAesthetics: ['x', 'y', 'size', 'color'],

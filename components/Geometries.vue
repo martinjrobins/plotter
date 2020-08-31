@@ -10,7 +10,9 @@
         </v-col>
       </v-row>
     </v-card-title>
-    <v-card-subtitle>Add layers to plot</v-card-subtitle>
+    <v-card-subtitle>
+      Add layers to plot
+    </v-card-subtitle>
     <v-expansion-panels flat hover>
       <Geometry
         v-for="(geometry, i) in geometries"
@@ -29,6 +31,21 @@
       prepend-icon="mdi-plus"
       v-on:input="addGeometry"
     >
+      <template v-slot:item="{ item, attrs, on }">
+        <v-list-item v-bind="attrs" v-on="on">
+          <v-list-item-content>
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-title
+              :id="attrs['aria-labelledby']"
+              v-text="item.name"
+            ></v-list-item-title>
+
+            <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
     </v-overflow-btn>
   </v-card>
 </template>
@@ -44,6 +61,9 @@ export default {
   },
   computed: {
     supportedGeometries() {
+      return geometries
+    },
+    supportedGeometriesNames() {
       return geometries.map((geo) => {
         return geo.name
       })

@@ -20,20 +20,32 @@
     </v-list>
     <v-overflow-btn
       v-model="addAestheticSelected"
-      :items="otherAesthetics"
+      :items="aesthetics"
       label="Add new aesthetic"
       flat
       filled
       prepend-icon="mdi-plus"
       v-on:input="addAesthetic"
     >
+      <template v-slot:item="{ item, attrs, on }">
+        <v-list-item v-bind="attrs" v-on="on">
+          <v-list-item-content>
+            <v-list-item-title
+              :id="attrs['aria-labelledby']"
+              v-text="item.name"
+            ></v-list-item-title>
+
+            <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
     </v-overflow-btn>
   </v-card>
 </template>
 
 <script>
 import Aesthetic from '~/components/Aesthetic'
-import { aestheticsNames } from '~/constants/aesthetics'
+import { aesthetics } from '~/constants/aesthetics'
 
 export default {
   name: 'Dataset',
@@ -48,10 +60,8 @@ export default {
       const geometry = this.$store.getters['geometries/geometry']
       return Object.keys(geometry.aesthetics)
     },
-    otherAesthetics() {
-      const currentAesthetics = this.currentAesthetics
-      const availableAesthetics = aestheticsNames
-      return availableAesthetics.filter((x) => !currentAesthetics.includes(x))
+    aesthetics() {
+      return aesthetics
     },
   },
   methods: {

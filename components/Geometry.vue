@@ -4,7 +4,10 @@
     prepend-icon="mdi-chart-scatter-plot"
   >
     <v-expansion-panel-header color="headerColor" disable-icon-rotate>
-      {{ index }}: {{ type }}
+      <span>
+        <v-icon v-text="geometry.icon"></v-icon>
+        {{ geometry.name }}
+      </span>
       <template v-slot:actions>
         <v-icon v-if="index == selectedIndex" color="accent"
           >mdi-image-filter-vintage</v-icon

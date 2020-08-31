@@ -1,59 +1,73 @@
-export const aestheticsNames = [
-  'x',
-  'y',
-  'x2',
-  'y2',
-  'xError',
-  'yError',
-  'xError2',
-  'yError2',
+export const aesthetics = [
+  {
+    name: 'x',
+    text:
+      'X coordinates of the marks, or width of horizontal "bar" and "area" without specified x2 or width.',
+  },
+  {
+    name: 'y',
+    text:
+      'Y coordinates of the marks, or height of vertical "bar" and "area" without specified y2 or height.',
+  },
+  {
+    name: 'x2',
+    text: 'X2 coordinates for ranged "area", "bar", "rect", and "rule".',
+  },
+  {
+    name: 'y2',
+    text: 'Y2 coordinates for ranged "area", "bar", "rect", and "rule".',
+  },
+  { name: 'xError' },
+  { name: 'yError' },
+  { name: 'xError2' },
+  { name: 'yError2' },
 
   // Polar Position Channels
-  'theta',
-  'radius',
-  'theta2',
-  'radius2',
+  { name: 'theta' },
+  { name: 'radius' },
+  { name: 'theta2' },
+  { name: 'radius2' },
 
   // Geographic Position Channels
-  'longtitude',
-  'latitude',
-  'longtitude2',
-  'latitude2',
+  { name: 'longtitude' },
+  { name: 'latitude' },
+  { name: 'longtitude2' },
+  { name: 'latitude2' },
 
   // Mark Properties Channels
-  'color',
-  'opacity',
-  'fillOpacity',
-  'strokeOpacity',
-  'strokeWidth',
-  'strokeDash',
-  'size',
-  'angle',
-  'shape',
+  { name: 'color' },
+  { name: 'opacity' },
+  { name: 'fillOpacity' },
+  { name: 'strokeOpacity' },
+  { name: 'strokeWidth' },
+  { name: 'strokeDash' },
+  { name: 'size' },
+  { name: 'angle' },
+  { name: 'shape' },
 
   // Text and Tooltip Channels
-  'text',
-  'tooltip',
+  { name: 'text' },
+  { name: 'tooltip' },
 
   // Hyperlink Channel
-  'href',
+  { name: 'href' },
 
   // Description Channel
-  'description',
+  { name: 'description' },
 
   // Level of Detail Channel
-  'detail',
+  { name: 'detail' },
 
   // Key Channel
-  'key',
+  { name: 'key' },
 
   // Order Channel
-  'order',
+  { name: 'order' },
 
   // Facet Channels
-  'facet',
-  'row',
-  'column',
+  { name: 'facet' },
+  { name: 'row' },
+  { name: 'column' },
 ]
 export const aestheticsToScalesMapping = {
   x: 'x',
@@ -64,6 +78,8 @@ export const aestheticsToScalesMapping = {
 export const columnProperties = [
   {
     name: 'type',
+    hint:
+      'The type of measurement ("quantitative", "temporal", "ordinal", or "nominal") for the encoded field or constant value (datum). It can also be a "geojson" type for encoding ‘geoshape’.',
     default: 'quantitative',
     optional: false,
     showInColumns: true,
@@ -79,6 +95,8 @@ export const columnProperties = [
   },
   {
     name: 'aggregate',
+    hint:
+      'used to compute aggregate summary statistics (e.g., median, min, max) over groups of data',
     default: null,
     showInColumns: false,
     type: 'select',
@@ -133,6 +151,8 @@ export const columnProperties = [
   },
   {
     name: 'bin',
+    hint:
+      'Binning discretizes numeric values into a set of bins. A common use case is to create a histogram.',
     vegaKey: ['bin'],
     default: false,
     showInColumns: false,
@@ -141,6 +161,7 @@ export const columnProperties = [
   },
   {
     name: 'maxbins',
+    hint: 'Maximum number of bins.',
     vegaKey: ['bin', 'maxbins'],
     showInColumns: false,
     default: null,
