@@ -25,6 +25,7 @@
     <v-overflow-btn
       v-model="addGeometrySelected"
       :items="supportedGeometries"
+      item-value="name"
       label="Add new geometry"
       flat
       filled

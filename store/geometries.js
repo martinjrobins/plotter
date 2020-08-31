@@ -2,12 +2,9 @@ import { geometries } from '~/constants/geometries'
 import { defaultColumn } from '~/store/dataset'
 
 function defaultGeometry(name = 'line') {
-  console.log('contructing defaultGeometry', name)
   const geo = geometries.filter((geo) => {
     return geo.name === name
   })[0]
-  console.log(geo)
-  console.log(geo.defaultAesthetics)
   return {
     type: name,
     aesthetics: geo.defaultAesthetics.reduce((map, aes) => {
@@ -28,9 +25,7 @@ export const state = () => ({
 
 export const actions = {
   removeGeometry({ commit, state }, index) {
-    console.log('remove geometry', index)
     if (state.selectedGeometry === index) {
-      console.log('removing selected', state.selectedGeometry)
       if (index >= state.geometries.length - 1) {
         commit('setSelectedGeometry', index - 1)
       } else {
@@ -92,7 +87,6 @@ export const mutations = {
     aes[aesthetic][index][prop] = value
   },
   setGeometryProperty(state, [index, prop, value]) {
-    console.log('set geometry property', index, prop, value)
     const geometry = state.geometries[index]
     geometry.options[prop] = value
   },
@@ -101,7 +95,6 @@ export const mutations = {
     aes[aesthetic].splice(index, 1)
   },
   setSelectedGeometry(state, index) {
-    console.log('select index', index)
     state.selectedGeometry = index
   },
 }

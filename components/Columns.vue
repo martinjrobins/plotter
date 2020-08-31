@@ -43,15 +43,26 @@
       label="Calculate new field"
       prepend-icon="mdi-plus"
       v-on:click:prepend="addCalculateField"
-      hint='for example: "2*datum.fieldName"'
+      hint='for example: "2*datum.fieldName" <a
+      href="https://vega.github.io/vega/docs/expressions">(syntax}</a>'
       filled
-    ></v-text-field>
+    >
+      <template v-slot:message="{ message }">
+        <span v-html="message"></span>
+      </template>
+    </v-text-field>
     <v-text-field
       v-model="filterExpression"
       label="Filter data"
-      hint='for example: "datum.fieldName > 60"'
+      hint='for example: "datum.fieldName > 60" <a
+      href="https://vega.github.io/vega/docs/expressions">(syntax}</a>'
       filled
-    ></v-text-field>
+      persistent-hint
+    >
+      <template v-slot:message="{ message }">
+        <span v-html="message"></span>
+      </template>
+    </v-text-field>
   </v-card>
 </template>
 

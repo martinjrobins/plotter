@@ -78,8 +78,7 @@ export const aestheticsToScalesMapping = {
 export const columnProperties = [
   {
     name: 'type',
-    hint:
-      'The type of measurement ("quantitative", "temporal", "ordinal", or "nominal") for the encoded field or constant value (datum). It can also be a "geojson" type for encoding ‘geoshape’.',
+    hint: 'The type of measurement for the field.',
     default: 'quantitative',
     optional: false,
     showInColumns: true,
@@ -183,12 +182,15 @@ export const columnProperties = [
     type: 'select',
     showInColumns: false,
     vegaKey: ['scale', 'type'],
-    options: { linear: 'linear scale', log: 'log scale' },
+    options: {
+      linear: 'linear scale (quantitative data only)',
+      log: 'log scale (quantitative data only)',
+    },
     optional: true,
   },
   {
     name: 'calculate',
-    hint: '',
+    hint: 'for example: "2*datum.fieldName"',
     default: '',
     vegaKey: ['calculate'],
     showInColumns: false,

@@ -21,6 +21,7 @@
     <v-overflow-btn
       v-model="addAestheticSelected"
       :items="aesthetics"
+      item-value="name"
       label="Add new aesthetic"
       flat
       filled

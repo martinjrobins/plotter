@@ -1,16 +1,17 @@
 import axios from 'axios'
 import * as CSV from 'csv-string'
 import { columnProperties } from '~/constants/aesthetics'
-import { csvFiles, topojsonFiles } from '~/constants/data'
+import { csvFiles, geoFiles } from '~/constants/data'
 
 export const state = () => ({
   mode: 'csv',
   csvUrl: csvFiles[0].url,
   loadCsvProgress: 0,
-  topojsonUrl: topojsonFiles[0].url,
-  loadTopojsonProgress: 0,
-  topojsonProperties: [],
-  topojsonProperty: '',
+  geoUrl: geoFiles[0].url,
+  loadGeoProgress: 0,
+  geoProperties: [],
+  geoType: 'topojson',
+  geoId: '',
   topojsonObject: '',
   preLookupAgregate: '',
   csvProperty: '',
@@ -48,8 +49,8 @@ export const mutations = {
   setLoadCsvProgress(state, value) {
     state.loadCsvProgress = value
   },
-  setLoadTopojsonProgress(state, value) {
-    state.loadTopojsonProgress = value
+  setLoadGeoProgress(state, value) {
+    state.loadGeoProgress = value
   },
   setCsvUrl(state, value) {
     state.csvUrl = value
@@ -60,14 +61,14 @@ export const mutations = {
     geoField.type = 'geojson'
     state.columns.unshift(geoField)
   },
-  setTopjsonUrl(state, value) {
-    state.topojsonUrl = value
+  setGeoUrl(state, value) {
+    state.geoUrl = value
   },
-  setTopjsonProperties(state, value) {
-    state.topojsonProperties = value
+  setGeoProperties(state, value) {
+    state.geoProperties = value
   },
-  setTopjsonProperty(state, value) {
-    state.topojsonProperty = value
+  setGeoId(state, value) {
+    state.geoId = value
   },
   setTopjsonObject(state, value) {
     state.topojsonObject = value
@@ -148,7 +149,42 @@ export const actions = {
         console.log(error)
       })
   },
-  loadTopjsonData({ commit, state }) {
+  loadTopojsonData({ commit, state }) {
+    return axios({
+      methods: 'get',
+      url: state.topojsonUrl,
+      onDownloadProgress(progressEvent) {
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        )
+        commit('setLoadTopojsonProgress', percentCompleted)
+      },
+    })
+      .then(function (response) {
+        const object = Object.keys(response.data.objects)[0]
+        const properties =
+          response.data.objects[object].geometries[0].properties
+        const propertyNames = Object.keys(properties)
+        commit('setTopjsonObject', object)
+        commit('setTopjsonProperties', propertyNames)
+        if (state.mode === 'topojson') {
+          const columns = propertyNames.map((columnName) => {
+            const defaultProps = defaultColumn()
+            defaultProps.type = guessColumnType(properties[columnName])
+            return {
+              name: columnName,
+              ...defaultProps,
+            }
+          })
+          commit('setColumns', columns.slice(0, 5))
+          commit('setColumnsInDatafile', columns)
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  },
+  loadGeoJsonData({ commit, state }) {
     return axios({
       methods: 'get',
       url: state.topojsonUrl,
