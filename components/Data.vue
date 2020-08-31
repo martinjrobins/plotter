@@ -11,7 +11,9 @@
     </v-col>
     <v-col cols="3">
       <v-select
-        v-if="mode == 'csv' || mode == 'csv + topojson'"
+        v-if="
+          mode == 'csv' || mode == 'csv + topojson' || mode == 'csv + geojson'
+        "
         v-model="csvUrl"
         :items="csvUrls"
         label="csv file"
@@ -22,10 +24,16 @@
         :items="topojsonUrls"
         label="topojson file"
       ></v-select>
+      <v-select
+        v-if="mode == 'geojson'"
+        v-model="geojsonUrl"
+        :items="geojsonUrls"
+        label="geojson file"
+      ></v-select>
     </v-col>
     <v-col>
       <v-select
-        v-if="mode == 'csv + topojson'"
+        v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
         v-model="csvProperty"
         :items="csvProperties"
         label="csv id field"
@@ -38,20 +46,26 @@
         :items="topojsonUrls"
         label="topojson file"
       ></v-select>
+      <v-select
+        v-if="mode == 'csv + geojson'"
+        v-model="geojsonUrl"
+        :items="geojsonUrls"
+        label="geojson file"
+      ></v-select>
     </v-col>
     <v-col>
       <v-select
-        v-if="mode == 'csv + topojson'"
-        v-model="topojsonProperty"
-        :items="topojsonProperties"
-        label="topojson id field"
+        v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
+        v-model="geoProperty"
+        :items="geoProperties"
+        label="geometry id field"
       ></v-select>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { csvFiles, topojsonFiles } from '~/constants/data'
+import { csvFiles, topojsonFiles, geojsonFiles } from '~/constants/data'
 import { aggregateOps } from '~/constants/aggregate'
 
 export default {
@@ -82,14 +96,19 @@ export default {
         return file.url
       })
     },
+    geojsonUrls() {
+      return geojsonFiles.map((file) => {
+        return file.url
+      })
+    },
     loadCsvProgress() {
       return this.$store.state.dataset.loadCsvProgress
     },
-    loadTopojsonProgress() {
-      return this.$store.state.dataset.loadTopojsonProgress
+    loadGeoProgress() {
+      return this.$store.state.dataset.loadGeoProgress
     },
     availableModes() {
-      return ['csv', 'topojson', 'csv + topojson']
+      return ['csv', 'topojson', 'geojson', 'csv + topojson', 'csv + geojson']
     },
     mode: {
       get() {
@@ -97,13 +116,21 @@ export default {
       },
       set(value) {
         this.$store.commit('dataset/setMode', value)
+        this.$store.commit('dataset/setDefaultGeoUrl', value)
         if (value === 'csv + topojson') {
           this.$store.dispatch('dataset/loadCsvData').then(() => {
             this.$store.commit('dataset/addGeoField')
           })
-          this.$store.dispatch('dataset/loadTopjsonData')
+          this.$store.dispatch('dataset/loadTopojsonData')
+        } else if (value === 'csv + geojson') {
+          this.$store.dispatch('dataset/loadCsvData').then(() => {
+            this.$store.commit('dataset/addGeoField')
+          })
+          this.$store.dispatch('dataset/loadGeojsonData')
         } else if (value === 'topojson') {
-          this.$store.dispatch('dataset/loadTopjsonData')
+          this.$store.dispatch('dataset/loadTopojsonData')
+        } else if (value === 'geojson') {
+          this.$store.dispatch('dataset/loadGeojsonData')
         } else {
           this.$store.dispatch('dataset/loadCsvData')
         }
@@ -126,16 +153,26 @@ export default {
     },
     topojsonUrl: {
       get() {
-        return this.$store.state.dataset.topojsonUrl
+        return this.$store.state.dataset.geoUrl
       },
       set(value) {
-        this.$store.commit('dataset/setTopjsonUrl', value)
+        this.$store.commit('dataset/setGeoUrl', value)
         this.$store.commit('dataset/setTopjsonProperty', '')
-        this.$store.dispatch('dataset/loadTopjsonData')
+        this.$store.dispatch('dataset/loadTopojsonData')
       },
     },
-    topojsonProperties() {
-      return this.$store.state.dataset.topojsonProperties
+    geojsonUrl: {
+      get() {
+        return this.$store.state.dataset.geoUrl
+      },
+      set(value) {
+        this.$store.commit('dataset/setGeoUrl', value)
+        this.$store.commit('dataset/setTopjsonProperty', '')
+        this.$store.dispatch('dataset/loadGeojsonData')
+      },
+    },
+    geoProperties() {
+      return this.$store.state.dataset.geoProperties
     },
     csvProperties() {
       return this.$store.state.dataset.columnsInDataFile.map((c) => {
@@ -150,12 +187,12 @@ export default {
         this.$store.commit('dataset/setCsvProperty', value)
       },
     },
-    topojsonProperty: {
+    geoProperty: {
       get() {
-        return this.$store.state.dataset.topojsonProperty
+        return this.$store.state.dataset.geoProperty
       },
       set(value) {
-        this.$store.commit('dataset/setTopjsonProperty', value)
+        this.$store.commit('dataset/setGeoProperty', value)
       },
     },
   },

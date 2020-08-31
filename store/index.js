@@ -123,7 +123,7 @@ export const getters = {
   vegaData(state) {
     if (state.dataset.mode === 'topojson') {
       return vegaDataTopoOrGeoJson(
-        state.dataset.topojsonUrl,
+        state.dataset.geoUrl,
         state.dataset.topojsonObject
       )
     } else {
@@ -174,7 +174,7 @@ export const getters = {
         lookup: state.dataset.csvProperty,
         from: {
           data: vegaDataTopoOrGeoJson(
-            state.dataset.topojsonUrl,
+            state.dataset.geoUrl,
             state.dataset.topojsonObject
           ),
           key: 'properties.'.concat(state.dataset.topojsonProperty),

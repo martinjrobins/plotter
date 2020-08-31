@@ -35,3 +35,14 @@ export const topojsonFiles = [
     description: 'United Kingdom Local Area District 2016',
   },
 ]
+
+export const geojsonFiles = [
+  {
+    url: 'lad_uk_2017.topojson',
+    description: 'United Kingdom Local Area District 2017',
+  },
+  {
+    url: 'eehNetwork.topojson',
+    description: '',
+  },
+]

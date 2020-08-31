@@ -1,16 +1,15 @@
 import axios from 'axios'
 import * as CSV from 'csv-string'
 import { columnProperties } from '~/constants/aesthetics'
-import { csvFiles, geoFiles } from '~/constants/data'
+import { csvFiles, topojsonFiles, geojsonFiles } from '~/constants/data'
 
 export const state = () => ({
   mode: 'csv',
   csvUrl: csvFiles[0].url,
   loadCsvProgress: 0,
-  geoUrl: geoFiles[0].url,
+  geoUrl: topojsonFiles[0].url,
   loadGeoProgress: 0,
   geoProperties: [],
-  geoType: 'topojson',
   geoId: '',
   topojsonObject: '',
   preLookupAgregate: '',
@@ -63,6 +62,13 @@ export const mutations = {
   },
   setGeoUrl(state, value) {
     state.geoUrl = value
+  },
+  setDefaultGeoUrl(state, mode) {
+    if (mode === 'topojson' || mode === 'csv + topojson') {
+      state.geoUrl = topojsonFiles[0].url
+    } else {
+      state.geoUrl = geojsonFiles[0].url
+    }
   },
   setGeoProperties(state, value) {
     state.geoProperties = value
@@ -152,12 +158,12 @@ export const actions = {
   loadTopojsonData({ commit, state }) {
     return axios({
       methods: 'get',
-      url: state.topojsonUrl,
+      url: state.geoUrl,
       onDownloadProgress(progressEvent) {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         )
-        commit('setLoadTopojsonProgress', percentCompleted)
+        commit('setLoadGeoProgress', percentCompleted)
       },
     })
       .then(function (response) {
@@ -166,7 +172,7 @@ export const actions = {
           response.data.objects[object].geometries[0].properties
         const propertyNames = Object.keys(properties)
         commit('setTopjsonObject', object)
-        commit('setTopjsonProperties', propertyNames)
+        commit('setGeoProperties', propertyNames)
         if (state.mode === 'topojson') {
           const columns = propertyNames.map((columnName) => {
             const defaultProps = defaultColumn()
@@ -192,7 +198,7 @@ export const actions = {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         )
-        commit('setLoadTopojsonProgress', percentCompleted)
+        commit('setLoadGeoProgress', percentCompleted)
       },
     })
       .then(function (response) {
@@ -201,7 +207,7 @@ export const actions = {
           response.data.objects[object].geometries[0].properties
         const propertyNames = Object.keys(properties)
         commit('setTopjsonObject', object)
-        commit('setTopjsonProperties', propertyNames)
+        commit('setGeoProperties', propertyNames)
         if (state.mode === 'topojson') {
           const columns = propertyNames.map((columnName) => {
             const defaultProps = defaultColumn()

@@ -49,7 +49,6 @@ export default {
   },
   created() {
     this.$store.dispatch('dataset/loadCsvData')
-    this.$store.dispatch('dataset/loadTopjsonData')
   },
   computed: {
     url: {
