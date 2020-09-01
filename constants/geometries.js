@@ -92,7 +92,7 @@ export const geometries = [
   {
     name: 'line',
     text:
-      'The line mark represents the data points stored in a field with a line connecting all of these points. Line marks are commonly used to depict trajectories or change over time. Unlike most other marks that represent one data element per mark, one line mark represents multiple data element as a single line, akin to area and trail.',
+      'The line mark represents the data points stored in a field with a line connecting all of these points. The line mark represents multiple data element as a single line, akin to area and trail.',
     icon: 'mdi-chart-line',
     defaultAesthetics: ['x', 'y', 'color'],
     options: [],

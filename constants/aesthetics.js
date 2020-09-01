@@ -21,60 +21,178 @@ export const aesthetics = [
     icon: 'mdi-arrow-down',
     text: 'Y2 coordinates for ranged "area", "bar", "rect", and "rule".',
   },
-  { name: 'xError', icon: 'mdi-arrow-left-right' },
+  {
+    name: 'xError',
+    icon: 'mdi-arrow-left-right',
+    text: 'For errorbar, specifies error values extended from the center x',
+  },
   {
     name: 'yError',
     icon: 'mdi-arrow-up-down',
+    text: 'For errorbar, specifies error values extended from the center y',
   },
-  { name: 'xError2', icon: 'mdi-arrow-left-right' },
-  { name: 'yError2', icon: 'mdi-arrow-up-down' },
+  {
+    name: 'xError2',
+    icon: 'mdi-arrow-left-right',
+    text: 'For errorbar, specifies error values extended from the center x',
+  },
+  {
+    name: 'yError2',
+    icon: 'mdi-arrow-up-down',
+    text: 'For errorbar, specifies error values extended from the center y',
+  },
 
   // Polar Position Channels
-  { name: 'theta', icon: 'mdi-angle-acute' },
-  { name: 'radius', icon: 'mdi-radius' },
-  { name: 'theta2', icon: 'mdi-angle-obtuse' },
-  { name: 'radius2', icon: 'mdi-radius-outline' },
+  {
+    name: 'theta',
+    icon: 'mdi-angle-acute',
+    text:
+      'For arc marks, the arc length in radians if theta2 is not specified, otherwise the start arc angle. For text marks, polar coordinate angle in radians.',
+  },
+  {
+    name: 'radius',
+    icon: 'mdi-radius',
+    text: 'The outer radius in pixels of arc marks.',
+  },
+  {
+    name: 'theta2',
+    icon: 'mdi-angle-obtuse',
+    text:
+      'The end angle of arc marks in radians. A value of 0 indicates up or “north”, increasing values proceed clockwise.',
+  },
+  {
+    name: 'radius2',
+    icon: 'mdi-radius-outline',
+    text: 'The inner radius in pixels of arc marks.',
+  },
 
   // Geographic Position Channels
-  { name: 'longtitude', icon: 'mdi-earth-plus' },
-  { name: 'latitude', icon: 'mdi-earth-minus' },
-  { name: 'longtitude2', icon: 'mdi-earth-plus' },
-  { name: 'latitude2', icon: 'mdi-earth-minus' },
+  {
+    name: 'longtitude',
+    icon: 'mdi-earth-plus',
+    text: 'Longitude position of geographically projected marks.',
+  },
+
+  {
+    name: 'latitude',
+    icon: 'mdi-earth-minus',
+    text: 'Latitude position of geographically projected marks.',
+  },
+  {
+    name: 'longtitude2',
+    icon: 'mdi-earth-plus',
+    text:
+      'Longitude-2 position for geographically projected ranged "area", "bar", "rect", and "rule".',
+  },
+  {
+    name: 'latitude2',
+    icon: 'mdi-earth-minus',
+    text:
+      'Latitude-2 position for geographically projected ranged "area", "bar", "rect", and "rule".',
+  },
 
   // Mark Properties Channels
-  { name: 'color', icon: 'mdi-water' },
-  { name: 'opacity', icon: 'mdi-opacity' },
-  { name: 'fillOpacity', icon: 'mdi-format-color-fill' },
-  { name: 'strokeOpacity', icon: 'mdi-water-plus-outline' },
-  { name: 'strokeWidth', icon: 'mdi-arrow-collapse-vertical' },
-  { name: 'strokeDash', icon: 'mdi-dots-horizontal' },
-  { name: 'size', icon: 'mdi-chart-bubble' },
-  { name: 'angle', icon: 'mdi-angle-right' },
-  { name: 'shape', icon: 'mdi-shape' },
+  {
+    name: 'color',
+    icon: 'mdi-water',
+    text:
+      'Color of the marks – either fill or stroke color based on the filled property of mark definition.',
+  },
+  { name: 'opacity', icon: 'mdi-opacity', text: 'Opacity of the marks.' },
+  {
+    name: 'fill',
+    icon: 'mdi-format-color-fill',
+    text:
+      'Fill color of the marks. Default value: If undefined, the default color depends on mark config’s color property.',
+  },
+  {
+    name: 'fillOpacity',
+    icon: 'mdi-format-color-fill',
+    text: 'Fill opacity of the marks.',
+  },
+  {
+    name: 'strokeOpacity',
+    icon: 'mdi-water-plus-outline',
+    text: 'Stroke opacity of the marks.',
+  },
+
+  {
+    name: 'strokeWidth',
+    icon: 'mdi-arrow-collapse-vertical',
+    text: 'Stroke width of the marks.',
+  },
+  {
+    name: 'strokeDash',
+    icon: 'mdi-dots-horizontal',
+    text: 'Stroke dash of the marks.',
+  },
+  {
+    name: 'size',
+    icon: 'mdi-chart-bubble',
+    text:
+      'Size of the mark. For "point", "square" and "circle", – the symbol size, or pixel area of the mark. For "bar" and "tick" – the bar and tick’s size. For "text" – the text’s font size.',
+  },
+  {
+    name: 'angle',
+    icon: 'mdi-angle-right',
+    text: 'Rotation angle of point and text marks.',
+  },
+  {
+    name: 'shape',
+    icon: 'mdi-shape',
+    text:
+      'Shape of the mark, "circle", "square", "cross" etc. See vega-lite docs for complete list. For geoshape marks it should be a field definition of the geojson data',
+  },
 
   // Text and Tooltip Channels
-  { name: 'text', icon: 'mdi-format-text-variant-outline' },
-  { name: 'tooltip', icon: 'mdi-tooltip-text' },
+  {
+    name: 'text',
+    icon: 'mdi-format-text-variant-outline',
+    text: 'Text of the text mark.',
+  },
+  {
+    name: 'tooltip',
+    icon: 'mdi-tooltip-text',
+    text: 'The tooltip text to show upon mouse hover.',
+  },
 
   // Hyperlink Channel
-  { name: 'href', icon: 'mdi-link' },
-
-  // Description Channel
-  { name: 'description', icon: 'mdi-card-text' },
+  { name: 'href', icon: 'mdi-link', text: 'A URL to load upon mouse click.' },
 
   // Level of Detail Channel
-  { name: 'detail', icon: 'mdi-details' },
-
-  // Key Channel
-  { name: 'key', icon: 'mdi-key' },
+  {
+    name: 'detail',
+    icon: 'mdi-details',
+    text:
+      'Additional levels of detail for grouping data in aggregate views and in line, trail, and area marks without mapping data to a specific visual channel.',
+  },
 
   // Order Channel
-  { name: 'order', icon: 'mdi-order-numeric-ascending' },
+  {
+    name: 'order',
+    icon: 'mdi-order-numeric-ascending',
+    text:
+      'Order of the marks. Stacked marks: stack order. Line and trail marks: order of data points in the lines. Otherwise, this order channel encodes layer order of the marks.',
+  },
 
   // Facet Channels
-  { name: 'facet', icon: 'mdi-chart-multiple' },
-  { name: 'row', icon: 'mdi-arrow-collapse-right' },
-  { name: 'column', icon: 'mdi-arrow-collapse-down' },
+  {
+    name: 'facet',
+    icon: 'mdi-chart-multiple',
+    text:
+      'A field definition for the (flexible) facet of trellis plots. If either row or column is specified, this channel will be ignored.',
+  },
+  {
+    name: 'row',
+    icon: 'mdi-arrow-collapse-right',
+    text: 'A field definition for the vertical facet of trellis plots.',
+  },
+
+  {
+    name: 'column',
+    icon: 'mdi-arrow-collapse-down',
+    text: 'A field definition for the horizontal facet of trellis plots.',
+  },
 ]
 export const aestheticsToScalesMapping = {
   x: 'x',

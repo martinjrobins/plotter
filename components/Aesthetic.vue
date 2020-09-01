@@ -1,10 +1,15 @@
 <template>
   <v-row align="center" no-gutters>
     <v-col cols="3">
-      <span>
-        <v-icon v-text="aesthetic.icon"></v-icon>
-        {{ name }}
-      </span>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <span v-bind="attrs" v-on="on">
+            <v-icon v-text="aesthetic.icon"></v-icon>
+            {{ name }}
+          </span>
+        </template>
+        <span>{{ aesthetic.text }}</span>
+      </v-tooltip>
     </v-col>
     <v-col cols="9">
       <draggable
