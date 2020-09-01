@@ -28,11 +28,7 @@
           type="aesthetic"
         >
         </Column>
-        <v-card-text
-          v-if="aesMap.length == 0"
-          slot="footer"
-          class="footer-item"
-        >
+        <v-card-text v-if="aesMap.length == 0" slot="footer" class="c-grey">
           Add
         </v-card-text>
       </draggable>
