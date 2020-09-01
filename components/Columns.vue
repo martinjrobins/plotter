@@ -21,10 +21,10 @@
     >
       <Column
         v-for="(column, i) in columns"
+        :key="column.name"
         :name="column.name"
         :index="i"
         type="column"
-        :key="column.name"
       >
       </Column>
     </draggable>
@@ -35,17 +35,17 @@
       flat
       filled
       prepend-icon="mdi-plus"
-      v-on:input="addColumn"
+      @input="addColumn"
     >
     </v-overflow-btn>
     <v-text-field
       v-model="calculateExpression"
       label="Calculate new field"
       prepend-icon="mdi-plus"
-      v-on:click:prepend="addCalculateField"
       hint='for example: "2*datum.fieldName" <a
       href="https://vega.github.io/vega/docs/expressions">(syntax}</a>'
       filled
+      @click:prepend="addCalculateField"
     >
       <template v-slot:message="{ message }">
         <span v-html="message"></span>

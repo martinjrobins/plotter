@@ -1,13 +1,13 @@
 <template>
   <v-expansion-panel
-    v-on:click="selectGeometry"
     prepend-icon="mdi-chart-scatter-plot"
+    @click="selectGeometry"
   >
     <v-expansion-panel-header
-      @mouseover="mouseOver()"
-      @mouseleave="mouseLeave()"
       color="headerColor"
       disable-icon-rotate
+      @mouseover="mouseOver()"
+      @mouseleave="mouseLeave()"
     >
       <span>
         <v-icon v-text="geometry.icon"></v-icon>
@@ -17,17 +17,17 @@
         <v-icon v-if="index == selectedIndex" color="accent"
           >mdi-image-filter-vintage</v-icon
         >
-        <v-btn @click="removeGeometry" icon> <v-icon>mdi-minus</v-icon> </v-btn>
+        <v-btn icon @click="removeGeometry"> <v-icon>mdi-minus</v-icon> </v-btn>
         <v-icon>$expand</v-icon>
       </template>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <Option
         v-for="option in geometry.options"
+        :key="option.name"
         :option="option"
         :index="index"
         type="geometry"
-        :key="option.name"
       >
       </Option>
       <v-card-text v-if="geometry.options == 0">
@@ -43,7 +43,10 @@ import { geometries } from '~/constants/geometries'
 export default {
   name: 'Geometry',
   props: {
-    index: Number,
+    index: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {}
@@ -85,13 +88,11 @@ export default {
       this.$store.dispatch('geometries/removeGeometry', this.index)
     },
     mouseOver() {
-      console.log('mouseOver', this.selectedIndex)
       if (this.index === this.selectedIndex) {
         this.$store.commit('geometries/setHighlightAesthetics', true)
       }
     },
     mouseLeave() {
-      console.log('mouseLeave', this.selectedIndex)
       if (this.index === this.selectedIndex) {
         this.$store.commit('geometries/setHighlightAesthetics', false)
       }

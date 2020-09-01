@@ -9,25 +9,30 @@ import embed from 'vega-embed'
 
 export default {
   props: {
-    spec: Object,
-  },
-  async mounted() {
-    window.addEventListener('resize', this.handleResize)
-    await this.handleResize()
+    spec: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
   },
   data() {
     return {
       width: 0,
     }
   },
-  // bind event handlers to the `handleResize` method (defined below)
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
-  },
   watch: {
     spec(v) {
       if (v) this.draw()
     },
+  },
+  async mounted() {
+    window.addEventListener('resize', this.handleResize)
+    await this.handleResize()
+  },
+  // bind event handlers to the `handleResize` method (defined below)
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
   },
   methods: {
     // whenever the document is resized, re-set the 'fullHeight' variable

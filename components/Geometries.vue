@@ -16,9 +16,9 @@
     <v-expansion-panels flat hover>
       <Geometry
         v-for="(geometry, i) in geometries"
+        :key="i"
         :name="geometry.name"
         :index="i"
-        :key="i"
       >
       </Geometry>
     </v-expansion-panels>
@@ -30,7 +30,7 @@
       flat
       filled
       prepend-icon="mdi-plus"
-      v-on:input="addGeometry"
+      @input="addGeometry"
     >
       <template v-slot:item="{ item, attrs, on }">
         <v-list-item v-bind="attrs" v-on="on">

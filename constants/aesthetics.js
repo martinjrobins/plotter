@@ -1,73 +1,80 @@
 export const aesthetics = [
   {
     name: 'x',
+    icon: 'mdi-arrow-right',
     text:
       'X coordinates of the marks, or width of horizontal "bar" and "area" without specified x2 or width.',
   },
   {
     name: 'y',
+    icon: 'mdi-arrow-up',
     text:
       'Y coordinates of the marks, or height of vertical "bar" and "area" without specified y2 or height.',
   },
   {
     name: 'x2',
+    icon: 'mdi-arrow-left',
     text: 'X2 coordinates for ranged "area", "bar", "rect", and "rule".',
   },
   {
     name: 'y2',
+    icon: 'mdi-arrow-down',
     text: 'Y2 coordinates for ranged "area", "bar", "rect", and "rule".',
   },
-  { name: 'xError' },
-  { name: 'yError' },
-  { name: 'xError2' },
-  { name: 'yError2' },
+  { name: 'xError', icon: 'mdi-arrow-left-right' },
+  {
+    name: 'yError',
+    icon: 'mdi-arrow-up-down',
+  },
+  { name: 'xError2', icon: 'mdi-arrow-left-right' },
+  { name: 'yError2', icon: 'mdi-arrow-up-down' },
 
   // Polar Position Channels
-  { name: 'theta' },
-  { name: 'radius' },
-  { name: 'theta2' },
-  { name: 'radius2' },
+  { name: 'theta', icon: 'mdi-angle-acute' },
+  { name: 'radius', icon: 'mdi-radius' },
+  { name: 'theta2', icon: 'mdi-angle-obtuse' },
+  { name: 'radius2', icon: 'mdi-radius-outline' },
 
   // Geographic Position Channels
-  { name: 'longtitude' },
-  { name: 'latitude' },
-  { name: 'longtitude2' },
-  { name: 'latitude2' },
+  { name: 'longtitude', icon: 'mdi-earth-plus' },
+  { name: 'latitude', icon: 'mdi-earth-minus' },
+  { name: 'longtitude2', icon: 'mdi-earth-plus' },
+  { name: 'latitude2', icon: 'mdi-earth-minus' },
 
   // Mark Properties Channels
-  { name: 'color' },
-  { name: 'opacity' },
-  { name: 'fillOpacity' },
-  { name: 'strokeOpacity' },
-  { name: 'strokeWidth' },
-  { name: 'strokeDash' },
-  { name: 'size' },
-  { name: 'angle' },
-  { name: 'shape' },
+  { name: 'color', icon: 'mdi-water' },
+  { name: 'opacity', icon: 'mdi-opacity' },
+  { name: 'fillOpacity', icon: 'mdi-format-color-fill' },
+  { name: 'strokeOpacity', icon: 'mdi-water-plus-outline' },
+  { name: 'strokeWidth', icon: 'mdi-arrow-collapse-vertical' },
+  { name: 'strokeDash', icon: 'mdi-dots-horizontal' },
+  { name: 'size', icon: 'mdi-chart-bubble' },
+  { name: 'angle', icon: 'mdi-angle-right' },
+  { name: 'shape', icon: 'mdi-shape' },
 
   // Text and Tooltip Channels
-  { name: 'text' },
-  { name: 'tooltip' },
+  { name: 'text', icon: 'mdi-format-text-variant-outline' },
+  { name: 'tooltip', icon: 'mdi-tooltip-text' },
 
   // Hyperlink Channel
-  { name: 'href' },
+  { name: 'href', icon: 'mdi-link' },
 
   // Description Channel
-  { name: 'description' },
+  { name: 'description', icon: 'mdi-card-text' },
 
   // Level of Detail Channel
-  { name: 'detail' },
+  { name: 'detail', icon: 'mdi-details' },
 
   // Key Channel
-  { name: 'key' },
+  { name: 'key', icon: 'mdi-key' },
 
   // Order Channel
-  { name: 'order' },
+  { name: 'order', icon: 'mdi-order-numeric-ascending' },
 
   // Facet Channels
-  { name: 'facet' },
-  { name: 'row' },
-  { name: 'column' },
+  { name: 'facet', icon: 'mdi-chart-multiple' },
+  { name: 'row', icon: 'mdi-arrow-collapse-right' },
+  { name: 'column', icon: 'mdi-arrow-collapse-down' },
 ]
 export const aestheticsToScalesMapping = {
   x: 'x',

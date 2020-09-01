@@ -25,7 +25,6 @@ export default {
       return JSON.stringify(this.vegaSpec, null, 2)
     },
     vegaSpec() {
-      console.log('SPEC:', this.$store.getters.vegaSpec)
       return this.$store.getters.vegaSpec
     },
   },

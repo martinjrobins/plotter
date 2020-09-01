@@ -31,6 +31,9 @@
       <template v-slot:item="{ item, attrs, on }">
         <v-list-item v-bind="attrs" v-on="on">
           <v-list-item-content>
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
             <v-list-item-title
               :id="attrs['aria-labelledby']"
               v-text="item.name"

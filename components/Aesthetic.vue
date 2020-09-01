@@ -1,7 +1,10 @@
 <template>
-  <v-row no-gutters>
+  <v-row align="center" no-gutters>
     <v-col cols="3">
-      <v-subheader>{{ name }}</v-subheader>
+      <span>
+        <v-icon v-text="aesthetic.icon"></v-icon>
+        {{ name }}
+      </span>
     </v-col>
     <v-col cols="9">
       <draggable
@@ -34,6 +37,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import { aesthetics } from '~/constants/aesthetics'
 
 export default {
   name: 'Aesthetic',
@@ -47,6 +51,14 @@ export default {
     return {}
   },
   computed: {
+    aesthetics() {
+      return aesthetics
+    },
+    aesthetic() {
+      return aesthetics.filter((x) => {
+        return x.name === this.name
+      })[0]
+    },
     highlightAesthetics() {
       return this.$store.state.geometries.highlightAesthetics
     },

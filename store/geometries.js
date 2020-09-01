@@ -44,7 +44,6 @@ export const mutations = {
     state.selectedGeometry = state.geometries.length - 1
   },
   setHighlightAesthetics(state, value) {
-    console.log('setHighlightAesthetics', value)
     state.highlightAesthetics = value
   },
   setDefaultGeometries(state, mode) {

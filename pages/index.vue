@@ -47,9 +47,6 @@ export default {
     PlotView,
     Spec,
   },
-  created() {
-    this.$store.dispatch('dataset/loadCsvData')
-  },
   computed: {
     url: {
       get() {
@@ -60,6 +57,9 @@ export default {
         this.$store.dispatch('dataset/loadData')
       },
     },
+  },
+  created() {
+    this.$store.dispatch('dataset/loadCsvData')
   },
 }
 </script>
