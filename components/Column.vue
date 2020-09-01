@@ -3,7 +3,7 @@
     <v-expansion-panel-header disable-icon-rotate>
       {{ name }}
       <template v-slot:actions>
-        <v-btn @click="removeColumn" icon>
+        <v-btn icon @click="removeColumn">
           <v-icon>mdi-minus</v-icon>
         </v-btn>
         <v-icon>$expand</v-icon>
@@ -12,11 +12,11 @@
     <v-expansion-panel-content>
       <Option
         v-for="option in columnProperties"
+        :key="option.name"
         :option="option"
         :index="index"
         :aesthetic="aesthetic"
         :type="type"
-        :key="option.name"
       >
       </Option>
     </v-expansion-panel-content>

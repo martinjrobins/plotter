@@ -14,8 +14,8 @@
     <v-list :class="highlightAesthetics ? 'bg-grey' : ''">
       <Aesthetic
         v-for="aesthetic in currentAesthetics"
-        v-bind:name="aesthetic"
-        v-bind:key="aesthetic"
+        :key="aesthetic"
+        :name="aesthetic"
       ></Aesthetic>
     </v-list>
     <v-overflow-btn
@@ -26,7 +26,7 @@
       flat
       filled
       prepend-icon="mdi-plus"
-      v-on:input="addAesthetic"
+      @input="addAesthetic"
     >
       <template v-slot:item="{ item, attrs, on }">
         <v-list-item v-bind="attrs" v-on="on">

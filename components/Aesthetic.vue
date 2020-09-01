@@ -16,10 +16,10 @@
       >
         <Column
           v-for="(column, i) in aesMap"
+          :key="column.name"
           :name="column.name"
           :index="i"
           :aesthetic="name"
-          :key="column.name"
           type="aesthetic"
         >
         </Column>
@@ -45,7 +45,10 @@ export default {
     draggable,
   },
   props: {
-    name: String,
+    name: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {}
