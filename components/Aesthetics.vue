@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-1">
+  <v-card :class="highlightAesthetics ? 'pa-1 bg-grey' : 'pa-1'">
     <v-card-title>
       <v-row no-gutters>
         <v-col cols="10">
@@ -11,7 +11,7 @@
       </v-row>
     </v-card-title>
     <v-card-subtitle>Map columns to visual properies</v-card-subtitle>
-    <v-list>
+    <v-list :class="highlightAesthetics ? 'bg-grey' : ''">
       <Aesthetic
         v-for="aesthetic in currentAesthetics"
         v-bind:name="aesthetic"
@@ -63,6 +63,9 @@ export default {
     },
     aesthetics() {
       return aesthetics
+    },
+    highlightAesthetics() {
+      return this.$store.state.geometries.highlightAesthetics
     },
   },
   methods: {
