@@ -13,7 +13,7 @@ export const state = () => ({
   geoId: '',
   topojsonObject: '',
   preLookupAgregate: '',
-  csvProperty: '',
+  csvId: '',
   columns: [],
   columnsInDataFile: [],
   filter: null,
@@ -82,9 +82,8 @@ export const mutations = {
   setPrelookupAgregate(state, value) {
     state.preLookupAgregate = value
   },
-  setCsvProperty(state, value) {
-    console.log('setCsvProperty', value)
-    state.csvProperty = value
+  setCsvId(state, value) {
+    state.csvId = value
   },
   setFilter(state, value) {
     state.filter = value
@@ -190,10 +189,10 @@ export const actions = {
         console.log(error)
       })
   },
-  loadGeoJsonData({ commit, state }) {
+  loadGeojsonData({ commit, state }) {
     return axios({
       methods: 'get',
-      url: state.topojsonUrl,
+      url: state.geoUrl,
       onDownloadProgress(progressEvent) {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
@@ -202,13 +201,10 @@ export const actions = {
       },
     })
       .then(function (response) {
-        const object = Object.keys(response.data.objects)[0]
-        const properties =
-          response.data.objects[object].geometries[0].properties
+        const properties = response.data.features[0].properties
         const propertyNames = Object.keys(properties)
-        commit('setTopjsonObject', object)
         commit('setGeoProperties', propertyNames)
-        if (state.mode === 'topojson') {
+        if (state.mode === 'geojson') {
           const columns = propertyNames.map((columnName) => {
             const defaultProps = defaultColumn()
             defaultProps.type = guessColumnType(properties[columnName])

@@ -34,7 +34,7 @@
     <v-col>
       <v-select
         v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
-        v-model="csvProperty"
+        v-model="csvId"
         :items="csvProperties"
         label="csv id field"
       ></v-select>
@@ -56,7 +56,7 @@
     <v-col>
       <v-select
         v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
-        v-model="geoProperty"
+        v-model="geoId"
         :items="geoProperties"
         label="geometry id field"
       ></v-select>
@@ -179,20 +179,20 @@ export default {
         return c.name
       })
     },
-    csvProperty: {
+    csvId: {
       get() {
-        return this.$store.state.dataset.csvProperty
+        return this.$store.state.dataset.csvId
       },
       set(value) {
-        this.$store.commit('dataset/setCsvProperty', value)
+        this.$store.commit('dataset/setCsvId', value)
       },
     },
-    geoProperty: {
+    geoId: {
       get() {
-        return this.$store.state.dataset.geoProperty
+        return this.$store.state.dataset.geoId
       },
       set(value) {
-        this.$store.commit('dataset/setGeoProperty', value)
+        this.$store.commit('dataset/setGeoId', value)
       },
     },
   },

@@ -38,11 +38,11 @@ export const topojsonFiles = [
 
 export const geojsonFiles = [
   {
-    url: 'lad_uk_2017.topojson',
+    url: 'lad_uk_2017.geojson',
     description: 'United Kingdom Local Area District 2017',
   },
   {
-    url: 'eehNetwork.topojson',
+    url: 'eehNetwork.geojson',
     description: '',
   },
 ]

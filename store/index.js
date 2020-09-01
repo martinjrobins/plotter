@@ -12,7 +12,7 @@ function vegaMark(geometry) {
 function vegaEncoding(geometry, mode) {
   const aesMap = geometry.aesthetics
   let fieldNamePrepend = ''
-  if (mode === 'topojson') {
+  if (mode === 'topojson' || mode === 'geojson') {
     fieldNamePrepend = 'properties.'
   }
   return Object.keys(aesMap)
@@ -78,18 +78,24 @@ export const actions = {
   },
 }
 
-function vegaDataTopoOrGeoJson(URL, geoFeature) {
-  const extension = URL.substring(URL.lastIndexOf('.') + 1)
-  console.log(extension)
-  if (extension === 'topojson') {
-    return {
-      url: URL,
-      name: 'map',
-      format: {
-        type: 'topojson',
-        feature: geoFeature,
-      },
-    }
+function vegaDataTopoJson(URL, geoFeature) {
+  return {
+    url: URL,
+    name: 'map',
+    format: {
+      type: 'topojson',
+      feature: geoFeature,
+    },
+  }
+}
+
+function vegaDataGeoJson(URL) {
+  return {
+    url: URL,
+    name: 'map',
+    format: {
+      property: 'features',
+    },
   }
 }
 
@@ -122,10 +128,12 @@ export const getters = {
   },
   vegaData(state) {
     if (state.dataset.mode === 'topojson') {
-      return vegaDataTopoOrGeoJson(
+      return vegaDataTopoJson(
         state.dataset.geoUrl,
         state.dataset.topojsonObject
       )
+    } else if (state.dataset.mode === 'geojson') {
+      return vegaDataGeoJson(state.dataset.geoUrl)
     } else {
       return {
         url: state.dataset.csvUrl,
@@ -171,13 +179,22 @@ export const getters = {
     }
     if (state.dataset.mode === 'csv + topojson') {
       transformArray.push({
-        lookup: state.dataset.csvProperty,
+        lookup: state.dataset.csvId,
         from: {
-          data: vegaDataTopoOrGeoJson(
+          data: vegaDataTopoJson(
             state.dataset.geoUrl,
             state.dataset.topojsonObject
           ),
-          key: 'properties.'.concat(state.dataset.topojsonProperty),
+          key: 'properties.'.concat(state.dataset.geoId),
+        },
+        as: 'geo',
+      })
+    } else if (state.dataset.mode === 'csv + geojson') {
+      transformArray.push({
+        lookup: state.dataset.csvId,
+        from: {
+          data: vegaDataGeoJson(state.dataset.geoUrl),
+          key: 'properties.'.concat(state.dataset.geoId),
         },
         as: 'geo',
       })
