@@ -1,5 +1,5 @@
 <template>
-  <v-card :class="highlightAesthetics ? 'pa-1 bg-grey' : 'pa-1'">
+  <v-card class="pa-1 bg-grey">
     <v-card-title>
       <v-row no-gutters>
         <v-col cols="10">
@@ -11,7 +11,7 @@
       </v-row>
     </v-card-title>
     <v-card-subtitle>Map columns to visual properies</v-card-subtitle>
-    <v-list :class="highlightAesthetics ? 'bg-grey' : ''">
+    <v-list class="bg-grey">
       <Aesthetic
         v-for="aesthetic in currentAesthetics"
         :key="aesthetic"

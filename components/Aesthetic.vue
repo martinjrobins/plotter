@@ -67,9 +67,6 @@ export default {
         return x.name === this.name
       })[0]
     },
-    highlightAesthetics() {
-      return this.$store.state.geometries.highlightAesthetics
-    },
     aesMap: {
       get() {
         const geometry = this.$store.getters['geometries/geometry']

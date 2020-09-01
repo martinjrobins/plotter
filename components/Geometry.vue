@@ -3,12 +3,7 @@
     prepend-icon="mdi-chart-scatter-plot"
     @click="selectGeometry"
   >
-    <v-expansion-panel-header
-      color="headerColor"
-      disable-icon-rotate
-      @mouseover="mouseOver()"
-      @mouseleave="mouseLeave()"
-    >
+    <v-expansion-panel-header :class="headerClass" disable-icon-rotate>
       <span>
         <v-icon v-text="geometry.icon"></v-icon>
         {{ geometry.name }}
@@ -62,9 +57,9 @@ export default {
         return geo.name
       })
     },
-    headerColor() {
+    headerClass() {
       if (this.index === this.selectedIndex) {
-        return 'secondary'
+        return 'bg-grey'
       } else {
         return null
       }
@@ -86,16 +81,6 @@ export default {
     },
     removeGeometry() {
       this.$store.dispatch('geometries/removeGeometry', this.index)
-    },
-    mouseOver() {
-      if (this.index === this.selectedIndex) {
-        this.$store.commit('geometries/setHighlightAesthetics', true)
-      }
-    },
-    mouseLeave() {
-      if (this.index === this.selectedIndex) {
-        this.$store.commit('geometries/setHighlightAesthetics', false)
-      }
     },
   },
 }

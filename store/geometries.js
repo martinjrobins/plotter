@@ -20,7 +20,6 @@ function defaultGeometry(name = 'line') {
 
 export const state = () => ({
   selectedGeometry: 0,
-  highlightAesthetics: false,
   geometries: [defaultGeometry()],
 })
 
@@ -42,9 +41,6 @@ export const mutations = {
     const newGeometry = defaultGeometry(name)
     state.geometries.push(newGeometry)
     state.selectedGeometry = state.geometries.length - 1
-  },
-  setHighlightAesthetics(state, value) {
-    state.highlightAesthetics = value
   },
   setDefaultGeometries(state, mode) {
     if (mode === 'csv + topojson' || mode === 'csv + geojson') {
