@@ -52,6 +52,16 @@ function vegaEncoding(geometry, mode) {
 }
 
 export const actions = {
+  syncToBackend(context) {
+    const presignedUrl =
+      'https://play.min.io/presigned-test-106a2138-0655-423a-8811-21d88f62476e/state?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=Q3AM3UQ867SPQQA43P2F%2F20200903%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200903T123846Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=74311ae382360011e1b41620657009dd196359b32d74d6a660ee3f3fcba18287'
+    console.log(presignedUrl)
+    return fetch(presignedUrl, {
+      method: 'PUT', // 'GET', 'PUT', 'DELETE', etc.
+      body: JSON.stringify(context.state), // Use correct payload (matching 'Content-Type')
+      headers: { 'Content-Type': 'application/json' },
+    }).catch((error) => console.error(error))
+  },
   setOption({ commit }, [type, name, args, value]) {
     if (type === 'column') {
       commit('dataset/setColumn', [args.index, name, value])

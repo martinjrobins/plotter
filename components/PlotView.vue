@@ -25,6 +25,8 @@ export default {
       return JSON.stringify(this.vegaSpec, null, 2)
     },
     vegaSpec() {
+      // sync to backend everytime we need to regenerate the spec
+      this.$store.dispatch('syncToBackend')
       return this.$store.getters.vegaSpec
     },
   },
