@@ -17,19 +17,37 @@
         v-model="csvUrl"
         :items="csvUrls"
         label="csv file"
-      ></v-select>
+      >
+        <template v-slot:append-outer>
+          <v-btn icon color="primary" @click="downloadFile('csvUrl')">
+            <v-icon>mdi-download</v-icon>
+          </v-btn>
+        </template>
+      </v-select>
       <v-select
         v-if="mode == 'topojson'"
         v-model="topojsonUrl"
         :items="topojsonUrls"
         label="topojson file"
-      ></v-select>
+      >
+        <template v-slot:append-outer>
+          <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
+            <v-icon>mdi-download</v-icon>
+          </v-btn>
+        </template>
+      </v-select>
       <v-select
         v-if="mode == 'geojson'"
         v-model="geojsonUrl"
         :items="geojsonUrls"
         label="geojson file"
-      ></v-select>
+      >
+        <template v-slot:append-outer>
+          <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
+            <v-icon>mdi-download</v-icon>
+          </v-btn>
+        </template>
+      </v-select>
     </v-col>
     <v-col>
       <v-select
@@ -45,13 +63,25 @@
         v-model="topojsonUrl"
         :items="topojsonUrls"
         label="topojson file"
-      ></v-select>
+      >
+        <template v-slot:append-outer>
+          <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
+            <v-icon>mdi-download</v-icon>
+          </v-btn>
+        </template>
+      </v-select>
       <v-select
         v-if="mode == 'csv + geojson'"
         v-model="geojsonUrl"
         :items="geojsonUrls"
         label="geojson file"
-      ></v-select>
+      >
+        <template v-slot:append-outer>
+          <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
+            <v-icon>mdi-download</v-icon>
+          </v-btn>
+        </template>
+      </v-select>
     </v-col>
     <v-col>
       <v-select
@@ -65,6 +95,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import fileDownload from 'js-file-download'
 import { csvFiles, topojsonFiles, geojsonFiles } from '~/constants/data'
 import { aggregateOps } from '~/constants/aggregate'
 
@@ -194,6 +226,20 @@ export default {
       set(value) {
         this.$store.commit('dataset/setGeoId', value)
       },
+    },
+  },
+  methods: {
+    downloadFile(url) {
+      const urlString = this[url]
+      const filename = urlString.substring(urlString.lastIndexOf('/') + 1)
+      axios.get(urlString, {}).then((res) => {
+        // topojson or geojson files will be objects
+        if (typeof res.data === 'object' && res.data !== null) {
+          fileDownload(JSON.stringify(res.data, null, 2), filename)
+        } else {
+          fileDownload(res.data, filename)
+        }
+      })
     },
   },
 }
