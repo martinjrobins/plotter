@@ -19,6 +19,10 @@ export const csvFiles = [
     url: 'reduced_output_timestep_2015.csv',
     description: 'Nismod output for Local Area Districts (daily data for 2015)',
   },
+  {
+    url: 'doesnt work.csv',
+    description: '',
+  },
 ]
 
 export const topojsonFiles = [
@@ -34,6 +38,10 @@ export const topojsonFiles = [
     url: 'lad_uk_2016-12.topojson',
     description: 'United Kingdom Local Area District 2016',
   },
+  {
+    url: 'doesnt work.topojson',
+    description: '',
+  },
 ]
 
 export const geojsonFiles = [
@@ -43,6 +51,10 @@ export const geojsonFiles = [
   },
   {
     url: 'eehNetwork.geojson',
+    description: '',
+  },
+  {
+    url: 'doesnt work.geojson',
     description: '',
   },
 ]

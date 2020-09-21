@@ -1,97 +1,121 @@
 <template>
-  <v-row>
-    <v-col cols="2">
-      <v-select
-        v-model="mode"
-        :items="availableModes"
-        label="what is your input data?"
-        hint="selection will reset geometry data"
-      >
-      </v-select>
-    </v-col>
-    <v-col cols="3">
-      <v-select
-        v-if="
-          mode == 'csv' || mode == 'csv + topojson' || mode == 'csv + geojson'
-        "
-        v-model="csvUrl"
-        :items="csvUrls"
-        label="csv file"
-      >
-        <template v-slot:append-outer>
-          <v-btn icon color="primary" @click="downloadFile('csvUrl')">
-            <v-icon>mdi-download</v-icon>
-          </v-btn>
-        </template>
-      </v-select>
-      <v-select
-        v-if="mode == 'topojson'"
-        v-model="topojsonUrl"
-        :items="topojsonUrls"
-        label="topojson file"
-      >
-        <template v-slot:append-outer>
-          <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
-            <v-icon>mdi-download</v-icon>
-          </v-btn>
-        </template>
-      </v-select>
-      <v-select
-        v-if="mode == 'geojson'"
-        v-model="geojsonUrl"
-        :items="geojsonUrls"
-        label="geojson file"
-      >
-        <template v-slot:append-outer>
-          <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
-            <v-icon>mdi-download</v-icon>
-          </v-btn>
-        </template>
-      </v-select>
-    </v-col>
-    <v-col>
-      <v-select
-        v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
-        v-model="csvId"
-        :items="csvProperties"
-        label="csv id field"
-      ></v-select>
-    </v-col>
-    <v-col cols="3">
-      <v-select
-        v-if="mode == 'csv + topojson'"
-        v-model="topojsonUrl"
-        :items="topojsonUrls"
-        label="topojson file"
-      >
-        <template v-slot:append-outer>
-          <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
-            <v-icon>mdi-download</v-icon>
-          </v-btn>
-        </template>
-      </v-select>
-      <v-select
-        v-if="mode == 'csv + geojson'"
-        v-model="geojsonUrl"
-        :items="geojsonUrls"
-        label="geojson file"
-      >
-        <template v-slot:append-outer>
-          <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
-            <v-icon>mdi-download</v-icon>
-          </v-btn>
-        </template>
-      </v-select>
-    </v-col>
-    <v-col>
-      <v-select
-        v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
-        v-model="geoId"
-        :items="geoProperties"
-        label="geometry id field"
-      ></v-select>
-    </v-col>
-  </v-row>
+  <div>
+    <v-row dense>
+      <v-col cols="2">
+        <v-select
+          v-model="mode"
+          :items="availableModes"
+          label="what is your input data?"
+          hint="selection will reset geometry data"
+        >
+        </v-select>
+      </v-col>
+      <v-col cols="3">
+        <v-select
+          v-if="
+            mode == 'csv' || mode == 'csv + topojson' || mode == 'csv + geojson'
+          "
+          v-model="csvUrl"
+          :items="csvUrls"
+          label="csv file"
+        >
+          <template v-slot:append-outer>
+            <v-btn icon color="primary" @click="downloadFile('csvUrl')">
+              <v-icon>mdi-download</v-icon>
+            </v-btn>
+          </template>
+        </v-select>
+        <v-select
+          v-if="mode == 'topojson'"
+          v-model="topojsonUrl"
+          :items="topojsonUrls"
+          label="topojson file"
+        >
+          <template v-slot:append-outer>
+            <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
+              <v-icon>mdi-download</v-icon>
+            </v-btn>
+          </template>
+        </v-select>
+        <v-select
+          v-if="mode == 'geojson'"
+          v-model="geojsonUrl"
+          :items="geojsonUrls"
+          label="geojson file"
+        >
+          <template v-slot:append-outer>
+            <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
+              <v-icon>mdi-download</v-icon>
+            </v-btn>
+          </template>
+        </v-select>
+      </v-col>
+      <v-col>
+        <v-select
+          v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
+          v-model="csvId"
+          :items="csvProperties"
+          label="csv id field"
+        ></v-select>
+      </v-col>
+      <v-col cols="3">
+        <v-select
+          v-if="mode == 'csv + topojson'"
+          v-model="topojsonUrl"
+          :items="topojsonUrls"
+          label="topojson file"
+        >
+          <template v-slot:append-outer>
+            <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
+              <v-icon>mdi-download</v-icon>
+            </v-btn>
+          </template>
+        </v-select>
+        <v-select
+          v-if="mode == 'csv + geojson'"
+          v-model="geojsonUrl"
+          :items="geojsonUrls"
+          label="geojson file"
+        >
+          <template v-slot:append-outer>
+            <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
+              <v-icon>mdi-download</v-icon>
+            </v-btn>
+          </template>
+        </v-select>
+      </v-col>
+      <v-col>
+        <v-select
+          v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
+          v-model="geoId"
+          :items="geoProperties"
+          label="geometry id field"
+        ></v-select>
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col v-if="csvError">
+        <v-alert type="error" dense>
+          {{ csvError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="topojsonError">
+        <v-alert type="error" dense>
+          {{ topojsonError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="geojsonError">
+        <v-alert type="error" dense>
+          {{ geojsonError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="syncError">
+        <v-alert type="error" dense>
+          {{ syncError }}
+        </v-alert>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -107,6 +131,18 @@ export default {
     return {}
   },
   computed: {
+    csvError() {
+      return this.$store.state.dataset.csvError
+    },
+    topojsonError() {
+      return this.$store.state.dataset.topojsonError
+    },
+    geojsonError() {
+      return this.$store.state.dataset.geojsonError
+    },
+    syncError() {
+      return this.$store.state.syncError
+    },
     csvUrls() {
       return csvFiles.map((file) => {
         return file.url
@@ -175,7 +211,7 @@ export default {
       },
       set(value) {
         this.$store.commit('dataset/setCsvUrl', value)
-        this.$store.commit('dataset/setCsvProperty', '')
+        this.$store.commit('dataset/setCsvId', '')
         this.$store.dispatch('dataset/loadCsvData').then(() => {
           if (this.mode === 'csv + topojson') {
             this.$store.commit('dataset/addGeoField')
@@ -189,7 +225,7 @@ export default {
       },
       set(value) {
         this.$store.commit('dataset/setGeoUrl', value)
-        this.$store.commit('dataset/setTopjsonProperty', '')
+        this.$store.commit('dataset/setGeoId', '')
         this.$store.dispatch('dataset/loadTopojsonData')
       },
     },
@@ -199,7 +235,7 @@ export default {
       },
       set(value) {
         this.$store.commit('dataset/setGeoUrl', value)
-        this.$store.commit('dataset/setTopjsonProperty', '')
+        this.$store.commit('dataset/setGeoId', '')
         this.$store.dispatch('dataset/loadGeojsonData')
       },
     },

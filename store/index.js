@@ -1,6 +1,8 @@
 import { columnProperties } from '~/constants/aesthetics'
 
-export const state = () => ({})
+export const state = () => ({
+  syncError: null,
+})
 
 function vegaMark(geometry) {
   return {
@@ -51,6 +53,12 @@ function vegaEncoding(geometry, mode) {
     }, {})
 }
 
+export const mutations = {
+  setSyncError(state, value) {
+    state.syncError = value
+  },
+}
+
 export const actions = {
   syncToBackend(context) {
     const presignedUrl =
@@ -60,7 +68,21 @@ export const actions = {
       method: 'PUT',
       body: JSON.stringify(context.state),
       headers: { 'Content-Type': 'application/json' },
-    }).catch((error) => console.error(error))
+    })
+      .then((response) => {
+        if (!response.ok) {
+          context.commit(
+            'setSyncError',
+            `Error syncing with DAFNI backend. Response status is "${response.statusText}"`
+          )
+        } else {
+          context.commit('setSyncError', null)
+        }
+      })
+      .catch((error) => {
+        console.log('ERROR2')
+        context.commit('setSyncError', error)
+      })
   },
   setOption({ commit }, [type, name, args, value]) {
     if (type === 'column') {

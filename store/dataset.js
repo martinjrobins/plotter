@@ -6,6 +6,9 @@ import { csvFiles, topojsonFiles, geojsonFiles } from '~/constants/data'
 export const state = () => ({
   mode: 'csv',
   csvUrl: csvFiles[0].url,
+  csvError: null,
+  topojsonError: null,
+  geojsonError: null,
   loadCsvProgress: 0,
   geoUrl: topojsonFiles[0].url,
   loadGeoProgress: 0,
@@ -42,6 +45,16 @@ function removeDuplicateColumns(columns) {
 }
 
 export const mutations = {
+  setCsvError(state, value) {
+    state.csvError = value
+  },
+  setTopojsonError(state, value) {
+    console.log('setTopojsonError', value)
+    state.topojsonError = value
+  },
+  setGeojsonError(state, value) {
+    state.geojsonError = value
+  },
   setMode(state, value) {
     state.mode = value
   },
@@ -137,21 +150,26 @@ export const actions = {
       },
     })
       .then(function (response) {
-        const data = CSV.parse(response.data)
-        const columnNames = data[0]
-        const columns = columnNames.map((columnName, i) => {
-          const defaultProps = defaultColumn()
-          defaultProps.type = guessColumnType(data[1][i])
-          return {
-            name: columnName,
-            ...defaultProps,
-          }
-        })
-        context.commit('setColumns', columns.slice(0, 5))
-        context.commit('setColumnsInDatafile', columns)
+        if (response.headers['content-type'].includes('csv')) {
+          const data = CSV.parse(response.data)
+          const columnNames = data[0]
+          const columns = columnNames.map((columnName, i) => {
+            const defaultProps = defaultColumn()
+            defaultProps.type = guessColumnType(data[1][i])
+            return {
+              name: columnName,
+              ...defaultProps,
+            }
+          })
+          context.commit('setColumns', columns.slice(0, 5))
+          context.commit('setColumnsInDatafile', columns)
+          context.commit('setCsvError', null)
+        } else {
+          context.commit('setCsvError', 'Error loading csv')
+        }
       })
       .catch(function (error) {
-        console.log(error)
+        context.commit('setCsvError', 'Error loading csv: '.concat(error))
       })
   },
   loadTopojsonData({ commit, state }) {
@@ -166,27 +184,36 @@ export const actions = {
       },
     })
       .then(function (response) {
-        const object = Object.keys(response.data.objects)[0]
-        const properties =
-          response.data.objects[object].geometries[0].properties
-        const propertyNames = Object.keys(properties)
-        commit('setTopjsonObject', object)
-        commit('setGeoProperties', propertyNames)
-        if (state.mode === 'topojson') {
-          const columns = propertyNames.map((columnName) => {
-            const defaultProps = defaultColumn()
-            defaultProps.type = guessColumnType(properties[columnName])
-            return {
-              name: columnName,
-              ...defaultProps,
-            }
-          })
-          commit('setColumns', columns.slice(0, 5))
-          commit('setColumnsInDatafile', columns)
+        console.log(response)
+
+        const isObject =
+          typeof response.data === 'object' && response.data !== null
+        if (isObject && 'objects' in response.data) {
+          const object = Object.keys(response.data.objects)[0]
+          const properties =
+            response.data.objects[object].geometries[0].properties
+          const propertyNames = Object.keys(properties)
+          commit('setTopjsonObject', object)
+          commit('setGeoProperties', propertyNames)
+          if (state.mode === 'topojson') {
+            const columns = propertyNames.map((columnName) => {
+              const defaultProps = defaultColumn()
+              defaultProps.type = guessColumnType(properties[columnName])
+              return {
+                name: columnName,
+                ...defaultProps,
+              }
+            })
+            commit('setColumns', columns.slice(0, 5))
+            commit('setColumnsInDatafile', columns)
+          }
+          commit('setTopojsonError', null)
+        } else {
+          commit('setTopojsonError', 'Error loading topojson')
         }
       })
       .catch(function (error) {
-        console.log(error)
+        commit('setTopjsonError', 'Error loading topojson: '.concat(error))
       })
   },
   loadGeojsonData({ commit, state }) {
@@ -201,24 +228,32 @@ export const actions = {
       },
     })
       .then(function (response) {
-        const properties = response.data.features[0].properties
-        const propertyNames = Object.keys(properties)
-        commit('setGeoProperties', propertyNames)
-        if (state.mode === 'geojson') {
-          const columns = propertyNames.map((columnName) => {
-            const defaultProps = defaultColumn()
-            defaultProps.type = guessColumnType(properties[columnName])
-            return {
-              name: columnName,
-              ...defaultProps,
-            }
-          })
-          commit('setColumns', columns.slice(0, 5))
-          commit('setColumnsInDatafile', columns)
+        console.log(response)
+        const isObject =
+          typeof response.data === 'object' && response.data !== null
+        if (isObject && 'features' in response.data) {
+          const properties = response.data.features[0].properties
+          const propertyNames = Object.keys(properties)
+          commit('setGeoProperties', propertyNames)
+          if (state.mode === 'geojson') {
+            const columns = propertyNames.map((columnName) => {
+              const defaultProps = defaultColumn()
+              defaultProps.type = guessColumnType(properties[columnName])
+              return {
+                name: columnName,
+                ...defaultProps,
+              }
+            })
+            commit('setColumns', columns.slice(0, 5))
+            commit('setColumnsInDatafile', columns)
+          }
+          commit('setGeojsonError', null)
+        } else {
+          commit('setGeojsonError', 'Error loading geojson')
         }
       })
       .catch(function (error) {
-        console.log(error)
+        commit('setGeojsonError', 'Error loading geojson: '.concat(error))
       })
   },
 }
