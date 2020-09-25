@@ -208,31 +208,6 @@ export const getters = {
       })
     }
 
-    // lookup geometry in combined topojson/geojson dataset
-    if (state.dataset.mode === 'csv + topojson') {
-      transformArray.push({
-        lookup: state.dataset.csvId,
-        from: {
-          data: vegaDataTopoJson(
-            state.dataset.geoUrl,
-            state.dataset.topojsonObject
-          ),
-          key: 'properties.'.concat(state.dataset.geoId),
-        },
-        as: 'geo',
-      })
-    } else if (state.dataset.mode === 'csv + geojson') {
-      transformArray.push({
-        lookup: state.dataset.csvId,
-        from: {
-          data: vegaDataGeoJson(state.dataset.geoUrl),
-          key: 'properties.'.concat(state.dataset.geoId),
-        },
-        as: 'geo',
-      })
-    }
-
-    // lookup remainder of fields in topojson/geojson dataset
     if (
       state.dataset.mode === 'csv + topojson' ||
       state.dataset.mode === 'csv + geojson'
@@ -240,6 +215,27 @@ export const getters = {
       const propertiesWithoutID = state.dataset.geoProperties.filter(
         (prop) => prop !== state.dataset.geoId
       )
+      let dataSpec = null
+      if (state.dataset.mode === 'csv + topojson') {
+        dataSpec = vegaDataTopoJson(
+          state.dataset.geoUrl,
+          state.dataset.topojsonObject
+        )
+      } else {
+        dataSpec = vegaDataGeoJson(state.dataset.geoUrl)
+      }
+
+      // lookup geometry in combined topojson/geojson dataset
+      transformArray.push({
+        lookup: state.dataset.csvId,
+        from: {
+          data: dataSpec,
+          key: 'properties.'.concat(state.dataset.geoId),
+        },
+        as: 'geo',
+      })
+
+      // lookup remainder of fields in topojson/geojson dataset
       transformArray.push({
         lookup: state.dataset.csvId,
         from: {
