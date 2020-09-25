@@ -195,17 +195,22 @@ export const actions = {
           const propertyNames = Object.keys(properties)
           commit('setTopjsonObject', object)
           commit('setGeoProperties', propertyNames)
+          const columns = propertyNames.map((columnName) => {
+            const defaultProps = defaultColumn()
+            defaultProps.type = guessColumnType(properties[columnName])
+            return {
+              name: columnName,
+              ...defaultProps,
+            }
+          })
           if (state.mode === 'topojson') {
-            const columns = propertyNames.map((columnName) => {
-              const defaultProps = defaultColumn()
-              defaultProps.type = guessColumnType(properties[columnName])
-              return {
-                name: columnName,
-                ...defaultProps,
-              }
-            })
             commit('setColumns', columns.slice(0, 5))
             commit('setColumnsInDatafile', columns)
+          } else if (state.mode === 'csv + topojson') {
+            commit(
+              'setColumnsInDatafile',
+              removeDuplicateColumns(state.columnsInDataFile.concat(columns))
+            )
           }
           commit('setTopojsonError', null)
         } else {
@@ -235,17 +240,22 @@ export const actions = {
           const properties = response.data.features[0].properties
           const propertyNames = Object.keys(properties)
           commit('setGeoProperties', propertyNames)
+          const columns = propertyNames.map((columnName) => {
+            const defaultProps = defaultColumn()
+            defaultProps.type = guessColumnType(properties[columnName])
+            return {
+              name: columnName,
+              ...defaultProps,
+            }
+          })
           if (state.mode === 'geojson') {
-            const columns = propertyNames.map((columnName) => {
-              const defaultProps = defaultColumn()
-              defaultProps.type = guessColumnType(properties[columnName])
-              return {
-                name: columnName,
-                ...defaultProps,
-              }
-            })
             commit('setColumns', columns.slice(0, 5))
             commit('setColumnsInDatafile', columns)
+          } else if (state.mode === 'csv + geojson') {
+            commit(
+              'setColumnsInDatafile',
+              removeDuplicateColumns(state.columnsInDataFile.concat(columns))
+            )
           }
           commit('setGeojsonError', null)
         } else {

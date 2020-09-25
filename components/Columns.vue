@@ -83,9 +83,10 @@ export default {
   },
   computed: {
     columnsInDataFile() {
-      return this.$store.state.dataset.columnsInDataFile.map((c) => {
+      const cols = this.$store.state.dataset.columnsInDataFile.map((c) => {
         return c.name
       })
+      return cols
     },
     columns: {
       get() {

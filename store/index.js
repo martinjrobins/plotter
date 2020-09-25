@@ -113,7 +113,6 @@ export const actions = {
 function vegaDataTopoJson(URL, geoFeature) {
   return {
     url: URL,
-    name: 'map',
     format: {
       type: 'topojson',
       feature: geoFeature,
@@ -124,7 +123,6 @@ function vegaDataTopoJson(URL, geoFeature) {
 function vegaDataGeoJson(URL) {
   return {
     url: URL,
-    name: 'map',
     format: {
       property: 'features',
     },
@@ -209,6 +207,8 @@ export const getters = {
         filter: filterExpression,
       })
     }
+
+    // lookup geometry in combined topojson/geojson dataset
     if (state.dataset.mode === 'csv + topojson') {
       transformArray.push({
         lookup: state.dataset.csvId,
@@ -229,6 +229,28 @@ export const getters = {
           key: 'properties.'.concat(state.dataset.geoId),
         },
         as: 'geo',
+      })
+    }
+
+    // lookup remainder of fields in topojson/geojson dataset
+    if (
+      state.dataset.mode === 'csv + topojson' ||
+      state.dataset.mode === 'csv + geojson'
+    ) {
+      const propertiesWithoutID = state.dataset.geoProperties.filter(
+        (prop) => prop !== state.dataset.geoId
+      )
+      transformArray.push({
+        lookup: state.dataset.csvId,
+        from: {
+          data: vegaDataTopoJson(
+            state.dataset.geoUrl,
+            state.dataset.topojsonObject
+          ),
+          key: 'properties.'.concat(state.dataset.geoId),
+          fields: propertiesWithoutID.map((prop) => `properties.${prop}`),
+        },
+        as: propertiesWithoutID,
       })
     }
     return transformArray
