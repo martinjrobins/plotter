@@ -49,7 +49,6 @@ export const mutations = {
     state.csvError = value
   },
   setTopojsonError(state, value) {
-    console.log('setTopojsonError', value)
     state.topojsonError = value
   },
   setGeojsonError(state, value) {
@@ -218,7 +217,7 @@ export const actions = {
         }
       })
       .catch(function (error) {
-        commit('setTopjsonError', 'Error loading topojson: '.concat(error))
+        commit('setTopojsonError', 'Error loading topojson: '.concat(error))
       })
   },
   loadGeojsonData({ commit, state }) {
