@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
@@ -23,7 +23,7 @@ describe('Aesthetic', () => {
   beforeEach(async () => {
     store = await NuxtStore.createStore()
     vuetify = new Vuetify()
-    wrapper = shallowMount(Aesthetic, {
+    wrapper = mount(Aesthetic, {
       store,
       localVue,
       vuetify,
@@ -39,5 +39,20 @@ describe('Aesthetic', () => {
     expect(wrapper.vm.aesMap).toStrictEqual([])
     wrapper.vm.aesMap = [{ name: 'test' }]
     expect(wrapper.vm.aesMap).toStrictEqual([{ name: 'test' }])
+  })
+
+  test('displays aesthetic name', async () => {
+    wrapper.setProps({ name: 'color' })
+    await Vue.nextTick()
+    expect(wrapper.text()).toContain('color')
+  })
+
+  test('displays column if added', async () => {
+    wrapper.setProps({ name: 'y' })
+    await Vue.nextTick()
+    expect(wrapper.text()).not.toContain('test')
+    wrapper.vm.aesMap = [{ name: 'test' }]
+    await Vue.nextTick()
+    expect(wrapper.text()).toContain('test')
   })
 })

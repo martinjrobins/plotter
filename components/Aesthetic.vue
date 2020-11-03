@@ -38,12 +38,14 @@
 
 <script>
 import draggable from 'vuedraggable'
+import Column from './Column'
 import { aesthetics } from '~/constants/aesthetics'
 
 export default {
   name: 'Aesthetic',
   components: {
     draggable,
+    Column,
   },
   props: {
     name: {
