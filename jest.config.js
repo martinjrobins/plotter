@@ -1,4 +1,5 @@
 module.exports = {
+  globalSetup: '<rootDir>/jest.setup.js',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
@@ -14,4 +15,5 @@ module.exports = {
     '<rootDir>/components/**/*.vue',
     '<rootDir>/pages/**/*.vue',
   ],
+  forceExit: !!process.env.CI,
 }

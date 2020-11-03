@@ -48,7 +48,7 @@ export default {
   props: {
     name: {
       type: String,
-      default: '',
+      default: 'x',
     },
   },
   data() {
