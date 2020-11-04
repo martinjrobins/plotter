@@ -109,8 +109,11 @@ export const mutations = {
   addColumn(state, name) {
     const newColumn = state.columnsInDataFile.filter((c) => {
       return c.name === name
-    })[0]
-    state.columns.push(newColumn)
+    })
+    if (newColumn.length === 0) {
+      throw new Error('cannot add a column not in the data file')
+    }
+    state.columns.push(newColumn[0])
   },
   setColumnProperty(state, [index, prop, value]) {
     state.columns[index][prop] = value

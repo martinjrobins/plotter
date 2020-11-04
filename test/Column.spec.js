@@ -10,7 +10,7 @@ Vue.use(Vuetify)
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('Aesthetic', () => {
+describe('Column', () => {
   let NuxtStore
   let store
   let vuetify

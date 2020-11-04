@@ -68,7 +68,6 @@
 
 <script>
 import draggable from 'vuedraggable'
-import { VExpansionPanels } from 'vuetify/lib'
 import Column from '~/components/Column'
 
 export default {
@@ -76,7 +75,6 @@ export default {
   components: {
     draggable,
     Column,
-    VExpansionPanels,
   },
   data() {
     return { calculateExpression: null, addColumnSelected: null }
@@ -106,9 +104,6 @@ export default {
     },
   },
   methods: {
-    calculate() {
-      this.$store.commit('dateset/calculate')
-    },
     getComponentData() {
       return {
         attrs: {
