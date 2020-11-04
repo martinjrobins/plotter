@@ -67,9 +67,6 @@ export default {
     aesthetics() {
       return aesthetics
     },
-    highlightAesthetics() {
-      return this.$store.state.geometries.highlightAesthetics
-    },
   },
   methods: {
     addAesthetic(name) {

@@ -1,7 +1,7 @@
 import { geometries } from '~/constants/geometries'
 import { defaultColumn } from '~/store/dataset'
 
-function defaultGeometry(name = 'line') {
+export function defaultGeometry(name = 'line') {
   const geo = geometries.filter((geo) => {
     return geo.name === name
   })[0]
