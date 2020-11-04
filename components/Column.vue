@@ -50,12 +50,6 @@ export default {
     columnProperties() {
       return columnProperties
     },
-    dataField() {
-      if (this.type === 'column') {
-        return this.$store.state.dataset.columns[this.index].calculate === ''
-      }
-      return false
-    },
   },
   methods: {
     removeColumn() {
