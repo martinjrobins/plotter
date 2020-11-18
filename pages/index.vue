@@ -59,7 +59,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('dataset/loadCsvData')
+    this.$store.dispatch('setInitialState')
   },
 }
 </script>

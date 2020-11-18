@@ -1,7 +1,9 @@
 import { columnProperties } from '~/constants/aesthetics'
+import { setupSyncStore, uploadState, downloadState } from '~/api/NIVS'
 
 export const state = () => ({
   syncError: null,
+  presignedUrlForSync: null,
 })
 
 function vegaMark(geometry) {
@@ -57,32 +59,46 @@ export const mutations = {
   setSyncError(state, value) {
     state.syncError = value
   },
+  setPresignedURLforSync(state, value) {
+    state.presignedUrlForSync = value
+  },
 }
 
 export const actions = {
-  syncToBackend(context) {
-    const presignedUrl =
-      'https://play.min.io/presigned-test-106a2138-0655-423a-8811-21d88f62476e/state?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=Q3AM3UQ867SPQQA43P2F%2F20200903%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200903T123846Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=74311ae382360011e1b41620657009dd196359b32d74d6a660ee3f3fcba18287'
-    console.log(presignedUrl)
-    return fetch(presignedUrl, {
-      method: 'PUT',
-      body: JSON.stringify(context.state),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          context.commit(
-            'setSyncError',
-            `Error syncing with DAFNI backend. Response status is "${response.statusText}"`
-          )
-        } else {
-          context.commit('setSyncError', null)
-        }
-      })
-      .catch((error) => {
-        console.log('ERROR2')
-        context.commit('setSyncError', error)
-      })
+  async setInitialState(context) {
+    console.log('setInitialState')
+    let presignedUrl = null
+    try {
+      presignedUrl = await setupSyncStore()
+    } catch (error) {
+      context.commit(
+        'setSyncError',
+        'Error setting up syncing with NIVS backend. ' + error
+      )
+    }
+    context.commit('setPresignedURLforSync', presignedUrl)
+    if (presignedUrl) {
+      console.log('got a presignedUrl', presignedUrl)
+      const newState = await downloadState(presignedUrl)
+      console.log('GOT newState', newState)
+      context.replaceState(newState)
+    }
+  },
+  async uploadState(context) {
+    console.log('uploadState')
+    const presignedUrl = context.state.presignedUrlForSync
+    if (presignedUrl) {
+      console.log('have a presignedUrl', presignedUrl)
+      try {
+        await uploadState(presignedUrl, context.state)
+        context.commit('setSyncError', null)
+      } catch (error) {
+        context.commit(
+          'setSyncError',
+          `Error syncing with DAFNI backend. Response status is "${error}"`
+        )
+      }
+    }
   },
   setOption({ commit }, [type, name, args, value]) {
     if (type === 'column') {

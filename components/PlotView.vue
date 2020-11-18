@@ -26,7 +26,7 @@ export default {
     },
     vegaSpec() {
       // sync to backend everytime we need to regenerate the spec
-      this.$store.dispatch('syncToBackend')
+      this.$store.dispatch('uploadState')
       return this.$store.getters.vegaSpec
     },
   },
