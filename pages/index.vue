@@ -59,7 +59,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('setInitialState')
+    this.$store.dispatch('loadStore')
   },
 }
 </script>

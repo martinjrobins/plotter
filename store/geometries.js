@@ -24,6 +24,10 @@ export const state = () => ({
 })
 
 export const actions = {
+  loadStore({ commit }, state) {
+    commit('setSelectedGeometry', state.selectedGeometry)
+    commit('setGeometries', state.geometries)
+  },
   removeGeometry({ commit, state }, index) {
     if (state.selectedGeometry === index) {
       if (index >= state.geometries.length - 1) {

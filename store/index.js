@@ -3,7 +3,8 @@ import { setupSyncStore, uploadState, downloadState } from '~/api/NIVS'
 
 export const state = () => ({
   syncError: null,
-  presignedUrlForSync: null,
+  presignedUrlForUpload: null,
+  vegaView: null,
 })
 
 function vegaMark(geometry) {
@@ -56,48 +57,55 @@ function vegaEncoding(geometry, mode) {
 }
 
 export const mutations = {
+  setVegaView(state, value) {
+    state.vegaView = value
+  },
   setSyncError(state, value) {
     state.syncError = value
   },
-  setPresignedURLforSync(state, value) {
-    state.presignedUrlForSync = value
+  setPresignedUrlForUpload(state, value) {
+    state.presignedUrlForUpload = value
   },
 }
 
 export const actions = {
-  async setInitialState(context) {
-    console.log('setInitialState')
-    let presignedUrl = null
-    try {
-      presignedUrl = await setupSyncStore()
-    } catch (error) {
-      context.commit(
-        'setSyncError',
-        'Error setting up syncing with NIVS backend. ' + error
-      )
-    }
-    context.commit('setPresignedURLforSync', presignedUrl)
-    if (presignedUrl) {
-      console.log('got a presignedUrl', presignedUrl)
-      const newState = await downloadState(presignedUrl)
-      console.log('GOT newState', newState)
-      context.replaceState(newState)
-    }
-  },
-  async uploadState(context) {
-    console.log('uploadState')
-    const presignedUrl = context.state.presignedUrlForSync
-    if (presignedUrl) {
-      console.log('have a presignedUrl', presignedUrl)
-      try {
-        await uploadState(presignedUrl, context.state)
-        context.commit('setSyncError', null)
-      } catch (error) {
+  loadStore(context) {
+    setupSyncStore()
+      .then((presignedUrls) => {
+        context.commit('setPresignedUrlForUpload', presignedUrls[1])
+        const presignedUrlForDownload = presignedUrls[0]
+        return downloadState(presignedUrlForDownload)
+      })
+      .then((newState) => {
+        context.dispatch('geometries/loadStore', newState.geometries)
+        context.dispatch('dataset/loadStore', newState.dataset)
+        context.dispatch('dataset/loadData')
+      })
+      .then(() => {
+        console.log('successfully synced state from NIVS backend')
+      })
+      .catch((e) => {
         context.commit(
           'setSyncError',
-          `Error syncing with DAFNI backend. Response status is "${error}"`
+          'Error syncing state with NIVS backend. ' + e
         )
-      }
+        // whatever happens we need to load the datafiles
+        context.dispatch('dataset/loadData')
+      })
+  },
+  uploadState(context) {
+    const presignedUrlForUpload = context.state.presignedUrlForUpload
+    if (presignedUrlForUpload) {
+      uploadState(presignedUrlForUpload, context.state)
+        .then(() => {
+          context.commit('setSyncError', null)
+        })
+        .catch((error) => {
+          context.commit(
+            'setSyncError',
+            `Error syncing with DAFNI backend. Response status is "${error}"`
+          )
+        })
     }
   },
   setOption({ commit }, [type, name, args, value]) {

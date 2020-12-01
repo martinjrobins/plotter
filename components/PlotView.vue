@@ -2,15 +2,22 @@
   <v-card class="pa-1">
     <v-card-title>
       <v-row no-gutters>
-        <v-col cols="10">
+        <v-col cols="2">
           Plot
         </v-col>
+        <v-col cols="3">
+          <SavePlot :view="vegaEmbedRef.view" />
+        </v-col>
+        <v-col cols="3">
+          <SaveTemplate />
+        </v-col>
+        <v-col cols="2"> </v-col>
         <v-col cols="2">
           <v-icon color="primary">mdi-chart-line</v-icon>
         </v-col>
       </v-row>
     </v-card-title>
-    <VegaEmbed :spec="vegaSpec" />
+    <VegaEmbed :spec="vegaSpec" ref="vegaEmbed" />
   </v-card>
 </template>
 
@@ -18,7 +25,12 @@
 export default {
   name: 'PlotView',
   data() {
-    return {}
+    return {
+      vegaEmbedRef: {},
+    }
+  },
+  mounted() {
+    this.vegaEmbedRef = this.$refs.vegaEmbed
   },
   computed: {
     vegaSpecString() {

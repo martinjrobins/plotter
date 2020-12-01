@@ -1,6 +1,5 @@
 import { localJWT } from '@/plugins/localCookie'
 
-// eslint-disable-next-line
 let cookieName = ''
 
 export function setCookieName(appMode) {
@@ -13,15 +12,10 @@ export function setCookieName(appMode) {
 
 export function getAuthHeader() {
   const cookies = document.cookie.split(';')
-  const cookie = cookies.find(c => {
+  const cookie = cookies.find((c) => {
     const trimmed = c.trim()
     return trimmed.startsWith(cookieName)
   })
   const jwt = cookie ? cookie.split('=').pop() : localJWT
   return `JWT ${jwt}`
-}
-
-export default {
-  getAuthHeader,
-  setCookieName
 }

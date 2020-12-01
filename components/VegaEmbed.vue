@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       width: 0,
+      view: null,
     }
   },
   watch: {
@@ -43,7 +44,9 @@ export default {
     async draw() {
       this.spec.width = 0.9 * this.width
       this.spec.height = 0.65 * this.width
-      await embed('#viz', this.spec, { actions: false })
+      const result = await embed('#viz', this.spec, { actions: true })
+      this.view = result.view
+      // this.$store.commit('setVegaView', result.view)
     },
   },
 }

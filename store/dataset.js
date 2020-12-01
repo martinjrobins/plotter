@@ -140,6 +140,35 @@ function guessColumnType(data) {
 }
 
 export const actions = {
+  loadStore(context, state) {
+    const commit = context.commit
+    commit('setMode', state.mode)
+    commit('setCsvUrl', state.csvUrl)
+    commit('setGeoUrl', state.geoUrl)
+    commit('setGeoProperties', state.geoProperties)
+    commit('setGeoProperties', state.geoProperties)
+    commit('setGeoId', state.geoId)
+    commit('setTopjsonObject', state.topjsonObject)
+    commit('setPrelookupAgregate', state.preLookupAgregate)
+    commit('setCsvId', state.csvId)
+    commit('setColumns', state.columns)
+    commit('setFilter', state.filter)
+  },
+  loadData({ dispatch, state }) {
+    if (state.mode === 'csv') {
+      dispatch('loadCsvData')
+    } else if (state.mode === 'topojson') {
+      dispatch('loadTopojsonData')
+    } else if (state.mode === 'csv + topojson') {
+      dispatch('loadCsvData')
+      dispatch('loadTopojsonData')
+    } else if (state.mode === 'geojson') {
+      dispatch('loadGeojsonData')
+    } else if (state.mode === 'csv + geojson') {
+      dispatch('loadCsvData')
+      dispatch('loadGeojsonData')
+    }
+  },
   loadCsvData(context) {
     return axios({
       methods: 'get',
@@ -186,8 +215,6 @@ export const actions = {
       },
     })
       .then(function (response) {
-        console.log(response)
-
         const isObject =
           typeof response.data === 'object' && response.data !== null
         if (isObject && 'objects' in response.data) {
