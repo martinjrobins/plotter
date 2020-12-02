@@ -61,8 +61,8 @@ export default {
   },
   created() {
     this.$store.dispatch('loadStore')
-    if (this.$route.params.processId) {
-      setInstanceId(this.$route.params.processId)
+    if (this.$route.query.processId) {
+      setInstanceId(this.$route.query.processId)
       console.log('set process id to', getInstanceId())
     } else {
       console.log('using default process id of', getInstanceId())
