@@ -37,6 +37,7 @@ import Aesthetics from '~/components/Aesthetics'
 import Geometries from '~/components/Geometries'
 import PlotView from '~/components/PlotView'
 import Spec from '~/components/Spec'
+import { setInstanceId, getInstanceId } from '~/static/js/instanceId'
 
 export default {
   name: 'Homepage',
@@ -60,6 +61,12 @@ export default {
   },
   created() {
     this.$store.dispatch('loadStore')
+    if (this.$route.params.processId) {
+      setInstanceId(this.$route.params.processId)
+      console.log('set process id to', getInstanceId())
+    } else {
+      console.log('using default process id of', getInstanceId())
+    }
   },
 }
 </script>

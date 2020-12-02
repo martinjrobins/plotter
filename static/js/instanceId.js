@@ -11,3 +11,7 @@ if (appMode === 'production') {
 export function getInstanceId() {
   return instanceID
 }
+
+export function setInstanceId(value) {
+  instanceID = value
+}
