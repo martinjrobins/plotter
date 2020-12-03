@@ -41,7 +41,7 @@ import {
   setInstanceId,
   setDefaultInstanceId,
   getInstanceId,
-} from '~/static/js/instanceId'
+} from '~/plugins/instanceId'
 
 export default {
   name: 'Homepage',

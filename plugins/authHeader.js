@@ -2,12 +2,11 @@ import { localJWT } from '@/plugins/localCookie'
 
 let cookieName = ''
 
-export function setCookieName(appMode) {
-  if (appMode === 'production') {
-    cookieName = '__Secure-dafnijwt'
-  } else {
-    cookieName = 'dafnijwt'
-  }
+const appMode = process.env.NODE_ENV
+if (appMode === 'production') {
+  cookieName = '__Secure-dafnijwt'
+} else {
+  cookieName = 'dafnijwt'
 }
 
 export function getAuthHeader() {
@@ -17,5 +16,6 @@ export function getAuthHeader() {
     return trimmed.startsWith(cookieName)
   })
   const jwt = cookie ? cookie.split('=').pop() : localJWT
+  console.log('got JWT of', jwt, 'from cookie', cookieName)
   return `JWT ${jwt}`
 }

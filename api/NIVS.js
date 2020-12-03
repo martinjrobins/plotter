@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { getAuthHeader } from '@/static/js/authHeader'
-import { getInstanceId } from '@/static/js/instanceId'
+import { getAuthHeader } from '@/plugins/authHeader'
+import { getInstanceId } from '@/plugins/instanceId'
 
 const NIVSapiUrl = 'https://dafni-nivs-api.secure.dafni.rl.ac.uk'
 const stateFileName = 'state.json'

@@ -18,7 +18,6 @@ export async function setDefaultInstanceId() {
   if (appMode === 'production') {
     try {
       const response = await axios.get('/backends/backends.json')
-      console.log('got', response.data)
       instanceID = response.data.instanceId
     } catch (error) {
       console.log('Error while loading settings from server' + error)
