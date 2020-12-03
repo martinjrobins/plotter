@@ -101,7 +101,6 @@ function downloadPlot(plotId) {
 
 function uploadPlot(plotTitle, plotDescription, filename, file) {
   let plotId = null
-  console.log('authHeader', authHeader)
   return axios
     .post(
       NIVSapiUrl + '/plots/',
@@ -118,7 +117,6 @@ function uploadPlot(plotTitle, plotDescription, filename, file) {
       }
     )
     .then((postResponse) => {
-      console.log('postResponse', postResponse)
       const presignedUrl = postResponse.data.presigned_urls[0].presigned_url
       plotId = postResponse.data.id
       return fetch(presignedUrl, {
