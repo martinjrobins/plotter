@@ -21,6 +21,12 @@ export default {
    ** See https://nuxtjs.org/api/configuration-target
    */
   target: 'static',
+
+  env: {
+    INSTANCE_ID:
+      process.env.INSTANCE_ID || 'ea76a4ce-aac2-4d73-bc39-b8dc026c8ed4',
+  },
+
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head

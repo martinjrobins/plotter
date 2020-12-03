@@ -11,7 +11,8 @@
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "test": "jest",
-    "generate": "DEPLOY_ENV=GH_PAGES nuxt build && nuxt export",
+    "generate_ghpages": "DEPLOY_ENV=GH_PAGES nuxt build && nuxt export",
+    "generate_docker": "DEPLOY_ENV=DOCKER nuxt build && nuxt export",
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {

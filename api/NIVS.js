@@ -3,7 +3,7 @@ import { getAuthHeader } from '@/static/js/authHeader'
 import { getInstanceId } from '@/static/js/instanceId'
 
 const NIVSapiUrl = 'https://dafni-nivs-api.secure.dafni.rl.ac.uk'
-const stateFileName = 'state3.json'
+const stateFileName = 'state.json'
 
 const instanceId = getInstanceId()
 const authHeader = getAuthHeader()

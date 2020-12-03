@@ -1,0 +1,12 @@
+:5001
+root /site
+templates {
+  path /backends
+  ext .json
+}
+header /backends/backends.json Content-Type application/json
+rewrite {
+    regexp .*
+    if {path} not /backends/backends.json
+    to {path} /
+}

@@ -37,7 +37,11 @@ import Aesthetics from '~/components/Aesthetics'
 import Geometries from '~/components/Geometries'
 import PlotView from '~/components/PlotView'
 import Spec from '~/components/Spec'
-import { setInstanceId, getInstanceId } from '~/static/js/instanceId'
+import {
+  setInstanceId,
+  setDefaultInstanceId,
+  getInstanceId,
+} from '~/static/js/instanceId'
 
 export default {
   name: 'Homepage',
@@ -63,9 +67,11 @@ export default {
     this.$store.dispatch('loadStore')
     if (this.$route.query.instanceId) {
       setInstanceId(this.$route.query.instanceId)
-      console.log('set instanceId to', getInstanceId())
+      console.log('set instanceId via url query to', getInstanceId())
     } else {
-      console.log('using default instanceId of', getInstanceId())
+      setDefaultInstanceId().then(() => {
+        console.log('using default instanceId of', getInstanceId())
+      })
     }
   },
 }

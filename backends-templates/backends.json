@@ -1,0 +1,3 @@
+{
+  "instanceId":"{{.Env.INSTANCE_ID}}"
+}
