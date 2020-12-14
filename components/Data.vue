@@ -15,36 +15,42 @@
           v-if="
             mode == 'csv' || mode == 'csv + topojson' || mode == 'csv + geojson'
           "
-          v-model="csvUrl"
-          :items="csvUrls"
+          v-model="csvIndex"
+          :items="csvFiles"
+          item-text="filename"
+          item-value="index"
           label="csv file"
         >
           <template v-slot:append-outer>
-            <v-btn icon color="primary" @click="downloadFile('csvUrl')">
+            <v-btn icon color="primary" @click="downloadFile('csv')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
         </v-select>
         <v-select
           v-if="mode == 'topojson'"
-          v-model="topojsonUrl"
-          :items="topojsonUrls"
+          v-model="topojsonIndex"
+          :items="topojsonFiles"
+          item-text="filename"
+          item-value="index"
           label="topojson file"
         >
           <template v-slot:append-outer>
-            <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
+            <v-btn icon color="primary" @click="downloadFile('topojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
         </v-select>
         <v-select
           v-if="mode == 'geojson'"
-          v-model="geojsonUrl"
-          :items="geojsonUrls"
+          v-model="geojsonIndex"
+          :items="geojsonFiles"
+          item-text="filename"
+          item-value="index"
           label="geojson file"
         >
           <template v-slot:append-outer>
-            <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
+            <v-btn icon color="primary" @click="downloadFile('geojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
@@ -61,24 +67,28 @@
       <v-col cols="3">
         <v-select
           v-if="mode == 'csv + topojson'"
-          v-model="topojsonUrl"
-          :items="topojsonUrls"
+          v-model="topojsonIndex"
+          :items="topojsonFiles"
+          item-text="filename"
+          item-value="index"
           label="topojson file"
         >
           <template v-slot:append-outer>
-            <v-btn icon color="primary" @click="downloadFile('topojsonUrl')">
+            <v-btn icon color="primary" @click="downloadFile('topojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
         </v-select>
         <v-select
           v-if="mode == 'csv + geojson'"
-          v-model="geojsonUrl"
-          :items="geojsonUrls"
+          v-model="geojsonIndex"
+          :items="geojsonFiles"
+          item-text="filename"
+          item-value="index"
           label="geojson file"
         >
           <template v-slot:append-outer>
-            <v-btn icon color="primary" @click="downloadFile('geojsonUrl')">
+            <v-btn icon color="primary" @click="downloadFile('geojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
@@ -121,7 +131,6 @@
 <script>
 import axios from 'axios'
 import fileDownload from 'js-file-download'
-import { csvFiles, topojsonFiles, geojsonFiles } from '~/constants/data'
 import { aggregateOps } from '~/constants/aggregate'
 
 export default {
@@ -143,9 +152,9 @@ export default {
     syncError() {
       return this.$store.state.syncError
     },
-    csvUrls() {
-      return csvFiles.map((file) => {
-        return file.url
+    csvFiles() {
+      return this.$store.state.dataset.csvFiles.map((x, i) => {
+        return { ...x, index: i }
       })
     },
     availableAggregates() {
@@ -159,14 +168,14 @@ export default {
         this.$store.commit('dataset/setPrelookupAgregate', value)
       },
     },
-    topojsonUrls() {
-      return topojsonFiles.map((file) => {
-        return file.url
+    topojsonFiles() {
+      return this.$store.state.dataset.topojsonFiles.map((x, i) => {
+        return { ...x, index: i }
       })
     },
-    geojsonUrls() {
-      return geojsonFiles.map((file) => {
-        return file.url
+    geojsonFiles() {
+      return this.$store.state.dataset.geojsonFiles.map((x, i) => {
+        return { ...x, index: i }
       })
     },
     loadCsvProgress() {
@@ -205,12 +214,12 @@ export default {
         this.$store.commit('geometries/setDefaultGeometries', value)
       },
     },
-    csvUrl: {
+    csvIndex: {
       get() {
-        return this.$store.state.dataset.csvUrl
+        return this.$store.state.dataset.csvIndex
       },
       set(value) {
-        this.$store.commit('dataset/setCsvUrl', value)
+        this.$store.commit('dataset/setCsvIndex', value)
         this.$store.commit('dataset/setCsvId', '')
         this.$store.dispatch('dataset/loadCsvData').then(() => {
           if (this.mode === 'csv + topojson') {
@@ -219,22 +228,22 @@ export default {
         })
       },
     },
-    topojsonUrl: {
+    topojsonIndex: {
       get() {
-        return this.$store.state.dataset.geoUrl
+        return this.$store.state.dataset.geoIndex
       },
       set(value) {
-        this.$store.commit('dataset/setGeoUrl', value)
+        this.$store.commit('dataset/setGeoIndex', value)
         this.$store.commit('dataset/setGeoId', '')
         this.$store.dispatch('dataset/loadTopojsonData')
       },
     },
-    geojsonUrl: {
+    geojsonIndex: {
       get() {
-        return this.$store.state.dataset.geoUrl
+        return this.$store.state.dataset.geoIndex
       },
       set(value) {
-        this.$store.commit('dataset/setGeoUrl', value)
+        this.$store.commit('dataset/setGeoIndex', value)
         this.$store.commit('dataset/setGeoId', '')
         this.$store.dispatch('dataset/loadGeojsonData')
       },
@@ -265,8 +274,16 @@ export default {
     },
   },
   methods: {
-    downloadFile(url) {
-      const urlString = this[url]
+    downloadFile(type) {
+      let urlString = ''
+      if (type === 'csv') {
+        urlString = this.csvFiles[this.csvIndex].url
+      } else if (type === 'topojson') {
+        urlString = this.topojsonFiles[this.topojsonIndex].url
+      } else if (type === 'geojson') {
+        urlString = this.geojsonFiles[this.geojsonIndex].url
+      }
+
       const filename = urlString.substring(urlString.lastIndexOf('/') + 1)
       axios.get(urlString, {}).then((res) => {
         // topojson or geojson files will be objects

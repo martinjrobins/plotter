@@ -1,3 +1,4 @@
 {
-  "instanceId":"{{.Env.INSTANCE_ID}}"
+  "instanceId":"{{.Env.INSTANCE_ID}}",
+  "dataIds":"{{.Env.DATA_IDS}}"
 }

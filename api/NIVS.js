@@ -9,6 +9,18 @@ const instanceId = getInstanceId()
 const authHeader = getAuthHeader()
 const builderId = 'a734e3e7-ca10-41f2-9638-a19710d6430d'
 
+function getDataset(id) {
+  return axios
+    .get(NIVSapiUrl + '/dataset/' + id, {
+      headers: {
+        Authorization: authHeader,
+      },
+    })
+    .then((response) => {
+      // return presigned_url and type
+    })
+}
+
 function setupSyncStore() {
   return Promise.all([getPresignedURLforGET(), getPresignedURLforPUT()])
 }
@@ -234,4 +246,5 @@ export {
   downloadPlot,
   uploadTemplate,
   downloadTemplate,
+  getDataset,
 }

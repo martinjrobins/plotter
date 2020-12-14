@@ -1,26 +1,36 @@
 import axios from 'axios'
 import * as CSV from 'csv-string'
 import { columnProperties } from '~/constants/aesthetics'
-import { csvFiles, topojsonFiles, geojsonFiles } from '~/constants/data'
+import {
+  getCsvFiles,
+  getTopojsonFiles,
+  getGeojsonFiles,
+  getDatasets,
+} from '~/plugins/dataInput'
 
-export const state = () => ({
-  mode: 'csv',
-  csvUrl: csvFiles[0].url,
-  csvError: null,
-  topojsonError: null,
-  geojsonError: null,
-  loadCsvProgress: 0,
-  geoUrl: topojsonFiles[0].url,
-  loadGeoProgress: 0,
-  geoProperties: [],
-  geoId: '',
-  topojsonObject: '',
-  preLookupAgregate: '',
-  csvId: '',
-  columns: [],
-  columnsInDataFile: [],
-  filter: null,
-})
+export const state = () => {
+  return {
+    mode: 'csv',
+    csvIndex: 0,
+    csvFiles: getCsvFiles(),
+    csvError: null,
+    topojsonError: null,
+    geojsonError: null,
+    loadCsvProgress: 0,
+    geoIndex: 0,
+    topojsonFiles: getTopojsonFiles(),
+    geojsonFiles: getGeojsonFiles(),
+    loadGeoProgress: 0,
+    geoProperties: [],
+    geoId: '',
+    topojsonObject: '',
+    preLookupAgregate: '',
+    csvId: '',
+    columns: [],
+    columnsInDataFile: [],
+    filter: null,
+  }
+}
 
 export function defaultColumn() {
   return columnProperties.reduce((map, prop) => {
@@ -45,6 +55,15 @@ function removeDuplicateColumns(columns) {
 }
 
 export const mutations = {
+  setCsvFiles(state, value) {
+    state.csvFiles = value
+  },
+  setTopjsonFiles(state, value) {
+    state.topojsonFiles = value
+  },
+  setGeojsonFiles(state, value) {
+    state.geojsonFiles = value
+  },
   setCsvError(state, value) {
     state.csvError = value
   },
@@ -63,8 +82,8 @@ export const mutations = {
   setLoadGeoProgress(state, value) {
     state.loadGeoProgress = value
   },
-  setCsvUrl(state, value) {
-    state.csvUrl = value
+  setCsvIndex(state, value) {
+    state.csvIndex = value
   },
   addGeoField(state) {
     const geoField = defaultColumn()
@@ -72,15 +91,8 @@ export const mutations = {
     geoField.type = 'geojson'
     state.columns.unshift(geoField)
   },
-  setGeoUrl(state, value) {
-    state.geoUrl = value
-  },
-  setDefaultGeoUrl(state, mode) {
-    if (mode === 'topojson' || mode === 'csv + topojson') {
-      state.geoUrl = topojsonFiles[0].url
-    } else {
-      state.geoUrl = geojsonFiles[0].url
-    }
+  setGeoIndex(state, value) {
+    state.geoIndex = value
   },
   setGeoProperties(state, value) {
     state.geoProperties = value
@@ -140,11 +152,12 @@ function guessColumnType(data) {
 }
 
 export const actions = {
-  loadStore(context, state) {
+  async loadStore(context, state) {
+    await getDatasets()
     const commit = context.commit
     commit('setMode', state.mode)
-    commit('setCsvUrl', state.csvUrl)
-    commit('setGeoUrl', state.geoUrl)
+    commit('setCsvIndex', state.csvIndex)
+    commit('setGeoIndex', state.geoIndex)
     commit('setGeoProperties', state.geoProperties)
     commit('setGeoProperties', state.geoProperties)
     commit('setGeoId', state.geoId)
@@ -154,7 +167,13 @@ export const actions = {
     commit('setColumns', state.columns)
     commit('setFilter', state.filter)
   },
-  loadData({ dispatch, state }) {
+  loadData(context) {
+    const commit = context.commit
+    const dispatch = context.dispatch
+    const state = context.state
+    commit('setCsvFiles', getCsvFiles())
+    commit('setTopjsonFiles', getTopojsonFiles())
+    commit('setGeojsonFiles', getGeojsonFiles())
     if (state.mode === 'csv') {
       dispatch('loadCsvData')
     } else if (state.mode === 'topojson') {
@@ -172,7 +191,7 @@ export const actions = {
   loadCsvData(context) {
     return axios({
       methods: 'get',
-      url: context.state.csvUrl,
+      url: context.state.csvFiles[context.state.csvIndex].url,
       onDownloadProgress(progressEvent) {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
@@ -206,7 +225,7 @@ export const actions = {
   loadTopojsonData({ commit, state }) {
     return axios({
       methods: 'get',
-      url: state.geoUrl,
+      url: state.topojsonFiles[state.geoIndex].url,
       onDownloadProgress(progressEvent) {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
@@ -253,7 +272,7 @@ export const actions = {
   loadGeojsonData({ commit, state }) {
     return axios({
       methods: 'get',
-      url: state.geoUrl,
+      url: state.geojsonFiles[state.geoIndex].url,
       onDownloadProgress(progressEvent) {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
