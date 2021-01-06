@@ -6,6 +6,8 @@
 
 <script>
 import embed from 'vega-embed'
+import axios from 'axios'
+import { uploadPlot } from '~/api/NIVS'
 
 export default {
   props: {
@@ -19,7 +21,6 @@ export default {
   data() {
     return {
       width: 0,
-      view: null,
     }
   },
   watch: {
@@ -37,19 +38,38 @@ export default {
   },
   methods: {
     // whenever the document is resized, re-set the 'fullHeight' variable
-    async handleResize(event) {
+    handleResize(event) {
       this.width = this.$refs.box.clientWidth
-      await this.draw()
+      this.draw()
     },
-    async draw() {
+    draw() {
       if (this.view) {
         this.view.finalize()
+        delete this.view
       }
       this.spec.width = 0.9 * this.width
       this.spec.height = 0.65 * this.width
-      const result = await embed('#viz', this.spec, { actions: true })
-      this.view = result.view
+      return embed('#viz', this.spec, { actions: true }).then((res) => {
+        res.finalize()
+        this.view = res.view
+      })
       // this.$store.commit('setVegaView', result.view)
+    },
+    uploadPlot(title, description, filename) {
+      this.view
+        .toImageURL('png')
+        .then((pngUrl) => {
+          return axios.get(pngUrl, { responseType: 'blob' })
+        })
+        .then((response) => {
+          return uploadPlot(title, description, filename, response.data)
+        })
+        .then((id) => {
+          console.log('Successfully uploaded plot', id)
+        })
+        .catch((error) => {
+          console.log('ERROR uploading image', error)
+        })
     },
   },
 }

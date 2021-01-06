@@ -244,11 +244,13 @@ export const getters = {
       let dataSpec = null
       if (state.dataset.mode === 'csv + topojson') {
         dataSpec = vegaDataTopoJson(
-          state.dataset.geoUrl,
+          state.dataset.topojsonFiles[state.dataset.geoIndex].url,
           state.dataset.topojsonObject
         )
       } else {
-        dataSpec = vegaDataGeoJson(state.dataset.geoUrl)
+        dataSpec = vegaDataGeoJson(
+          state.dataset.geojsonFiles[state.dataset.geoIndex].url
+        )
       }
 
       // lookup geometry in combined topojson/geojson dataset
@@ -265,10 +267,7 @@ export const getters = {
       transformArray.push({
         lookup: state.dataset.csvId,
         from: {
-          data: vegaDataTopoJson(
-            state.dataset.geoUrl,
-            state.dataset.topojsonObject
-          ),
+          data: dataSpec,
           key: 'properties.'.concat(state.dataset.geoId),
           fields: propertiesWithoutID.map((prop) => `properties.${prop}`),
         },

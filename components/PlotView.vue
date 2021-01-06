@@ -6,7 +6,7 @@
           Plot
         </v-col>
         <v-col cols="3">
-          <SavePlot :view="vegaEmbedRef.view" />
+          <SavePlot :vegaEmbedRef="vegaEmbedRef" />
         </v-col>
         <v-col cols="3">
           <SaveTemplate />

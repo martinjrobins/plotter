@@ -31,13 +31,10 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { uploadPlot } from '~/api/NIVS'
-
 export default {
   name: 'SavePlot',
   props: {
-    view: {
+    vegaEmbedRef: {
       type: Object,
       default: () => {},
     },
@@ -52,25 +49,7 @@ export default {
   },
   methods: {
     save(event) {
-      this.view
-        .toImageURL('png')
-        .then((pngUrl) => {
-          return axios.get(pngUrl, { responseType: 'blob' })
-        })
-        .then((response) => {
-          return uploadPlot(
-            this.title,
-            this.description,
-            this.filename,
-            response.data
-          )
-        })
-        .then((id) => {
-          console.log('Successfully uploaded plot', id)
-        })
-        .catch((error) => {
-          console.log('ERROR uploading image', error)
-        })
+      this.vegaEmbedRef.uploadPlot(this.title, this.description, this.filename)
       this.dialog = false
     },
     cancel(event) {
