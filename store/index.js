@@ -183,14 +183,16 @@ export const getters = {
   vegaData(state) {
     if (state.dataset.mode === 'topojson') {
       return vegaDataTopoJson(
-        state.dataset.geoUrl,
+        state.dataset.topojsonFiles[state.dataset.geoIndex].url,
         state.dataset.topojsonObject
       )
     } else if (state.dataset.mode === 'geojson') {
-      return vegaDataGeoJson(state.dataset.geoUrl)
+      return vegaDataGeoJson(
+        state.dataset.geojsonFiles[state.dataset.geoIndex].url
+      )
     } else {
       return {
-        url: state.dataset.csvUrl,
+        url: state.dataset.csvFiles[state.dataset.csvIndex].url,
         name: 'table',
         format: {
           type: 'csv',

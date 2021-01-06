@@ -21,9 +21,9 @@
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.20",
     "nuxt": "^2.13.0",
-    "vega": "^5.13.0",
-    "vega-embed": "^6.9.0",
-    "vega-lite": "^4.13.1",
+    "vega": "^5.17.0",
+    "vega-embed": "^6.15.0",
+    "vega-lite": "^4.17.0",
     "vuedraggable": "^2.24.0",
     "vuex-persistedstate": "^4.0.0-beta.1"
   },

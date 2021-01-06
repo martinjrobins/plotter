@@ -193,7 +193,8 @@ export default {
       },
       set(value) {
         this.$store.commit('dataset/setMode', value)
-        this.$store.commit('dataset/setDefaultGeoUrl', value)
+        this.$store.commit('dataset/setCsvIndex', 0)
+        this.$store.commit('dataset/setGeoIndex', 0)
         if (value === 'csv + topojson') {
           this.$store.dispatch('dataset/loadCsvData').then(() => {
             this.$store.commit('dataset/addGeoField')

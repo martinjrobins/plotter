@@ -42,6 +42,9 @@ export default {
       await this.draw()
     },
     async draw() {
+      if (this.view) {
+        this.view.finalize()
+      }
       this.spec.width = 0.9 * this.width
       this.spec.height = 0.65 * this.width
       const result = await embed('#viz', this.spec, { actions: true })
