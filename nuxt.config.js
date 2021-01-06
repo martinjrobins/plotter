@@ -57,7 +57,6 @@ export default {
     '~/plugins/localCookie.js',
     '~/plugins/instanceId.js',
     '~/plugins/authHeader.js',
-    '~/plugins/axios.js',
   ],
   /*
    ** Auto import components
