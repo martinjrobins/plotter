@@ -43,15 +43,10 @@ export default {
       this.draw()
     },
     draw() {
-      if (this.view) {
-        this.view.finalize()
-        delete this.view
-      }
       this.spec.width = 0.9 * this.width
       this.spec.height = 0.65 * this.width
       return embed('#viz', this.spec, { actions: true }).then((res) => {
         res.finalize()
-        this.view = res.view
       })
       // this.$store.commit('setVegaView', result.view)
     },
