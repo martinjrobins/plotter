@@ -268,11 +268,6 @@ export default {
             return c.name === value
           }
         )[0]
-        console.log(idColumn)
-        // const detailAesthetic = aesthetics.filter((a) => {
-        //   return a.name === 'detail'
-        // })[0]
-        // console.log(detailAesthetic)
         this.$store.commit('geometries/addAesthetic', 'detail')
         this.$store.commit('geometries/updateAesthetics', [
           'detail',
