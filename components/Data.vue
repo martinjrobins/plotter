@@ -263,6 +263,21 @@ export default {
       },
       set(value) {
         this.$store.commit('dataset/setCsvId', value)
+        const idColumn = this.$store.state.dataset.columnsInDataFile.filter(
+          (c) => {
+            return c.name === value
+          }
+        )[0]
+        console.log(idColumn)
+        // const detailAesthetic = aesthetics.filter((a) => {
+        //   return a.name === 'detail'
+        // })[0]
+        // console.log(detailAesthetic)
+        this.$store.commit('geometries/addAesthetic', 'detail')
+        this.$store.commit('geometries/updateAesthetics', [
+          'detail',
+          [idColumn],
+        ])
       },
     },
     geoId: {

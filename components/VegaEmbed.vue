@@ -43,8 +43,8 @@ export default {
       this.draw()
     },
     draw() {
-      this.spec.width = 0.9 * this.width
-      this.spec.height = 0.65 * this.width
+      this.spec.width = 0.7 * this.width
+      this.spec.height = 0.55 * this.width
       return embed('#viz', this.spec, { actions: false }).then((res) => {
         res.finalize()
       })

@@ -8,9 +8,12 @@ export const state = () => ({
 })
 
 function vegaMark(geometry) {
+  const nonNullOptions = Object.fromEntries(
+    Object.entries(geometry.options).filter(([_, v]) => v != null)
+  )
   return {
     type: geometry.type,
-    ...geometry.options,
+    ...nonNullOptions,
   }
 }
 
