@@ -1,5 +1,4 @@
-import _ from 'lodash'
-import { Nuxt, Builder } from 'nuxt'
+import { Builder, Nuxt } from 'nuxt'
 import nuxtConfig from './nuxt.config'
 
 const resetConfig = {

@@ -5,14 +5,16 @@
   >
     <v-expansion-panel-header :class="headerClass" disable-icon-rotate>
       <span>
-        <v-icon v-text="geometry.icon"></v-icon>
+        <v-icon v-text="geometry.icon" />
         {{ geometry.name }}
       </span>
-      <template v-slot:actions>
-        <v-icon v-if="index == selectedIndex" color="accent"
-          >mdi-image-filter-vintage</v-icon
-        >
-        <v-btn icon @click="removeGeometry"> <v-icon>mdi-minus</v-icon> </v-btn>
+      <template #actions>
+        <v-icon v-if="index == selectedIndex" color="accent">
+          mdi-image-filter-vintage
+        </v-icon>
+        <v-btn icon @click="removeGeometry">
+          <v-icon>mdi-minus</v-icon>
+        </v-btn>
         <v-icon>$expand</v-icon>
       </template>
     </v-expansion-panel-header>
@@ -23,8 +25,7 @@
         :option="option"
         :index="index"
         type="geometry"
-      >
-      </Option>
+      />
       <v-card-text v-if="geometry.options == 0">
         No options
       </v-card-text>

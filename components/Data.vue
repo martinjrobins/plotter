@@ -7,8 +7,7 @@
           :items="availableModes"
           label="what is your input data?"
           hint="selection will reset geometry data"
-        >
-        </v-select>
+        />
       </v-col>
       <v-col cols="3">
         <v-select
@@ -21,7 +20,7 @@
           item-value="index"
           label="csv file"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-btn icon color="primary" @click="downloadFile('csv')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
@@ -35,7 +34,7 @@
           item-value="index"
           label="topojson file"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-btn icon color="primary" @click="downloadFile('topojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
@@ -49,7 +48,7 @@
           item-value="index"
           label="geojson file"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-btn icon color="primary" @click="downloadFile('geojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
@@ -62,7 +61,7 @@
           v-model="csvId"
           :items="csvProperties"
           label="csv id field"
-        ></v-select>
+        />
       </v-col>
       <v-col cols="3">
         <v-select
@@ -73,7 +72,7 @@
           item-value="index"
           label="topojson file"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-btn icon color="primary" @click="downloadFile('topojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
@@ -87,7 +86,7 @@
           item-value="index"
           label="geojson file"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-btn icon color="primary" @click="downloadFile('geojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
@@ -100,16 +99,16 @@
           v-model="geoId"
           :items="geoProperties"
           label="geometry id field"
-        ></v-select>
+        />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import { aggregateOps } from '~/constants/aggregate'
 import axios from 'axios'
 import fileDownload from 'js-file-download'
-import { aggregateOps } from '~/constants/aggregate'
 
 export default {
   name: 'Data',

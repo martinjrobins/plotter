@@ -6,14 +6,15 @@
           Vega-Lite Specification
         </v-col>
         <v-col cols="2">
-          <v-icon color="primary">mdi-code-json</v-icon>
+          <v-icon color="primary">
+            mdi-code-json
+          </v-icon>
         </v-col>
       </v-row>
     </v-card-title>
     <pre>
-    {{ vegaSpecString }}
-  </pre
-    >
+      {{ vegaSpecString }}
+    </pre>
   </v-card>
 </template>
 

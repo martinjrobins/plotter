@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" width="500">
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
         Save Template
       </v-btn>
@@ -10,15 +10,15 @@
         Save Template
       </v-card-title>
       <v-card-text>
-        <v-text-field v-model="title" label="Title"></v-text-field>
-        <v-text-field v-model="description" label="Description"></v-text-field>
-        <v-text-field v-model="filename" label="Filename"></v-text-field>
+        <v-text-field v-model="title" label="Title" />
+        <v-text-field v-model="description" label="Description" />
+        <v-text-field v-model="filename" label="Filename" />
       </v-card-text>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn color="primary" text @click="save">
           Save
         </v-btn>

@@ -6,7 +6,9 @@
           Columns
         </v-col>
         <v-col cols="2">
-          <v-icon color="primary">mdi-table</v-icon>
+          <v-icon color="primary">
+            mdi-table
+          </v-icon>
         </v-col>
       </v-row>
     </v-card-title>
@@ -25,8 +27,7 @@
         :name="column.name"
         :index="i"
         type="column"
-      >
-      </Column>
+      />
     </draggable>
     <v-overflow-btn
       v-model="addColumnSelected"
@@ -36,39 +37,38 @@
       filled
       prepend-icon="mdi-plus"
       @input="addColumn"
-    >
-    </v-overflow-btn>
+    />
     <v-text-field
       v-model="calculateExpression"
       label="Calculate new field"
       prepend-icon="mdi-plus"
-      hint='for example: "2*datum.fieldName" <a
-      href="https://vega.github.io/vega/docs/expressions">(syntax}</a>'
+      hint="for example: '2*datum.fieldName' <a
+      href='https://vega.github.io/vega/docs/expressions'>(syntax}</a>"
       filled
       @click:prepend="addCalculateField"
     >
-      <template v-slot:message="{ message }">
-        <span v-html="message"></span>
+      <template #message="{ message }">
+        <span v-html="message" />
       </template>
     </v-text-field>
     <v-text-field
       v-model="filterExpression"
       label="Filter data"
-      hint='for example: "datum.fieldName > 60" <a
-      href="https://vega.github.io/vega/docs/expressions">(syntax}</a>'
+      hint="for example: 'datum.fieldName > 60' <a
+      href='https://vega.github.io/vega/docs/expressions'>(syntax}</a>"
       filled
       persistent-hint
     >
-      <template v-slot:message="{ message }">
-        <span v-html="message"></span>
+      <template #message="{ message }">
+        <span v-html="message" />
       </template>
     </v-text-field>
   </v-card>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 import Column from '~/components/Column'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'Columns',

@@ -1,5 +1,5 @@
+import { downloadState, setupSyncStore, uploadState } from '~/api/NIVS'
 import { columnProperties } from '~/constants/aesthetics'
-import { setupSyncStore, uploadState, downloadState } from '~/api/NIVS'
 
 export const state = () => ({
   syncError: null,
