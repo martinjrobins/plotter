@@ -219,16 +219,16 @@ export const getters = {
           return innerSet
         }, outerSet)
     }, new Set())
-    const transformArray = []
+    let transformArray = []
     if (allCalculateExpressions) {
-      transformArray.concat(
-        Array.from(allCalculateExpressions).map((expr) => {
-          return {
-            calculate: expr,
-            as: expr,
-          }
-        })
-      )
+      const calcArray = Array.from(allCalculateExpressions)
+      const mappedArray = calcArray.map((expr) => {
+        return {
+          calculate: expr,
+          as: expr,
+        }
+      })
+      transformArray = transformArray.concat(mappedArray)
     }
     const filterExpression = state.dataset.filter
     if (filterExpression) {

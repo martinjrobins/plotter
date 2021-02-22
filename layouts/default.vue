@@ -55,11 +55,11 @@
         </v-icon>
       </v-btn>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-container fluid style="border: 0px;">
         <nuxt />
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

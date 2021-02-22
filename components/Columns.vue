@@ -13,56 +13,74 @@
       </v-row>
     </v-card-title>
     <v-card-subtitle>Drag columns to an aesthetic</v-card-subtitle>
-    <v-expansion-panels />
-    <draggable
-      v-model="columns"
-      :group="{ name: 'aesthetics', pull: 'clone', put: true }"
-      :sort="false"
-      tag="v-expansion-panels"
-      :component-data="getComponentData()"
-    >
-      <Column
-        v-for="(column, i) in columns"
-        :key="column.name"
-        :name="column.name"
-        :index="i"
-        type="column"
+    <v-card-text>
+      <v-expansion-panels />
+      <draggable
+        v-model="columns"
+        :group="{ name: 'aesthetics', pull: 'clone', put: true }"
+        :sort="false"
+        tag="v-expansion-panels"
+        :component-data="getComponentData()"
+      >
+        <Column
+          v-for="(column, i) in columns"
+          :key="column.name"
+          :name="column.name"
+          :index="i"
+          type="column"
+        />
+      </draggable>
+
+      <v-overflow-btn
+        v-model="addColumnSelected"
+        :items="columnsInDataFile"
+        label="Add new field"
+        flat
+        filled
+        prepend-icon="mdi-plus"
+        @input="addColumn"
       />
-    </draggable>
-    <v-overflow-btn
-      v-model="addColumnSelected"
-      :items="columnsInDataFile"
-      label="Add new field"
-      flat
-      filled
-      prepend-icon="mdi-plus"
-      @input="addColumn"
-    />
-    <v-text-field
-      v-model="calculateExpression"
-      label="Calculate new field"
-      prepend-icon="mdi-plus"
-      hint="for example: '2*datum.fieldName' <a
-      href='https://vega.github.io/vega/docs/expressions'>(syntax}</a>"
-      filled
-      @click:prepend="addCalculateField"
-    >
-      <template #message="{ message }">
-        <span v-html="message" />
-      </template>
-    </v-text-field>
-    <v-text-field
-      v-model="filterExpression"
-      label="Filter data"
-      hint="for example: 'datum.fieldName > 60' <a
-      href='https://vega.github.io/vega/docs/expressions'>(syntax}</a>"
-      filled
-      persistent-hint
-    >
-      <template #message="{ message }">
-        <span v-html="message" />
-      </template>
-    </v-text-field>
+      <v-text-field
+        v-model="calculateExpression"
+        label="Calculate new field"
+        prepend-icon="mdi-plus"
+        persistent-hint
+        hint="e.g. '2*datum.fieldName'"
+        filled
+        @click:prepend="addCalculateField"
+      >
+        <template #message="{message}">
+          <span>
+            {{ message }}
+            <a
+              href="https://vega.github.io/vega/docs/expressions"
+              target="_blank"
+            >
+              (syntax)
+            </a>
+          </span>
+        </template>
+      </v-text-field>
+      <v-text-field
+        v-model="filterExpression"
+        label="Filter data"
+        hint="e.g. 'datum.fieldName > 60'"
+        filled
+        persistent-hint
+      >
+        <template #message="{message}">
+          <span>
+            {{ message }}
+            <a
+              href="https://vega.github.io/vega/docs/expressions"
+              target="_blank"
+            >
+              (syntax)
+            </a>
+          </span>
+        </template>
+      </v-text-field>
+    </v-card-text>
   </v-card>
 </template>
 
