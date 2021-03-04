@@ -103,6 +103,28 @@
         ></v-select>
       </v-col>
     </v-row>
+    <v-row dense>
+      <v-col v-if="csvError">
+        <v-alert type="error" dense>
+          {{ csvError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="topojsonError">
+        <v-alert type="error" dense>
+          {{ topojsonError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="geojsonError">
+        <v-alert type="error" dense>
+          {{ geojsonError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="syncError">
+        <v-alert type="error" dense>
+          {{ syncError }}
+        </v-alert>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

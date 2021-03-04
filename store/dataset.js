@@ -1,4 +1,3 @@
-import axios from 'axios'
 import * as CSV from 'csv-string'
 import { columnProperties } from '~/constants/aesthetics'
 import {
@@ -7,6 +6,9 @@ import {
   getGeojsonFiles,
   getDatasets,
 } from '~/plugins/dataInput'
+import { getAuthHeader } from '@/plugins/authHeader'
+
+const authHeader = getAuthHeader()
 
 export const state = () => {
   return {
@@ -152,8 +154,7 @@ function guessColumnType(data) {
 }
 
 export const actions = {
-  async loadStore(context, state) {
-    await getDatasets()
+  loadStore(context, state) {
     const commit = context.commit
     commit('setMode', state.mode)
     commit('setCsvIndex', state.csvIndex)
@@ -167,10 +168,11 @@ export const actions = {
     commit('setColumns', state.columns)
     commit('setFilter', state.filter)
   },
-  loadData(context) {
+  async loadData(context) {
     const commit = context.commit
     const dispatch = context.dispatch
     const state = context.state
+    await getDatasets()
     commit('setCsvFiles', getCsvFiles())
     commit('setTopjsonFiles', getTopojsonFiles())
     commit('setGeojsonFiles', getGeojsonFiles())
@@ -189,57 +191,44 @@ export const actions = {
     }
   },
   loadCsvData(context) {
-    return axios({
-      methods: 'get',
-      url: context.state.csvFiles[context.state.csvIndex].url,
-      onDownloadProgress(progressEvent) {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        )
-        context.commit('setLoadCsvProgress', percentCompleted)
+    return fetch(context.state.csvFiles[context.state.csvIndex].url, {
+      method: 'GET',
+      headers: {
+        Authorization: authHeader,
       },
     })
-      .then(function (response) {
-        if (response.headers['content-type'].includes('csv')) {
-          const data = CSV.parse(response.data)
-          const columnNames = data[0]
-          const columns = columnNames.map((columnName, i) => {
-            const defaultProps = defaultColumn()
-            defaultProps.type = guessColumnType(data[1][i])
-            return {
-              name: columnName,
-              ...defaultProps,
-            }
-          })
-          context.commit('setColumns', columns.slice(0, 5))
-          context.commit('setColumnsInDatafile', columns)
-          context.commit('setCsvError', null)
-        } else {
-          context.commit('setCsvError', 'Error loading csv')
-        }
+      .then((response) => response.text())
+      .then(function (text) {
+        const data = CSV.parse(text)
+        const columnNames = data[0]
+        const columns = columnNames.map((columnName, i) => {
+          const defaultProps = defaultColumn()
+          defaultProps.type = guessColumnType(data[1][i])
+          return {
+            name: columnName,
+            ...defaultProps,
+          }
+        })
+        context.commit('setColumns', columns.slice(0, 5))
+        context.commit('setColumnsInDatafile', columns)
+        context.commit('setCsvError', null)
       })
       .catch(function (error) {
         context.commit('setCsvError', 'Error loading csv: '.concat(error))
       })
   },
   loadTopojsonData({ commit, state }) {
-    return axios({
-      methods: 'get',
-      url: state.topojsonFiles[state.geoIndex].url,
-      onDownloadProgress(progressEvent) {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        )
-        commit('setLoadGeoProgress', percentCompleted)
+    return fetch(state.topojsonFiles[state.geoIndex].url, {
+      method: 'GET',
+      headers: {
+        Authorization: authHeader,
       },
     })
-      .then(function (response) {
-        const isObject =
-          typeof response.data === 'object' && response.data !== null
-        if (isObject && 'objects' in response.data) {
-          const object = Object.keys(response.data.objects)[0]
-          const properties =
-            response.data.objects[object].geometries[0].properties
+      .then((response) => response.json())
+      .then(function (json) {
+        if ('objects' in json) {
+          const object = Object.keys(json.objects)[0]
+          const properties = json.objects[object].geometries[0].properties
           const propertyNames = Object.keys(properties)
           commit('setTopjsonObject', object)
           commit('setGeoProperties', propertyNames)
@@ -270,22 +259,16 @@ export const actions = {
       })
   },
   loadGeojsonData({ commit, state }) {
-    return axios({
-      methods: 'get',
-      url: state.geojsonFiles[state.geoIndex].url,
-      onDownloadProgress(progressEvent) {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        )
-        commit('setLoadGeoProgress', percentCompleted)
+    return fetch(state.geojsonFiles[state.geoIndex].url, {
+      method: 'GET',
+      headers: {
+        Authorization: authHeader,
       },
     })
-      .then(function (response) {
-        console.log(response)
-        const isObject =
-          typeof response.data === 'object' && response.data !== null
-        if (isObject && 'features' in response.data) {
-          const properties = response.data.features[0].properties
+      .then((response) => response.json())
+      .then(function (json) {
+        if ('features' in json) {
+          const properties = json.features[0].properties
           const propertyNames = Object.keys(properties)
           commit('setGeoProperties', propertyNames)
           const columns = propertyNames.map((columnName) => {

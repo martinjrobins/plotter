@@ -3,21 +3,36 @@ import { getAuthHeader } from '@/plugins/authHeader'
 import { getInstanceId } from '@/plugins/instanceId'
 
 const NIVSapiUrl = 'https://dafni-nivs-api.secure.dafni.rl.ac.uk'
+const searchURL = 'https://dafni-search-and-discovery-api.secure.dafni.rl.ac.uk'
 const stateFileName = 'state.json'
 
 const instanceId = getInstanceId()
 const authHeader = getAuthHeader()
 const builderId = 'a734e3e7-ca10-41f2-9638-a19710d6430d'
 
-function getDataset(id) {
+function getDatasetUrlAndType(ids) {
+  console.log({ Authorization: authHeader })
   return axios
-    .get(NIVSapiUrl + '/dataset/' + id, {
-      headers: {
-        Authorization: authHeader,
+    .post(
+      searchURL + '/version/metadata/',
+      {
+        version_uuids: ids,
       },
-    })
+      {
+        headers: {
+          Authorization: authHeader,
+        },
+      }
+    )
     .then((response) => {
-      // return presigned_url and type
+      const urlsAndTypes = ids.map((id) => {
+        return {
+          filename: response.data[id]['dcat:distribution'][0]['spdx:fileName'],
+          url: response.data[id]['dcat:distribution'][0]['dcat:downloadURL'],
+          type: response.data[id]['dcat:distribution'][0]['dcat:mediaType'],
+        }
+      })
+      return urlsAndTypes
     })
 }
 
@@ -246,5 +261,5 @@ export {
   downloadPlot,
   uploadTemplate,
   downloadTemplate,
-  getDataset,
+  getDatasetUrlAndType,
 }
