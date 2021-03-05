@@ -15,6 +15,10 @@ let dataIds = [
   '495dc0ae-a1fc-49db-8a04-0136b71ca0fb',
   '83f32bfb-937d-4029-b206-d8bbf3a8d004',
 ]
+dataIds = [
+  '36f1ff6c-99f6-49f4-a61a-665c3a8972e7',
+  '83f32bfb-937d-4029-b206-d8bbf3a8d004',
+]
 
 export function getCsvFiles() {
   return inputCsvFiles
@@ -32,9 +36,10 @@ export async function getDatasets() {
   if (appMode === 'production') {
     try {
       const response = await axios.get('/backends/backends.json')
-      dataIds = JSON.parse(response.data.dataIds)
+      dataIds = response.data.dataIds
+      console.log('in production: got dataIds: ', dataIds)
     } catch (error) {
-      console.log('Error while loading in data-ids' + error)
+      console.log('Error while loading in data-ids: ' + error)
     }
   }
   try {

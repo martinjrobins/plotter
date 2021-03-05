@@ -185,7 +185,23 @@ export default {
       return this.$store.state.dataset.loadGeoProgress
     },
     availableModes() {
-      return ['csv', 'topojson', 'geojson', 'csv + topojson', 'csv + geojson']
+      const modes = []
+      if (this.csvFiles.length > 0) {
+        modes.push('csv')
+      }
+      if (this.topojsonFiles.length > 0) {
+        modes.push('topojson')
+      }
+      if (this.geojsonFiles.length > 0) {
+        modes.push('geojson')
+      }
+      if (this.csvFiles.length > 0 && this.topojsonFiles.length > 0) {
+        modes.push('csv + topojson')
+      }
+      if (this.csvFiles.length > 0 && this.geojsonFiles.length > 0) {
+        modes.push('csv + geojson')
+      }
+      return modes
     },
     mode: {
       get() {

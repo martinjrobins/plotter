@@ -185,15 +185,25 @@ export const getters = {
   },
   vegaData(state) {
     if (state.dataset.mode === 'topojson') {
+      if (state.dataset.geoIndex >= state.dataset.topojsonFiles.length) {
+        return {}
+      }
       return vegaDataTopoJson(
         state.dataset.topojsonFiles[state.dataset.geoIndex].url,
         state.dataset.topojsonObject
       )
     } else if (state.dataset.mode === 'geojson') {
+      console.log(state.dataset.geojsonFiles)
+      if (state.dataset.geoIndex >= state.dataset.geojsonFiles.length) {
+        return {}
+      }
       return vegaDataGeoJson(
         state.dataset.geojsonFiles[state.dataset.geoIndex].url
       )
     } else {
+      if (state.dataset.csvIndex >= state.dataset.csvFiles.length) {
+        return {}
+      }
       return {
         url: state.dataset.csvFiles[state.dataset.csvIndex].url,
         name: 'table',

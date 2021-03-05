@@ -176,6 +176,7 @@ export const actions = {
     commit('setCsvFiles', getCsvFiles())
     commit('setTopjsonFiles', getTopojsonFiles())
     commit('setGeojsonFiles', getGeojsonFiles())
+    // handle missing files
     if (state.mode === 'csv') {
       dispatch('loadCsvData')
     } else if (state.mode === 'topojson') {
@@ -191,6 +192,9 @@ export const actions = {
     }
   },
   loadCsvData(context) {
+    if (context.state.csvIndex >= context.state.csvFiles.length) {
+      return
+    }
     return fetch(context.state.csvFiles[context.state.csvIndex].url, {
       method: 'GET',
       headers: {
@@ -218,6 +222,9 @@ export const actions = {
       })
   },
   loadTopojsonData({ commit, state }) {
+    if (state.geoIndex >= state.topojsonFiles.length) {
+      return
+    }
     return fetch(state.topojsonFiles[state.geoIndex].url, {
       method: 'GET',
       headers: {
@@ -259,6 +266,9 @@ export const actions = {
       })
   },
   loadGeojsonData({ commit, state }) {
+    if (state.geoIndex >= state.geojsonFiles.length) {
+      return
+    }
     return fetch(state.geojsonFiles[state.geoIndex].url, {
       method: 'GET',
       headers: {

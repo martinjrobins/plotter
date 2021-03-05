@@ -57,9 +57,13 @@ export default {
           },
         },
       }
-      return embed('#viz', this.spec, embedOptions).then((res) => {
-        res.finalize()
-      })
+      return embed('#viz', this.spec, embedOptions)
+        .then((res) => {
+          res.finalize()
+        })
+        .catch((error) => {
+          console.log('ERROR in vega-embed: ', error)
+        })
       // this.$store.commit('setVegaView', result.view)
     },
     uploadPlot(title, description, filename) {
