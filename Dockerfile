@@ -1,6 +1,4 @@
-FROM abiosoft/caddy:latest
-COPY ./Caddyfile /etc/Caddyfile
-RUN \
-  mkdir -p /site/
-COPY ./dist/ /site/
-COPY ./backends-templates/ /site/backends
+FROM caddy:2-alpine
+COPY ./Caddyfile /etc/caddy/Caddyfile
+COPY --from=builder /app/dist/ /srv/
+COPY ./backends-templates/ /srv/backends
