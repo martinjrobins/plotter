@@ -1,9 +1,9 @@
 import * as CSV from 'csv-string'
 import {
   getCsvFiles,
-  getTopojsonFiles,
-  getGeojsonFiles,
   getDatasets,
+  getGeojsonFiles,
+  getTopojsonFiles,
 } from '~/plugins/dataInput'
 import { columnProperties } from '~/constants/aesthetics'
 import { getAuthHeader } from '@/plugins/authHeader'
