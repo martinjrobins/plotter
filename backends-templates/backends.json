@@ -1,4 +1,4 @@
 {
   "instanceId":"{{.Env.INSTANCE_ID}}",
-  "dataIds":"{{.Env.DATA_IDS}}"
+  "dataIds":{{.Env.DATA_IDS}}
 }

@@ -102,6 +102,28 @@
         />
       </v-col>
     </v-row>
+    <v-row dense>
+      <v-col v-if="csvError">
+        <v-alert type="error" dense>
+          {{ csvError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="topojsonError">
+        <v-alert type="error" dense>
+          {{ topojsonError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="geojsonError">
+        <v-alert type="error" dense>
+          {{ geojsonError }}
+        </v-alert>
+      </v-col>
+      <v-col v-if="syncError">
+        <v-alert type="error" dense>
+          {{ syncError }}
+        </v-alert>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -162,7 +184,23 @@ export default {
       return this.$store.state.dataset.loadGeoProgress
     },
     availableModes() {
-      return ['csv', 'topojson', 'geojson', 'csv + topojson', 'csv + geojson']
+      const modes = []
+      if (this.csvFiles.length > 0) {
+        modes.push('csv')
+      }
+      if (this.topojsonFiles.length > 0) {
+        modes.push('topojson')
+      }
+      if (this.geojsonFiles.length > 0) {
+        modes.push('geojson')
+      }
+      if (this.csvFiles.length > 0 && this.topojsonFiles.length > 0) {
+        modes.push('csv + topojson')
+      }
+      if (this.csvFiles.length > 0 && this.geojsonFiles.length > 0) {
+        modes.push('csv + geojson')
+      }
+      return modes
     },
     mode: {
       get() {

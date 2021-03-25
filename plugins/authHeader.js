@@ -16,6 +16,5 @@ export function getAuthHeader() {
     return trimmed.startsWith(cookieName)
   })
   const jwt = cookie ? cookie.split('=').pop() : localJWT
-  console.log('got JWT of', jwt, 'from cookie', cookieName)
   return `JWT ${jwt}`
 }

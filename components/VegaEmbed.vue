@@ -8,6 +8,7 @@
 import axios from 'axios'
 import embed from 'vega-embed'
 import { uploadPlot } from '~/api/NIVS'
+import { getAuthHeader } from '@/plugins/authHeader'
 
 export default {
   props: {
@@ -45,9 +46,24 @@ export default {
     draw() {
       this.spec.width = 0.7 * this.width
       this.spec.height = 0.55 * this.width
-      return embed('#viz', this.spec, { actions: false }).then((res) => {
-        res.finalize()
-      })
+
+      const embedOptions = {
+        actions: false,
+        loader: {
+          http: {
+            headers: {
+              Authorization: getAuthHeader(),
+            },
+          },
+        },
+      }
+      return embed('#viz', this.spec, embedOptions)
+        .then((res) => {
+          res.finalize()
+        })
+        .catch((error) => {
+          console.log('ERROR in vega-embed: ', error)
+        })
       // this.$store.commit('setVegaView', result.view)
     },
     uploadPlot(title, description, filename) {
