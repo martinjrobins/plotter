@@ -1,0 +1,24 @@
+name: Docker
+
+on:
+  push:
+    branches:
+    - master
+    - james/fix-docker
+    tags: ["v*"]
+
+jobs:
+  publish:
+    name: Publish Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_PAT }}
+          registry: ghcr.io
+          repository: dafnifacility/plotter/web
+          tags: latest
+          tag_with_ref: true
