@@ -6,7 +6,7 @@
           Vega-Lite Specification
         </v-col>
         <v-col cols="2">
-          <v-icon color="primary">
+          <v-icon :color="primaryBlue">
             mdi-code-json
           </v-icon>
         </v-col>
@@ -17,12 +17,13 @@
     </pre>
   </v-card>
 </template>
-
 <script>
+import { primaryBlue } from '~/static/js/colours'
+
 export default {
   name: 'Spec',
   data() {
-    return {}
+    return { primaryBlue }
   },
   computed: {
     vegaSpecString() {

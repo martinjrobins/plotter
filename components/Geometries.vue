@@ -1,65 +1,61 @@
 <template>
-  <v-card class="pa-1">
-    <v-card-title>
-      <v-row no-gutters>
-        <v-col cols="10">
-          Geometries
-        </v-col>
-        <v-col cols="2">
-          <v-icon color="primary">
-            mdi-shape-plus
-          </v-icon>
-        </v-col>
-      </v-row>
+  <v-card outlined>
+    <v-card-title class="py-3 text-h6 font-weight-bold bg-grey">
+      <v-icon :color="primaryBlue" class="pr-1">
+        mdi-shape-plus
+      </v-icon>
+      Geometries
     </v-card-title>
+    <v-divider />
     <v-card-subtitle>
       Add layers to plot
     </v-card-subtitle>
-    <v-expansion-panels flat hover>
-      <Geometry
-        v-for="(geometry, i) in geometries"
-        :key="i"
-        :name="geometry.name"
-        :index="i"
-      />
-    </v-expansion-panels>
-    <v-overflow-btn
-      v-model="addGeometrySelected"
-      :items="supportedGeometries"
-      item-value="name"
-      label="Add new geometry"
-      flat
-      filled
-      prepend-icon="mdi-plus"
-      @input="addGeometry"
-    >
-      <template #item="{ item, attrs, on }">
-        <v-list-item v-bind="attrs" v-on="on">
-          <v-list-item-content>
+    <v-card-text>
+      <v-expansion-panels flat hover class="pb-2">
+        <Geometry
+          v-for="(geometry, i) in geometries"
+          :key="i"
+          :name="geometry.name"
+          :index="i"
+        />
+      </v-expansion-panels>
+      <v-overflow-btn
+        v-model="addGeometrySelected"
+        :items="supportedGeometries"
+        item-value="name"
+        label="Add new geometry"
+        flat
+        filled
+        hide-details
+        class="pt-2"
+        @input="addGeometry"
+      >
+        <template #item="{ item, attrs, on }">
+          <v-list-item v-bind="attrs" style="max-width: 600px;" v-on="on">
             <v-list-item-icon>
-              <v-icon v-text="item.icon" />
+              <v-icon :color="primaryBlue" v-text="item.icon" />
             </v-list-item-icon>
-            <v-list-item-title
-              :id="attrs['aria-labelledby']"
-              v-text="item.name"
-            />
-
-            <v-list-item-subtitle v-text="item.text" />
-          </v-list-item-content>
-        </v-list-item>
-      </template>
-    </v-overflow-btn>
+            <v-list-item-content :id="attrs['aria-labelledby']">
+              <span>
+                <strong>{{ item.name }}</strong> - {{ item.text }}
+              </span>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-overflow-btn>
+    </v-card-text>
   </v-card>
 </template>
 
 <script>
 import { geometries } from '~/constants/geometries'
+import { primaryBlue } from '~/static/js/colours'
 
 export default {
   name: 'Geometries',
   components: {},
   data() {
-    return { addGeometrySelected: null }
+    return { primaryBlue, addGeometrySelected: null }
   },
   computed: {
     supportedGeometries() {

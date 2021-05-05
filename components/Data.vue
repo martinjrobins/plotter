@@ -21,7 +21,7 @@
           label="csv file"
         >
           <template #append-outer>
-            <v-btn icon color="primary" @click="downloadFile('csv')">
+            <v-btn icon :color="primaryBlue" @click="downloadFile('csv')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
@@ -35,7 +35,7 @@
           label="topojson file"
         >
           <template #append-outer>
-            <v-btn icon color="primary" @click="downloadFile('topojson')">
+            <v-btn icon :color="primaryBlue" @click="downloadFile('topojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
@@ -49,13 +49,13 @@
           label="geojson file"
         >
           <template #append-outer>
-            <v-btn icon color="primary" @click="downloadFile('geojson')">
+            <v-btn icon :color="primaryBlue" @click="downloadFile('geojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
         </v-select>
       </v-col>
-      <v-col>
+      <v-col cols="2">
         <v-select
           v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
           v-model="csvId"
@@ -73,7 +73,7 @@
           label="topojson file"
         >
           <template #append-outer>
-            <v-btn icon color="primary" @click="downloadFile('topojson')">
+            <v-btn icon :color="primaryBlue" @click="downloadFile('topojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
@@ -87,13 +87,13 @@
           label="geojson file"
         >
           <template #append-outer>
-            <v-btn icon color="primary" @click="downloadFile('geojson')">
+            <v-btn icon :color="primaryBlue" @click="downloadFile('geojson')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
         </v-select>
       </v-col>
-      <v-col>
+      <v-col cols="2">
         <v-select
           v-if="mode == 'csv + topojson' || mode == 'csv + geojson'"
           v-model="geoId"
@@ -101,25 +101,23 @@
           label="geometry id field"
         />
       </v-col>
-    </v-row>
-    <v-row dense>
-      <v-col v-if="csvError">
-        <v-alert type="error" dense>
+      <v-col v-if="csvError" cols="12">
+        <v-alert type="error" dense dismissible>
           {{ csvError }}
         </v-alert>
       </v-col>
-      <v-col v-if="topojsonError">
-        <v-alert type="error" dense>
+      <v-col v-if="topojsonError" cols="12">
+        <v-alert type="error" dense dismissible>
           {{ topojsonError }}
         </v-alert>
       </v-col>
-      <v-col v-if="geojsonError">
-        <v-alert type="error" dense>
+      <v-col v-if="geojsonError" cols="12">
+        <v-alert type="error" dense dismissible>
           {{ geojsonError }}
         </v-alert>
       </v-col>
-      <v-col v-if="syncError">
-        <v-alert type="error" dense>
+      <v-col v-if="syncError" cols="12">
+        <v-alert type="error" dense dismissible>
           {{ syncError }}
         </v-alert>
       </v-col>
@@ -131,12 +129,13 @@
 import { aggregateOps } from '~/constants/aggregate'
 import axios from 'axios'
 import fileDownload from 'js-file-download'
+import { primaryBlue } from '~/static/js/colours'
 
 export default {
   name: 'Data',
   components: {},
   data() {
-    return {}
+    return { primaryBlue }
   },
   computed: {
     csvError() {

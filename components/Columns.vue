@@ -1,20 +1,15 @@
 <template>
-  <v-card class="pa-1">
-    <v-card-title>
-      <v-row no-gutters>
-        <v-col cols="10">
-          Columns
-        </v-col>
-        <v-col cols="2">
-          <v-icon color="primary">
-            mdi-table
-          </v-icon>
-        </v-col>
-      </v-row>
+  <v-card outlined>
+    <v-card-title class="py-3 text-h6 font-weight-bold bg-grey">
+      <v-icon :color="primaryBlue" class="pr-1">
+        mdi-table
+      </v-icon>
+      Columns
     </v-card-title>
+    <v-divider />
     <v-card-subtitle>Drag columns to an aesthetic</v-card-subtitle>
     <v-card-text>
-      <v-expansion-panels />
+      <v-expansion-panels class="pb-2" />
       <draggable
         v-model="columns"
         :group="{ name: 'aesthetics', pull: 'clone', put: true }"
@@ -37,17 +32,19 @@
         label="Add new field"
         flat
         filled
-        prepend-icon="mdi-plus"
+        hide-details
+        class="py-2"
         @input="addColumn"
       />
       <v-text-field
         v-model="calculateExpression"
+        class="pt-2"
         label="Calculate new field"
-        prepend-icon="mdi-plus"
+        append-icon="mdi-plus"
         persistent-hint
         hint="e.g. '2*datum.fieldName'"
         filled
-        @click:prepend="addCalculateField"
+        @click:append="addCalculateField"
       >
         <template #message="{message}">
           <span>
@@ -87,6 +84,7 @@
 <script>
 import Column from '~/components/Column'
 import draggable from 'vuedraggable'
+import { primaryBlue } from '~/static/js/colours'
 
 export default {
   name: 'Columns',
@@ -95,7 +93,7 @@ export default {
     Column,
   },
   data() {
-    return { calculateExpression: null, addColumnSelected: null }
+    return { primaryBlue, calculateExpression: null, addColumnSelected: null }
   },
   computed: {
     columnsInDataFile() {

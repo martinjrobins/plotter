@@ -5,27 +5,21 @@
         <Data />
       </v-col>
     </v-row>
-    <v-row class="mt-0 pt-0">
-      <v-col class="ma-0 pa-0" cols="2">
+    <v-row>
+      <v-col cols="2">
         <Geometries />
       </v-col>
-      <v-col class="mt-0 pt-0" cols="3">
+      <v-col cols="3">
         <Aesthetics />
       </v-col>
-      <v-col class="mt-0 pt-0" cols="2">
+      <v-col cols="2">
         <Columns />
       </v-col>
-      <v-col class="mt-0 pt-0" cols="5">
-        <v-row>
-          <v-col class="mt-0 pt-0">
-            <PlotView />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <Spec />
-          </v-col>
-        </v-row>
+      <v-col cols="5">
+        <PlotView />
+        <!-- <v-col>
+          <Spec />
+        </v-col> -->
       </v-col>
     </v-row>
   </v-container>
@@ -41,7 +35,7 @@ import Aesthetics from '~/components/Aesthetics'
 import Columns from '~/components/Columns'
 import Geometries from '~/components/Geometries'
 import PlotView from '~/components/PlotView'
-import Spec from '~/components/Spec'
+// import Spec from '~/components/Spec'
 
 export default {
   name: 'Homepage',
@@ -50,7 +44,7 @@ export default {
     Columns,
     Geometries,
     PlotView,
-    Spec,
+    // Spec,
   },
   computed: {
     url: {

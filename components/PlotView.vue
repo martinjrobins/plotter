@@ -1,33 +1,29 @@
 <template>
-  <v-card class="pa-1">
-    <v-card-title>
-      <v-row no-gutters>
-        <v-col cols="2">
-          Plot
-        </v-col>
-        <v-col cols="3">
+  <v-card outlined>
+    <v-card-title class="py-3 text-h6 font-weight-bold bg-grey">
+      <v-icon :color="primaryBlue" class="pr-1">
+        mdi-chart-line
+      </v-icon>
+      Plot
+      <!-- <v-col cols="3">
           <SavePlot :vega-embed-ref="vegaEmbedRef" />
         </v-col>
         <v-col cols="3">
           <SaveTemplate />
-        </v-col>
-        <v-col cols="2" />
-        <v-col cols="2">
-          <v-icon color="primary">
-            mdi-chart-line
-          </v-icon>
-        </v-col>
-      </v-row>
+        </v-col> -->
     </v-card-title>
+    <v-divider />
     <VegaEmbed ref="vegaEmbed" :spec="vegaSpec" />
   </v-card>
 </template>
-
 <script>
+import { primaryBlue } from '~/static/js/colours'
+
 export default {
   name: 'PlotView',
   data() {
     return {
+      primaryBlue,
       vegaEmbedRef: {},
     }
   },

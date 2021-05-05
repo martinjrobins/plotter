@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { csvFiles, geojsonFiles, topojsonFiles } from '~/constants/data'
+import axios from 'axios'
 import { getDatasetUrlAndType } from '~/api/NIVS.js'
 
 const appMode = process.env.NODE_ENV

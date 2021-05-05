@@ -19,18 +19,19 @@
 
       <v-card-actions>
         <v-spacer />
-        <v-btn color="primary" text @click="save">
+        <v-btn :color="primaryBlue" text @click="save">
           Save
         </v-btn>
-        <v-btn color="primary" text @click="cancel">
+        <v-btn :color="primaryBlue" text @click="cancel">
           Cancel
         </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
-
 <script>
+import { primaryBlue } from '~/static/js/colours'
+
 export default {
   name: 'SavePlot',
   props: {
@@ -41,6 +42,7 @@ export default {
   },
   data() {
     return {
+      primaryBlue,
       dialog: false,
       title: null,
       description: null,

@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - james/fix-docker
     tags: ["v*"]
 
 jobs:
