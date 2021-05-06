@@ -8,7 +8,7 @@
 import axios from 'axios'
 import embed from 'vega-embed'
 import { getAuthHeader } from '@/plugins/authHeader'
-import { uploadPlot } from '~/api/NIVS'
+import { uploadPlot } from '~/api/nivs/nivs'
 
 export default {
   props: {

@@ -31,7 +31,7 @@
 </template>
 <script>
 import { primaryBlue } from '~/static/js/colours'
-import { uploadTemplate } from '~/api/NIVS'
+import { uploadTemplate } from '~/api/nivs/nivs'
 
 export default {
   name: 'SaveTemplate',

@@ -1,4 +1,9 @@
 {
+  "visualisationApiUrl":"{{env "VISUALISATION_API_URL"}}",
+  "loginUrl":"{{env "LOGIN_URL"}}",
+  "discoveryApiUrl":"{{env "DISCOVERY_API_URL"}}",
+  "dssauthUrl":"{{env "DSS_AUTH"}}",
+  "node_env":"{{env "NODE_ENV"}}",
   "instanceId":"{{env "INSTANCE_ID"}}",
   "dataIds":{{include "/datasets/datasets.json"}}
 }

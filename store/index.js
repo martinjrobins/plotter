@@ -1,4 +1,4 @@
-import { downloadState, setupSyncStore, uploadState } from '~/api/NIVS'
+import { downloadState, setupSyncStore, uploadState } from '~/api/nivs/nivs'
 import { columnProperties } from '~/constants/aesthetics'
 
 export const state = () => ({

@@ -1,20 +1,22 @@
 import axios from 'axios'
 import { getAuthHeader } from '@/plugins/authHeader'
 import { getInstanceId } from '@/plugins/instanceId'
+import { backendsPromise, visualisationApiUrl, discoveryApiUrl } from '~/api/backends/'
 
-const NIVSapiUrl = 'https://dafni-nivs-api.secure.dafni.rl.ac.uk'
-const searchURL = 'https://dafni-search-and-discovery-api.secure.dafni.rl.ac.uk'
+// const visualisationApiUrl = 'https://dafni-nivs-api.secure.dafni.rl.ac.uk'
+// const searchURL = 'https://dafni-search-and-discovery-api.secure.dafni.rl.ac.uk'
 const stateFileName = 'state.json'
 
 const instanceId = getInstanceId()
 const authHeader = getAuthHeader()
 const builderId = 'a734e3e7-ca10-41f2-9638-a19710d6430d'
 
-function getDatasetUrlAndType(ids) {
-  console.log({ Authorization: authHeader })
+async function getDatasetUrlAndType(ids) {
+  // console.log({ Authorization: authHeader })
+  await backendsPromise
   return axios
     .post(
-      searchURL + '/version/metadata/',
+      discoveryApiUrl + '/version/metadata/',
       {
         version_uuids: ids,
       },
@@ -36,13 +38,14 @@ function getDatasetUrlAndType(ids) {
     })
 }
 
-function setupSyncStore() {
-  return Promise.all([getPresignedURLforGET(), getPresignedURLforPUT()])
+async function setupSyncStore() {
+  await Promise.all([getPresignedURLforGET(), getPresignedURLforPUT()])
 }
 
-function getPresignedURLforGET() {
+async function getPresignedURLforGET() {
+  await backendsPromise
   return axios
-    .get(NIVSapiUrl + '/instances/' + instanceId + '/state-sync', {
+    .get(visualisationApiUrl + '/instances/' + instanceId + '/state-sync', {
       headers: {
         Authorization: authHeader,
       },
@@ -56,10 +59,11 @@ function getPresignedURLforGET() {
     })
 }
 
-function getPresignedURLforPUT() {
+async function getPresignedURLforPUT() {
+  await backendsPromise
   return axios
     .post(
-      NIVSapiUrl + '/instances/' + instanceId + '/state-sync',
+      visualisationApiUrl + '/instances/' + instanceId + '/state-sync',
       {
         files: [stateFileName],
       },
@@ -74,7 +78,8 @@ function getPresignedURLforPUT() {
     })
 }
 
-function uploadState(presignedUrl, state) {
+async function uploadState(presignedUrl, state) {
+  await backendsPromise
   return fetch(presignedUrl, {
     method: 'PUT',
     body: JSON.stringify(state),
@@ -89,7 +94,8 @@ function uploadState(presignedUrl, state) {
   })
 }
 
-function downloadState(presignedUrl) {
+async function downloadState(presignedUrl) {
+  await backendsPromise
   return fetch(presignedUrl, {
     method: 'GET',
     headers: {
@@ -104,9 +110,10 @@ function downloadState(presignedUrl) {
   })
 }
 
-function downloadPlot(plotId) {
+async function downloadPlot(plotId) {
+  await backendsPromise
   return axios
-    .get(NIVSapiUrl + '/plots/' + plotId, {
+    .get(visualisationApiUrl + '/plots/' + plotId, {
       headers: {
         Authorization: authHeader,
       },
@@ -126,11 +133,12 @@ function downloadPlot(plotId) {
     })
 }
 
-function uploadPlot(plotTitle, plotDescription, filename, file) {
+async function uploadPlot(plotTitle, plotDescription, filename, file) {
+  await backendsPromise
   let plotId = null
   return axios
     .post(
-      NIVSapiUrl + '/plots/',
+      visualisationApiUrl + '/plots/',
       {
         title: plotTitle,
         description: plotDescription,
@@ -160,7 +168,7 @@ function uploadPlot(plotTitle, plotDescription, filename, file) {
         throw putResponse.statusText
       }
       return axios.patch(
-        NIVSapiUrl + '/plots/' + plotId,
+        visualisationApiUrl + '/plots/' + plotId,
         {
           data_committed: true,
         },
@@ -176,9 +184,10 @@ function uploadPlot(plotTitle, plotDescription, filename, file) {
     })
 }
 
-function downloadTemplate(templateId) {
+async function downloadTemplate(templateId) {
+  await backendsPromise
   return axios
-    .get(NIVSapiUrl + '/templates/' + templateId, {
+    .get(visualisationApiUrl + '/templates/' + templateId, {
       headers: {
         Authorization: authHeader,
       },
@@ -198,16 +207,17 @@ function downloadTemplate(templateId) {
     })
 }
 
-function uploadTemplate(
+async function uploadTemplate(
   templateTitle,
   templateDescription,
   filename,
   template
 ) {
+  await backendsPromise
   let templateId = null
   return axios
     .post(
-      NIVSapiUrl + '/templates/',
+      visualisationApiUrl + '/templates/',
       {
         title: templateTitle,
         description: templateDescription,
@@ -237,7 +247,7 @@ function uploadTemplate(
         throw putResponse.statusText
       }
       return axios.patch(
-        NIVSapiUrl + '/templates/' + templateId,
+        visualisationApiUrl + '/templates/' + templateId,
         {
           data_committed: true,
         },
