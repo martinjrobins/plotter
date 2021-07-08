@@ -1,5 +1,5 @@
+import { downloadState, setupSyncStore, uploadState } from '~/api/NIVS'
 import { columnProperties } from '~/constants/aesthetics'
-import { setupSyncStore, uploadState, downloadState } from '~/api/NIVS'
 
 export const state = () => ({
   syncError: null,
@@ -229,16 +229,16 @@ export const getters = {
           return innerSet
         }, outerSet)
     }, new Set())
-    const transformArray = []
+    let transformArray = []
     if (allCalculateExpressions) {
-      transformArray.concat(
-        Array.from(allCalculateExpressions).map((expr) => {
-          return {
-            calculate: expr,
-            as: expr,
-          }
-        })
-      )
+      const calcArray = Array.from(allCalculateExpressions)
+      const mappedArray = calcArray.map((expr) => {
+        return {
+          calculate: expr,
+          as: expr,
+        }
+      })
+      transformArray = transformArray.concat(mappedArray)
     }
     const filterExpression = state.dataset.filter
     if (filterExpression) {

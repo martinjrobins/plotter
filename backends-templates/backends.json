@@ -1,4 +1,4 @@
 {
-  "instanceId":"{{.Env.INSTANCE_ID}}",
-  "dataIds":{{.Env.DATA_IDS}}
+  "instanceId":"{{env "INSTANCE_ID"}}",
+  "dataIds":{{include "/datasets/datasets.json"}}
 }

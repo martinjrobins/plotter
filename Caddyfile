@@ -1,12 +1,20 @@
-:5001
-root /site
-templates {
-  path /backends
-  ext .json
+{
+  admin off
 }
-header /backends/backends.json Content-Type application/json
-rewrite {
-    regexp .*
-    if {path} not /backends/backends.json
-    to {path} /
+http://:5001
+log
+try_files {path} /index.html
+root * /srv
+file_server {
+  hide .git Caddyfile README.md
+}
+respond /healthz 204
+@backends {
+  path /backends/backends.json
+}
+handle @backends {
+  header Cache-Control public,max-age=10800
+  templates {
+    mime application/json
+  }
 }

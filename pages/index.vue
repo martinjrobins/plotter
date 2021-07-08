@@ -2,28 +2,28 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col cols="12">
-        <Data> </Data>
+        <Data />
       </v-col>
     </v-row>
     <v-row class="mt-0 pt-0">
       <v-col class="ma-0 pa-0" cols="2">
-        <Geometries></Geometries>
+        <Geometries />
       </v-col>
       <v-col class="mt-0 pt-0" cols="3">
-        <Aesthetics></Aesthetics>
+        <Aesthetics />
       </v-col>
       <v-col class="mt-0 pt-0" cols="2">
-        <Columns></Columns>
+        <Columns />
       </v-col>
       <v-col class="mt-0 pt-0" cols="5">
         <v-row>
           <v-col class="mt-0 pt-0">
-            <PlotView></PlotView>
+            <PlotView />
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <Spec></Spec>
+            <Spec />
           </v-col>
         </v-row>
       </v-col>
@@ -32,16 +32,16 @@
 </template>
 
 <script>
-import Columns from '~/components/Columns'
+import {
+  getInstanceId,
+  setDefaultInstanceId,
+  setInstanceId,
+} from '~/plugins/instanceId'
 import Aesthetics from '~/components/Aesthetics'
+import Columns from '~/components/Columns'
 import Geometries from '~/components/Geometries'
 import PlotView from '~/components/PlotView'
 import Spec from '~/components/Spec'
-import {
-  setInstanceId,
-  setDefaultInstanceId,
-  getInstanceId,
-} from '~/plugins/instanceId'
 
 export default {
   name: 'Homepage',

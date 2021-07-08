@@ -8,17 +8,12 @@
       :clearable="option.optional"
       :hint="option.hint"
     >
-      <template v-slot:item="{ item, attrs, on }">
+      <template #item="{ item, attrs, on }">
         <v-list-item v-bind="attrs" v-on="on">
           <v-list-item-content>
-            <v-list-item-title
-              :id="attrs['aria-labelledby']"
-              v-text="item"
-            ></v-list-item-title>
+            <v-list-item-title :id="attrs['aria-labelledby']" v-text="item" />
 
-            <v-list-item-subtitle
-              v-text="option.options[item]"
-            ></v-list-item-subtitle>
+            <v-list-item-subtitle v-text="option.options[item]" />
           </v-list-item-content>
         </v-list-item>
       </template>
@@ -29,7 +24,7 @@
       :label="option.name"
       :clearable="option.optional"
       :hint="option.hint"
-    ></v-text-field>
+    />
     <v-text-field
       v-if="option.type === 'textBoxNumber' && show"
       v-model="optionValue"
@@ -37,14 +32,14 @@
       type="number"
       :clearable="option.optional"
       :hint="option.hint"
-    ></v-text-field>
+    />
     <v-checkbox
       v-if="option.type === 'checkBox' && show"
       v-model="optionValue"
       :label="option.name"
       :hint="option.hint"
       persistent-hint
-    ></v-checkbox>
+    />
   </div>
 </template>
 

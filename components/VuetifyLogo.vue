@@ -1,5 +1,6 @@
 <template>
-  <img class="VuetifyLogo" alt="Vuetify Logo" src="/vuetify-logo.svg" />
+  <!-- eslint-disable-next-line -->
+  <img class="VuetifyLogo" alt="Vuetify Logo" src="/vuetify-logo.svg">
 </template>
 
 <style>

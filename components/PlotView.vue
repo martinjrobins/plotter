@@ -6,18 +6,20 @@
           Plot
         </v-col>
         <v-col cols="3">
-          <SavePlot :vegaEmbedRef="vegaEmbedRef" />
+          <SavePlot :vega-embed-ref="vegaEmbedRef" />
         </v-col>
         <v-col cols="3">
           <SaveTemplate />
         </v-col>
-        <v-col cols="2"> </v-col>
+        <v-col cols="2" />
         <v-col cols="2">
-          <v-icon color="primary">mdi-chart-line</v-icon>
+          <v-icon color="primary">
+            mdi-chart-line
+          </v-icon>
         </v-col>
       </v-row>
     </v-card-title>
-    <VegaEmbed :spec="vegaSpec" ref="vegaEmbed" />
+    <VegaEmbed ref="vegaEmbed" :spec="vegaSpec" />
   </v-card>
 </template>
 
@@ -29,9 +31,6 @@ export default {
       vegaEmbedRef: {},
     }
   },
-  mounted() {
-    this.vegaEmbedRef = this.$refs.vegaEmbed
-  },
   computed: {
     vegaSpecString() {
       return JSON.stringify(this.vegaSpec, null, 2)
@@ -41,6 +40,9 @@ export default {
       this.$store.dispatch('uploadState')
       return this.$store.getters.vegaSpec
     },
+  },
+  mounted() {
+    this.vegaEmbedRef = this.$refs.vegaEmbed
   },
 }
 </script>

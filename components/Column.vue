@@ -2,7 +2,7 @@
   <v-expansion-panel>
     <v-expansion-panel-header disable-icon-rotate>
       {{ name }}
-      <template v-slot:actions>
+      <template #actions>
         <v-btn icon @click="removeColumn">
           <v-icon>mdi-minus</v-icon>
         </v-btn>
@@ -17,8 +17,7 @@
         :index="index"
         :aesthetic="aesthetic"
         :type="type"
-      >
-      </Option>
+      />
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>

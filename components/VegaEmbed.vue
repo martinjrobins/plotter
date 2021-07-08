@@ -1,12 +1,12 @@
 <template>
   <div ref="box">
-    <div id="viz"></div>
+    <div id="viz" />
   </div>
 </template>
 
 <script>
-import embed from 'vega-embed'
 import axios from 'axios'
+import embed from 'vega-embed'
 import { uploadPlot } from '~/api/NIVS'
 import { getAuthHeader } from '@/plugins/authHeader'
 
