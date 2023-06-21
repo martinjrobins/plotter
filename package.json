@@ -20,7 +20,7 @@
     "csv-string": "^4.0.1",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.20",
-    "nuxt": "^2.13.0",
+    "nuxt": "^3.4.3",
     "vega": "^5.17.0",
     "vega-embed": "^6.15.0",
     "vega-lite": "^4.17.0",
